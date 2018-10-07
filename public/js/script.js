@@ -212,7 +212,13 @@ $(document).ready(function() {
     bAutoWidth: false,
     search: {
       smart: false
-    }
+    },
+    columnDefs: [
+      {
+        targets: 3,
+        visible: false
+      }
+    ]
   })
 
   loadChips()

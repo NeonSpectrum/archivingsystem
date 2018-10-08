@@ -3,8 +3,11 @@
     'use strict'
 
     $('.search-toggle').click(function() {
-      if ($('.hiddensearch').css('display') == 'none') $('.hiddensearch').slideDown()
-      else $('.hiddensearch').slideUp()
+      if ($('.hiddensearch').css('display') == 'none') {
+        $('.hiddensearch').slideDown(function() {
+          $('input[type=search]').focus()
+        })
+      } else $('.hiddensearch').slideUp()
     })
 
     /* Set the defaults for DataTables initialisation */
@@ -336,6 +339,7 @@ $(document).ready(function() {
         if (response.success == true) {
           alert('Updated Successfully!')
           $('#editModal').modal('close')
+          $(this).trigger('reset')
           loadTable()
         } else {
           console.log(response)

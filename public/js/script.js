@@ -431,89 +431,83 @@ function loadTable() {
                   </button>`
                 : ''
             }
-            <button class="waves-effect waves-light btn btn-flat btnEdit" data-id="${value.id}">
+            <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
               <i class="material-icons">edit</i>
             </button>
-            <button class="waves-effect waves-light btn btn-flat btnDelete" data-id="${value.id}">
+            <button onclick="deleteData(${
+              value.id
+            })"  class="waves-effect waves-light btn btn-flat btnDelete" data-id="${value.id}">
               <i class="material-icons">delete</i>
             </button>
           `
         ])
       })
       dTable.draw()
-      buttonInit()
     }
   })
 }
 
-function buttonInit() {
-  $('.btnEdit').unbind('click')
-  $('.btnDelete').unbind('click')
+function editData(id) {
+  let modal = $('#editModal')
 
-  $('.btnEdit').click(function() {
-    let id = $(this).data('id')
-    let modal = $('#editModal')
+  modal.find('.loader-container').show()
+  modal.modal('open')
 
-    modal.find('.loader-container').show()
-    modal.modal('open')
+  $.ajax({
+    url: 'data/' + id,
+    dataType: 'json',
+    success: function(response) {
+      loadChips(modal)
 
-    $.ajax({
-      url: 'data/' + id,
-      dataType: 'json',
-      success: function(response) {
-        loadChips(modal)
+      let authorsChip = M.Chips.getInstance(modal.find('.chips[data-name=authors]'))
+      let keywordsChip = M.Chips.getInstance(modal.find('.chips[data-name=keywords]'))
+      let categoryChip = M.Chips.getInstance(modal.find('.chips[data-name=category]'))
 
-        let authorsChip = M.Chips.getInstance(modal.find('.chips[data-name=authors]'))
-        let keywordsChip = M.Chips.getInstance(modal.find('.chips[data-name=keywords]'))
-        let categoryChip = M.Chips.getInstance(modal.find('.chips[data-name=category]'))
+      let authors = response.authors.split(',')
+      let keywords = response.keywords.split(',')
+      let category = response.category.split(',')
 
-        let authors = response.authors.split(',')
-        let keywords = response.keywords.split(',')
-        let category = response.category.split(',')
+      $.each(authors, function(key, value) {
+        authorsChip.addChip({ tag: value })
+      })
 
-        $.each(authors, function(key, value) {
-          authorsChip.addChip({ tag: value })
-        })
+      $.each(keywords, function(key, value) {
+        keywordsChip.addChip({ tag: value })
+      })
 
-        $.each(keywords, function(key, value) {
-          keywordsChip.addChip({ tag: value })
-        })
+      $.each(category, function(key, value) {
+        categoryChip.addChip({ tag: value })
+      })
 
-        $.each(category, function(key, value) {
-          categoryChip.addChip({ tag: value })
-        })
+      modal.find('input[name=id]').val(id)
+      modal.find('input[name=title]').val(response.title)
+      modal.find('input[name=publisher]').val(response.publisher)
+      modal.find('input[name=proceeding_date]').val(response.proceeding_date)
+      modal.find('input[name=presentation_date]').val(response.presentation_date)
+      modal.find('input[name=publication_date]').val(response.publication_date)
 
-        modal.find('input[name=id]').val(id)
-        modal.find('input[name=title]').val(response.title)
-        modal.find('input[name=publisher]').val(response.publisher)
-        modal.find('input[name=proceeding_date]').val(response.proceeding_date)
-        modal.find('input[name=presentation_date]').val(response.presentation_date)
-        modal.find('input[name=publication_date]').val(response.publication_date)
-
-        modal.find('.loader-container').fadeOut()
-      }
-    })
+      modal.find('.loader-container').fadeOut()
+    }
   })
-  $('.btnDelete').click(function() {
-    if (!confirm('Are you sure do you want to delete?')) return
+}
 
-    let id = $(this).data('id')
+function deleteData(id) {
+  if (!confirm('Are you sure do you want to delete?')) return
 
-    $(this).prop('disabled', false)
+  $(this).prop('disabled', false)
 
-    $.ajax({
-      url: 'data/delete',
-      type: 'POST',
-      data: { id },
-      dataType: 'json',
-      success: function(response) {
-        if (response.success) {
-          alert('Deleted Successfully!')
-          loadTable()
-        } else {
-          alert(response.error)
-        }
+  $.ajax({
+    url: 'data/delete',
+    type: 'POST',
+    data: { id },
+    dataType: 'json',
+    success: function(response) {
+      if (response.success) {
+        alert('Deleted Successfully!')
+        loadTable()
+      } else {
+        alert(response.error)
       }
-    })
+    }
   })
 }

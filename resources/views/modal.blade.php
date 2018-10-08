@@ -35,6 +35,16 @@
           <p class="caption">Publication Date</p>
           <input name="publication_date" type="text" class="validate" placeholder="Enter the publication date" required>
         </div>
+        <div class="file-field input-field col s12">
+          <p class="caption">Upload PDF</p>
+          <div class="btn">
+            <span>Upload</span>
+            <input type="file" name="file" required>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Select a PDF file">
+          </div>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -93,6 +103,16 @@
         <div class="input-field col s12">
           <p class="caption">Publication Date</p>
           <input name="publication_date" type="text" class="validate" placeholder="Enter the publication date">
+        </div>
+        <div class="file-field input-field col s12">
+          <p class="caption">Upload PDF</p>
+          <div class="btn">
+            <span>Upload</span>
+            <input type="file" name="file" required>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Select a PDF file">
+          </div>
         </div>
       </div>
     </div>

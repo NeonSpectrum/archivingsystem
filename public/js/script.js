@@ -293,7 +293,7 @@ $(document).ready(function() {
     let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
     let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
 
-    let form_data = {
+    let data = {
       authors: authors.join(','),
       keywords: keywords.join(','),
       category: category.join(',')
@@ -302,14 +302,32 @@ $(document).ready(function() {
     $(this)
       .serializeArray()
       .map(function(x) {
-        form_data[x.name] = x.value
+        data[x.name] = x.value
       })
+
+    let form_data = new FormData()
+    form_data.append('data', data)
+
+    if (
+      $(this)
+        .find('input[name=file]')
+        .val()
+    ) {
+      form_data.append(
+        'file',
+        $(this)
+          .find('input[name=file]')
+          .prop('files')[0]
+      )
+    }
 
     $.ajax({
       context: this,
       url: 'data/edit',
       type: 'POST',
       data: form_data,
+      contentType: false,
+      processData: false,
       dataType: 'json',
       success: function(response) {
         console.log(response)
@@ -404,6 +422,15 @@ function loadTable() {
           value.presentation_date,
           value.publication_date,
           `
+            ${
+              value.file_name
+                ? `<button onclick="window.open('${base_url +
+                    '/public/uploads/' +
+                    value.file_name}')" class="waves-effect waves-light btn btn-flat">
+                    <i class="material-icons">pageview</i>
+                  </button>`
+                : ''
+            }
             <button class="waves-effect waves-light btn btn-flat btnEdit" data-id="${value.id}">
               <i class="material-icons">edit</i>
             </button>

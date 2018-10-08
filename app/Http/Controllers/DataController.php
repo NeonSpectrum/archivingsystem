@@ -35,21 +35,26 @@ class DataController extends Controller {
   protected function add(Request $request) {
     $file = $request->file;
 
-    $filename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName()) . '-' . time() . '.' . $file->getClientOriginalExtension();
-    $file->move(public_path('uploads'), $filename);
+    $arr = [
+      'title'             => $request->title,
+      'authors'           => $request->authors,
+      'keywords'          => $request->keywords,
+      'category'          => $request->category,
+      'publisher'         => $request->publisher,
+      'proceeding_date'   => $request->proceeding_date,
+      'presentation_date' => $request->presentation_date,
+      'publication_date'  => $request->publication_date
+    ];
+
+    if ($file) {
+      $filename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName()) . '-' . time() . '.' . $file->getClientOriginalExtension();
+      $file->move(public_path('uploads'), $filename);
+
+      $arr['file_name'] = $filename;
+    }
 
     try {
-      $affectedRows = \DB::table('data')->insert([
-        'title'             => $request->title,
-        'authors'           => $request->authors,
-        'keywords'          => $request->keywords,
-        'category'          => $request->category,
-        'publisher'         => $request->publisher,
-        'proceeding_date'   => $request->proceeding_date,
-        'presentation_date' => $request->presentation_date,
-        'publication_date'  => $request->publication_date,
-        'file_name'         => $filename
-      ]);
+      $affectedRows = \DB::table('data')->insert($arr);
     } catch (QueryException $e) {
       return json_encode(['success' => false, 'error' => $e->getMessage()]);
     }

@@ -21,25 +21,25 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Publisher</p>
-          <input name="publisher" type="text" class="validate" placeholder="Enter the publisher" required>
+          <input name="publisher" type="text" class="validate" placeholder="Enter the publisher">
         </div>
         <div class="input-field col s12">
           <p class="caption">Proceeding Date</p>
-          <input name="proceeding_date" type="text" class="validate" placeholder="Enter the proceeding date" required>
+          <input name="proceeding_date" type="text" class="validate" placeholder="Enter the proceeding date">
         </div>
         <div class="input-field col s12">
           <p class="caption">Presentation Date</p>
-          <input name="presentation_date" type="text" class="validate" placeholder="Enter the presentation date" required>
+          <input name="presentation_date" type="text" class="validate" placeholder="Enter the presentation date">
         </div>
         <div class="input-field col s12">
           <p class="caption">Publication Date</p>
-          <input name="publication_date" type="text" class="validate" placeholder="Enter the publication date" required>
+          <input name="publication_date" type="text" class="validate" placeholder="Enter the publication date">
         </div>
         <div class="file-field input-field col s12">
           <p class="caption">Upload PDF</p>
           <div class="btn">
             <span>Upload</span>
-            <input type="file" name="file" required>
+            <input type="file" name="file">
           </div>
           <div class="file-path-wrapper">
             <input class="file-path validate" type="text" placeholder="Select a PDF file">
@@ -108,7 +108,7 @@
           <p class="caption">Upload PDF</p>
           <div class="btn">
             <span>Upload</span>
-            <input type="file" name="file" required>
+            <input type="file" name="file">
           </div>
           <div class="file-path-wrapper">
             <input class="file-path validate" type="text" placeholder="Select a PDF file">

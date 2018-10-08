@@ -95,7 +95,7 @@ class DataController extends Controller {
     if ($affectedRows > 0) {
       return json_encode(['success' => true]);
     } else {
-      return json_encode(['success' => false, 'error' => 'Nothing changed!']);
+      return json_encode(['success' => false, 'error' => json_encode($arr)]);
     }
   }
   /**

@@ -306,7 +306,9 @@ $(document).ready(function() {
       })
 
     let form_data = new FormData()
-    form_data.append('data', data)
+    $.each(data, function(key, value) {
+      form_data.append(key, value)
+    })
 
     if (
       $(this)

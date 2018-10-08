@@ -463,9 +463,9 @@ function editData(id) {
       let keywordsChip = M.Chips.getInstance(modal.find('.chips[data-name=keywords]'))
       let categoryChip = M.Chips.getInstance(modal.find('.chips[data-name=category]'))
 
-      let authors = response.authors.split(',')
-      let keywords = response.keywords.split(',')
-      let category = response.category.split(',')
+      let authors = (response.authors || '').split(',')
+      let keywords = (response.keywords || '').split(',')
+      let category = (response.category || '').split(',')
 
       $.each(authors, function(key, value) {
         authorsChip.addChip({ tag: value })

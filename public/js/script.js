@@ -417,7 +417,7 @@ function loadTable() {
     success: function(response) {
       dTable.clear()
       $.each(response, function(key, value) {
-        value = value.map(function(val) {
+        value = _.mapObject(value, function(val) {
           return _.escape(val)
         })
 

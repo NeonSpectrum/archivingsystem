@@ -21,6 +21,7 @@ class CreateDataTable extends Migration {
       $table->string('proceeding_date')->nullable();
       $table->string('presentation_date')->nullable();
       $table->string('publication_date')->nullable();
+      $table->string('note')->nullable();
       $table->string('file_name')->nullable();
       $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
       $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

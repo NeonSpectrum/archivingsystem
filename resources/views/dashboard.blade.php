@@ -30,6 +30,7 @@
             <th>Proceeding Date</th>
             <th>Presentation Date</th>
             <th>Publication Date</th>
+            <th>Note</th>
             <th width="5%">Action</th>
           </tr>
         </thead>

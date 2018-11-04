@@ -431,6 +431,7 @@ function loadTable() {
           value.proceeding_date,
           value.presentation_date,
           value.publication_date,
+          value.note,
           `
             ${
               value.file_name
@@ -495,6 +496,7 @@ function editData(id) {
       modal.find('input[name=proceeding_date]').val(response.proceeding_date)
       modal.find('input[name=presentation_date]').val(response.presentation_date)
       modal.find('input[name=publication_date]').val(response.publication_date)
+      modal.find('input[name=note]').val(response.note)
 
       modal.find('.loader-container').fadeOut()
     }

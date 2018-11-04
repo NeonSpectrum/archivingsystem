@@ -35,6 +35,10 @@
           <p class="caption">Publication Date</p>
           <input name="publication_date" type="text" class="validate" placeholder="Enter the publication date">
         </div>
+        <div class="input-field col s12">
+          <p class="caption">Note</p>
+          <input name="note" type="text" class="validate" placeholder="Enter note">
+        </div>
         <div class="file-field input-field col s12">
           <p class="caption">Upload PDF</p>
           <div class="btn">
@@ -103,6 +107,10 @@
         <div class="input-field col s12">
           <p class="caption">Publication Date</p>
           <input name="publication_date" type="text" class="validate" placeholder="Enter the publication date">
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Note</p>
+          <input name="note" type="text" class="validate" placeholder="Enter note">
         </div>
         <div class="file-field input-field col s12">
           <p class="caption">Upload PDF</p>

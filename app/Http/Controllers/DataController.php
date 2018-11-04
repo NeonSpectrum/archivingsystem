@@ -43,7 +43,8 @@ class DataController extends Controller {
       'publisher'         => $request->publisher,
       'proceeding_date'   => $request->proceeding_date,
       'presentation_date' => $request->presentation_date,
-      'publication_date'  => $request->publication_date
+      'publication_date'  => $request->publication_date,
+      'note'              => $request->note
     ];
 
     if ($file) {
@@ -80,7 +81,8 @@ class DataController extends Controller {
       'publisher'         => $request->publisher,
       'proceeding_date'   => $request->proceeding_date,
       'presentation_date' => $request->presentation_date,
-      'publication_date'  => $request->publication_date
+      'publication_date'  => $request->publication_date,
+      'note'              => $request->note
     ];
 
     if ($file) {

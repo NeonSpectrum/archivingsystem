@@ -11,13 +11,17 @@
       <div class="table-header">
         <span class="table-title">Archiving System</span>
         <div class="actions">
-          <a href="{{ url('pdf') }}" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_download</i></a>
+          <a class="generate-pdf modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_download</i></a>
           <a href="#" class="btnUpload modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_upload</i></a>
           <a href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
           <a href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
           <a href="{{ url('logout') }}" class="waves-effect btn-flat nopadding" onclick="return confirm('Are you sure do you want to logout?')"><i class="material-icons">logout</i></a>
         </div>
         <input type="file" name="uploadExcel" style="display:none">
+        <form action="{{ url('pdf') }}" method="POST" target="_blank">
+          @csrf
+          <input type="hidden" name="data">
+        </form>
       </div>
       <table id="datatable">
         <thead>

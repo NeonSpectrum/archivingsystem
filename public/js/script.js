@@ -557,3 +557,12 @@ $('form[name=frmLogin]').submit(function(e) {
         .prop('disabled', false)
     })
 })
+
+$('.generate-pdf').click(function() {
+  if ($('input[name=search]').val()) {
+    $('input[name=data]').val(JSON.stringify(Object.values(dTable.rows({ filter: 'applied' }).data())))
+  }
+  $('input[name=data]')
+    .closest('form')
+    .trigger('submit')
+})

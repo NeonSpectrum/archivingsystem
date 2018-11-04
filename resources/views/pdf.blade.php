@@ -25,9 +25,9 @@
   <tbody>
     @foreach($data as $id => $row)
       <tr>
-        <td style="text-align:center">{{ $id }}</td>
-        <td>{{ $row->title }}</td>
-        <td>{{ $row->authors }}</td>
+        <td style="text-align:center">{{ $id + 1 }}</td>
+        <td>{!! $row->title !!}</td>
+        <td>{!! $row->authors !!}</td>
         <td>{{ $row->keywords }}</td>
         <td>{{ $row->category }}</td>
         <td>{{ $row->publisher }}</td>

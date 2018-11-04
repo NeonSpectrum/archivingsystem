@@ -137,8 +137,32 @@ class DataController extends Controller {
   /**
    * @return mixed
    */
-  protected function pdf() {
-    $data = \DB::table('data')->get();
+  protected function pdf(Request $request) {
+
+    if ($request->data) {
+      $request->data = json_decode($request->data);
+
+      $data = [];
+
+      foreach ($request->data as $id => $value) {
+        if (!isset($value[1])) {
+          break;
+        }
+
+        $data[$id]                    = new \stdClass();
+        $data[$id]->title             = $value[1];
+        $data[$id]->authors           = $value[2];
+        $data[$id]->keywords          = $value[3];
+        $data[$id]->category          = $value[4];
+        $data[$id]->publisher         = $value[5];
+        $data[$id]->proceeding_date   = $value[6];
+        $data[$id]->presentation_date = $value[7];
+        $data[$id]->publication_date  = $value[8];
+        $data[$id]->note              = $value[9];
+      }
+    } else {
+      $data = \DB::table('data')->get();
+    }
 
     $pdf = \PDF::loadView('pdf', ['data' => $data])->setPaper('a4', 'landscape');
 

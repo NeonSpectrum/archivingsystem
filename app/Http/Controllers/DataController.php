@@ -133,4 +133,15 @@ class DataController extends Controller {
       return json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
   }
+
+  /**
+   * @return mixed
+   */
+  protected function pdf() {
+    $data = \DB::table('data')->get();
+
+    $pdf = \PDF::loadView('pdf', ['data' => $data])->setPaper('a4', 'landscape');
+
+    return $pdf->stream();
+  }
 }

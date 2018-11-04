@@ -18,6 +18,7 @@ Route::get('/logout', 'LoginController@logout');
 
 Route::middleware('auth')->group(function () {
   Route::get('/', 'DataController@show')->name('dashboard');
+  Route::get('/pdf', 'DataController@pdf')->name('pdf');
   Route::get('/data', 'DataController@get');
   Route::get('/data/{id}', 'DataController@get');
   Route::post('/data/add', 'DataController@add');

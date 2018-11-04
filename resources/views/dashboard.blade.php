@@ -11,6 +11,7 @@
       <div class="table-header">
         <span class="table-title">Archiving System</span>
         <div class="actions">
+          <a href="{{ url('pdf') }}" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_download</i></a>
           <a href="#" class="btnUpload modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_upload</i></a>
           <a href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
           <a href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>

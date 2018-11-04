@@ -22,7 +22,8 @@ class DataImport implements ToCollection {
           'publisher'         => $row[4],
           'proceeding_date'   => $row[5],
           'presentation_date' => $row[6],
-          'publication_date'  => $row[7]
+          'publication_date'  => $row[7],
+          'note'              => $row[8]
         ]);
       } catch (QueryException $e) {
         return json_encode(['success' => false, 'error' => $e->getMessage()]);

@@ -19,5 +19,5 @@ mix.combine(['resources/css/style.css'], 'public/css/app.css')
 
 mix.combine(['resources/js/packages/*'], 'public/js/packages.js')
 mix.combine(['resources/js/dt-custom.js', 'resources/js/script.js'], 'public/js/app.js')
-mix.combine(['resources/js/data.js'], 'public/js/data.js')
-mix.combine(['resources/js/account.js'], 'public/js/account.js')
+mix.babel(['resources/js/data.js'], 'public/js/data.js')
+mix.babel(['resources/js/account.js'], 'public/js/account.js')

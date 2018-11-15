@@ -12,13 +12,8 @@
 <body class="{{ Auth::user()->role ?? '' }}">
   @yield("body")
 
-  <script src="{{ asset('public/js/app.js') }}"></script>
-  <script src="{{ asset('public/js/materialize.min.js') }}"></script>
-  <script src="{{ asset('public/js/datatables.min.js') }}"></script>
-  <script src="{{ asset('public/js/underscore-min.js') }}"></script>
-  <script src="{{ asset('public/js/moment.min.js') }}"></script>
-  <script src="{{ asset('public/js/dt-custom.js') }}"></script>
-  <script src="{{ asset('public/js/script.js') }}?v={{ filemtime(public_path('js/script.js')) }}"></script>
+  <script src="{{ asset('public/js/packages.js') }}"></script>
+  <script src="{{ asset('public/js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}"></script>
   @yield("extra-scripts")
 </body>
 </html>

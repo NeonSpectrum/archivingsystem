@@ -2,11 +2,19 @@
 
 namespace App;
 
+use App\Roles;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable {
   use Notifiable;
+  use SoftDeletes;
+
+  /**
+   * @var array
+   */
+  protected $dates = ['deleted_at'];
 
   /**
    * The attributes that are mass assignable.
@@ -14,7 +22,7 @@ class User extends Authenticatable {
    * @var array
    */
   protected $fillable = [
-    'username', 'password'
+    'username', 'password', 'role_id', 'first_name', 'last_name'
   ];
 
   /**
@@ -31,5 +39,13 @@ class User extends Authenticatable {
    */
   public function setPasswordAttribute($password) {
     $this->attributes['password'] = bcrypt($password);
+  }
+
+  public function getRoleAttribute() {
+    return Roles::find(\Auth::user()->role_id)->name;
+  }
+
+  public function getLogoAttribute() {
+    return Roles::find(\Auth::user()->role_id)->logo;
   }
 }

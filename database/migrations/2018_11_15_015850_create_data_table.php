@@ -13,6 +13,8 @@ class CreateDataTable extends Migration {
   public function up() {
     Schema::create('data', function (Blueprint $table) {
       $table->increments('id');
+      $table->unsignedInteger('role_id');
+      $table->foreign('role_id')->references('id')->on('roles');
       $table->text('title');
       $table->text('authors')->nullable();
       $table->text('keywords')->nullable();
@@ -23,8 +25,8 @@ class CreateDataTable extends Migration {
       $table->string('publication_date')->nullable();
       $table->string('note')->nullable();
       $table->string('file_name')->nullable();
-      $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-      $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+      $table->timestamps();
+      $table->softDeletes();
     });
   }
 

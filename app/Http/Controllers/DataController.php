@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Data;
 use App\Imports\DataImport;
+use App\Roles;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -19,15 +21,15 @@ class DataController extends Controller {
   /**
    * @param Request $request
    */
-  protected function get(Request $request) {
+  protected function get($id = null, Request $request) {
 
-    if ($request->id) {
-      $rows = \DB::table('data')->where('id', $request->id)->first();
+    if ($id) {
+      $rows = Data::findOrFail($id);
     } else {
-      $rows = \DB::table('data')->get();
+      $rows = Data::all();
     }
 
-    return json_encode($rows ?? []);
+    return response()->json(['role_id' => \Auth::user()->role_id, 'data' => $rows]);
   }
   /**
    * @param Request $request
@@ -35,108 +37,108 @@ class DataController extends Controller {
   protected function add(Request $request) {
     $file = $request->file;
 
-    $arr = [
-      'title'             => $request->title,
-      'authors'           => $request->authors,
-      'keywords'          => $request->keywords,
-      'category'          => $request->category,
-      'publisher'         => $request->publisher,
-      'proceeding_date'   => $request->proceeding_date,
-      'presentation_date' => $request->presentation_date,
-      'publication_date'  => $request->publication_date,
-      'note'              => $request->note
-    ];
+    $data = new Data;
+
+    $data->role_id           = Roles::where('name', $request->college)->first()->id;
+    $data->title             = $request->title;
+    $data->authors           = $request->authors;
+    $data->keywords          = $request->keywords;
+    $data->category          = $request->category;
+    $data->publisher         = $request->publisher;
+    $data->proceeding_date   = $request->proceeding_date;
+    $data->presentation_date = $request->presentation_date;
+    $data->publication_date  = $request->publication_date;
+    $data->note              = $request->note;
 
     if ($file) {
       $filename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName()) . '-' . time() . '.' . $file->getClientOriginalExtension();
       $file->move(public_path('uploads'), $filename);
 
-      $arr['file_name'] = $filename;
+      $data->file_name = $filename;
     }
 
-    try {
-      $affectedRows = \DB::table('data')->insert($arr);
-    } catch (QueryException $e) {
-      return json_encode(['success' => false, 'error' => $e->getMessage()]);
-    }
-
-    if ($affectedRows > 0) {
-      return json_encode(['success' => true]);
+    if ($data->save()) {
+      return response()->json(['success' => true]);
     } else {
-      return json_encode(['success' => false, 'error' => 'Nothing changed!']);
+      return response()->json(['success' => false, 'error' => 'Nothing changed!']);
     }
   }
   /**
    * @param Request $request
    */
-  protected function edit(Request $request) {
-    $id   = $request->id;
+  protected function edit($id, Request $request) {
     $file = $request->file;
 
-    $arr = [
-      'title'             => $request->title,
-      'authors'           => $request->authors,
-      'keywords'          => $request->keywords,
-      'category'          => $request->category,
-      'publisher'         => $request->publisher,
-      'proceeding_date'   => $request->proceeding_date,
-      'presentation_date' => $request->presentation_date,
-      'publication_date'  => $request->publication_date,
-      'note'              => $request->note
-    ];
+    $data = Data::find($id);
+
+    $data_role = $data->role_id;
+
+    $data->role_id           = Roles::where('name', $request->college)->first()->id;
+    $data->title             = $request->title;
+    $data->authors           = $request->authors;
+    $data->keywords          = $request->keywords;
+    $data->category          = $request->category;
+    $data->publisher         = $request->publisher;
+    $data->proceeding_date   = $request->proceeding_date;
+    $data->presentation_date = $request->presentation_date;
+    $data->publication_date  = $request->publication_date;
+    $data->note              = $request->note;
 
     if ($file) {
       $filename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName()) . '-' . time() . '.' . $file->getClientOriginalExtension();
 
       $file->move(public_path('uploads'), $filename);
 
-      $arr['file_name'] = $filename;
+      $data->file_name = $filename;
     }
 
-    try {
-      $affectedRows = \DB::table('data')->where('id', $id)->update($arr);
-    } catch (QueryException $e) {
-      return json_encode(['success' => false, 'error' => $e->getMessage()]);
-    }
+    $role = \Auth::user()->role_id;
 
-    if ($affectedRows > 0) {
-      return json_encode(['success' => true]);
+    if ($role == 1 || $role != $data_role) {
+      if ($data->save()) {
+        return response()->json(['success' => true]);
+      } else {
+        return response()->json(['success' => false, 'error' => $arr]);
+      }
     } else {
-      return json_encode(['success' => false, 'error' => json_encode($arr)]);
+      return response()->json(['success' => false, 'error' => 'Forbidden']);
     }
   }
-  /**
-   * @param Request $request
-   */
-  protected function delete(Request $request) {
-    try {
-      $affectedRows = \DB::table('data')->where('id', $request->id)->delete();
-    } catch (QueryException $e) {
-      return json_encode(['success' => false, 'error' => $e->getMessage()]);
+/**
+ * @param Request $request
+ */
+  protected function delete($id, Request $request) {
+    $data = Data::find($id);
+
+    $role = \Auth::user()->role_id;
+
+    if ($role == 1 || $role != $data->role_id) {
+      if ($data->delete()) {
+        return response()->json(['success' => true]);
+      } else {
+        return response()->json(['success' => false, 'error' => 'Nothing changed!']);
+      }
+    } else {
+      return response()->json(['success' => false, 'error' => 'Forbidden']);
     }
 
-    if ($affectedRows > 0) {
-      return json_encode(['success' => true]);
-    } else {
-      return json_encode(['success' => false, 'error' => 'Nothing changed!']);
-    }
   }
 
-  /**
-   * @param Request $request
-   */
+/**
+ * @param Request $request
+ */
   protected function upload(Request $request) {
     try {
       Excel::import(new DataImport, $request->file);
-      return json_encode(['success' => true]);
+      return response()->json(['success' => true]);
     } catch (\Exception $e) {
-      return json_encode(['success' => false, 'error' => $e->getMessage()]);
+      return response()->json(['success' => false, 'error' => $e->getMessage()]);
     }
   }
 
-  /**
-   * @return mixed
-   */
+/**
+ * @return mixed
+ */
   protected function pdf(Request $request) {
 
     if ($request->data) {

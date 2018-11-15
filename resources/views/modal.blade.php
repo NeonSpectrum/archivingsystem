@@ -4,6 +4,14 @@
       <h4>Add</h4>
       <div class="row">
         <div class="input-field col s12">
+          <p class="caption">College</p>
+          <select name="college">
+            @foreach(\App\Roles::all()->slice(1) as $role)
+              <option value="{{ $role->name }}" data-icon="{{ asset('public/img/logo/' . $role->logo) }}">{{ $role->description }}</option>
+            @endforeach
+          </select>
+        </div>
+        <div class="input-field col s12">
           <p class="caption">Title</p>
           <input name="title" type="text" class="validate" placeholder="Enter the title" required>
         </div>
@@ -59,7 +67,7 @@
 </div>
  <div id="editModal" class="modal modal-fixed-footer">
   <form name="frmEdit">
-    <input type="hidden" name="id">
+    <input type="hidden" name="id" disabled>
     <div class="modal-content">
       <h4>Edit</h4>
       <div class="loader-container">
@@ -67,15 +75,25 @@
           <div class="spinner-layer spinner-blue-only">
             <div class="circle-clipper left">
               <div class="circle"></div>
-            </div><div class="gap-patch">
+            </div>
+            <div class="gap-patch">
               <div class="circle"></div>
-            </div><div class="circle-clipper right">
+            </div>
+            <div class="circle-clipper right">
               <div class="circle"></div>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
+        <div class="input-field col s12">
+          <p class="caption">College</p>
+          <select name="college">
+            @foreach(\App\Roles::all()->slice(1) as $role)
+              <option value="{{ $role->name }}" data-icon="{{ asset('public/img/logo/' . $role->logo) }}">{{ $role->description }}</option>
+            @endforeach
+          </select>
+        </div>
         <div class="input-field col s12">
           <p class="caption">Title</p>
           <input name="title" type="text" class="validate" placeholder="Enter the title" required>

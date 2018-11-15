@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller {
   protected function show() {
-    return Auth::check() ? redirect()->route('dashboard') : view('login');
+    return view('login');
   }
 
   /**
@@ -18,9 +18,9 @@ class LoginController extends Controller {
     $credentials = ['username' => $request->username, 'password' => $request->password];
 
     if (Auth::attempt($credentials)) {
-      return json_encode(['success' => true]);
+      return response()->json(['success' => true]);
     } else {
-      return json_encode(['success' => false, 'error' => 'Invalid Username and/or Password.']);
+      return response()->json(['success' => false, 'error' => 'Invalid Username and/or Password.']);
     }
   }
 

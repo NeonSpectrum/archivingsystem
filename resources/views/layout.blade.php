@@ -4,8 +4,8 @@
   <base href="{{ url('/') . '/' }}">
   <meta charset="UTF-8">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <link rel="stylesheet" href="{{ asset('public/css/materialize.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('public/css/style.css') }}?v={{ filemtime(public_path('css/style.css')) }}">
+  <link rel="stylesheet" href="{{ asset('public/css/packages.css') }}">
+  <link rel="stylesheet" href="{{ asset('public/css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <title>Archiving System</title>
 </head>

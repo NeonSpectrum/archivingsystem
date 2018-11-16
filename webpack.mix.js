@@ -17,7 +17,16 @@ const mix = require('laravel-mix')
 mix.combine(['resources/css/materialize.min.css'], 'public/css/packages.css')
 mix.combine(['resources/css/style.css'], 'public/css/app.css')
 
-mix.combine(['resources/js/packages/*'], 'public/js/packages.js')
+mix.combine(
+  [
+    'resources/js/packages/jquery.min.js',
+    'resources/js/packages/materialize.min.js',
+    'resources/js/packages/moment.min.js',
+    'resources/js/packages/datatables.min.js',
+    'resources/js/packages/underscore.min.js'
+  ],
+  'public/js/packages.js'
+)
 mix.combine(['resources/js/dt-custom.js', 'resources/js/script.js'], 'public/js/app.js')
 mix.babel(['resources/js/data.js'], 'public/js/data.js')
 mix.babel(['resources/js/account.js'], 'public/js/account.js')

@@ -24,9 +24,13 @@ class DataController extends Controller {
   protected function get($id = null, Request $request) {
 
     if ($id) {
-      $rows = Data::findOrFail($id);
+      $rows          = Data::findOrFail($id);
+      $rows->college = Roles::where('id', $rows->role_id)->first()->name;
     } else {
       $rows = Data::all();
+      foreach ($rows as $row) {
+        $row->college = Roles::where('id', $rows->role_id)->first()->name;
+      }
     }
 
     return response()->json(['role_id' => \Auth::user()->role_id, 'data' => $rows]);

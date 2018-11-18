@@ -278,7 +278,7 @@ function editData(id) {
       loadChips(modal)
 
       $('select[name=college]')
-        .val(response.role_id)
+        .val(response.college)
         .formSelect()
 
       let authorsChip = M.Chips.getInstance(modal.find('.chips[data-name=authors]'))

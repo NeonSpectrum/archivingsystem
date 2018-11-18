@@ -16,12 +16,12 @@ class AccountController extends Controller {
   protected function get($id = null, Request $request) {
     if ($id) {
       $row          = User::findOrFail($id);
-      $row->college = Roles::where('id', $row->role_id)->first()->description;
+      $row->college = Roles::where('id', $row->role_id)->first()->name;
     } else {
       $row = User::all();
 
       foreach ($row as $data) {
-        $data->college = Roles::where('id', $data->role_id)->first()->description;
+        $data->college = Roles::where('id', $data->role_id)->first()->name;
       }
     }
 

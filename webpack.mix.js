@@ -23,7 +23,7 @@ mix.combine(
     'resources/js/packages/materialize.min.js',
     'resources/js/packages/moment.min.js',
     'resources/js/packages/datatables.min.js',
-    'resources/js/packages/underscore.min.js'
+    'resources/js/packages/underscore-min.js'
   ],
   'public/js/packages.js'
 )

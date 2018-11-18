@@ -29,7 +29,7 @@ class DataController extends Controller {
     } else {
       $rows = Data::all();
       foreach ($rows as $row) {
-        $row->college = Roles::where('id', $rows->role_id)->first()->name;
+        $row->college = Roles::where('id', $row->role_id)->first()->name;
       }
     }
 

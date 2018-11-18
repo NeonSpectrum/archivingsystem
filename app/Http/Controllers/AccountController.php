@@ -15,13 +15,15 @@ class AccountController extends Controller {
    */
   protected function get($id = null, Request $request) {
     if ($id) {
-      $row          = User::findOrFail($id);
-      $row->college = Roles::where('id', $row->role_id)->first()->name;
+      $row            = User::findOrFail($id);
+      $row->role_name = Roles::where('id', $row->role_id)->first()->name;
+      $row->college   = Roles::where('id', $row->role_id)->first()->description;
     } else {
       $row = User::all();
 
       foreach ($row as $data) {
-        $data->college = Roles::where('id', $data->role_id)->first()->name;
+        $data->role_name = Roles::where('id', $data->role_id)->first()->name;
+        $data->college   = Roles::where('id', $data->role_id)->first()->description;
       }
     }
 

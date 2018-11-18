@@ -67,7 +67,7 @@ function editData(id) {
     dataType: 'json',
     success: function(response) {
       $('select[name=college]')
-        .val(response.college)
+        .val(response.role_name)
         .formSelect()
 
       modal.find('input[name=id]').val(response.id)

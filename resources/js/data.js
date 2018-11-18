@@ -249,7 +249,7 @@ function loadTable() {
                     <i class="material-icons">pageview</i>
                   </button>`
             : '') +
-            (role_id == 1 || role_id == value.role_id
+            (role_id == 1
               ? `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
               <i class="material-icons">edit</i>

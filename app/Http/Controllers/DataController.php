@@ -94,7 +94,7 @@ class DataController extends Controller {
 
     $role = \Auth::user()->role_id;
 
-    if ($role == 1 || $role != $data_role) {
+    if ($role == 1) {
       if ($data->save()) {
         return response()->json(['success' => true]);
       } else {
@@ -112,7 +112,7 @@ class DataController extends Controller {
 
     $role = \Auth::user()->role_id;
 
-    if ($role == 1 || $role != $data->role_id) {
+    if ($role == 1) {
       if ($data->delete()) {
         return response()->json(['success' => true]);
       } else {

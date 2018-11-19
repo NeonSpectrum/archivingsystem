@@ -1,24 +1,5 @@
 $(document).ready(function() {
-  window.dTable = $('#datatable').DataTable({
-    oLanguage: {
-      sStripClasses: '',
-      sSearch: '',
-      sSearchPlaceholder: 'Enter Keywords Here',
-      sInfo: '_START_ -_END_ of _TOTAL_',
-      sLengthMenu:
-        '<span>Rows per page:</span><select class="browser-default">' +
-        '<option value="10">10</option>' +
-        '<option value="20">20</option>' +
-        '<option value="30">30</option>' +
-        '<option value="40">40</option>' +
-        '<option value="50">50</option>' +
-        '<option value="-1">All</option>' +
-        '</select></div>'
-    },
-    bAutoWidth: false,
-    search: {
-      smart: false
-    },
+  loadDatatable({
     columnDefs: [
       {
         targets: [3, 6, 7, 8],
@@ -26,145 +7,8 @@ $(document).ready(function() {
       }
     ]
   })
-
   loadChips()
   loadTable()
-
-  $('form[name=frmAdd]').submit(function(e) {
-    e.preventDefault()
-
-    $(this)
-      .find('input')
-      .prop('readonly', true)
-    $(this)
-      .find('button')
-      .prop('disabled', true)
-
-    let authors = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=authors]')).chipsData, 'tag')
-    let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
-    let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
-
-    let form_data = {
-      authors: authors.join(','),
-      keywords: keywords.join(','),
-      category: category.join(',')
-    }
-
-    $(this)
-      .serializeArray()
-      .map(function(x) {
-        form_data[x.name] = x.value
-      })
-
-    $.ajax({
-      context: this,
-      url: api_url + 'data',
-      type: 'POST',
-      data: form_data,
-      dataType: 'json',
-      success: function(response) {
-        console.log(response)
-        if (response.success == true) {
-          alert('Added Successfully!')
-          $(this).trigger('reset')
-          loadChips('#addModal')
-          $('#addModal').modal('close')
-          loadTable()
-        } else {
-          console.log(response)
-          alert(response.error)
-        }
-      }
-    }).always(function() {
-      $(this)
-        .find('input')
-        .prop('readonly', false)
-      $(this)
-        .find('button')
-        .prop('disabled', false)
-    })
-  })
-
-  $('form[name=frmEdit]').submit(function(e) {
-    e.preventDefault()
-
-    $(this)
-      .find('input')
-      .prop('readonly', true)
-    $(this)
-      .find('button')
-      .prop('disabled', true)
-
-    let authors = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=authors]')).chipsData, 'tag')
-    let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
-    let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
-
-    let data = {
-      authors: authors.join(','),
-      keywords: keywords.join(','),
-      category: category.join(',')
-    }
-
-    $(this)
-      .serializeArray()
-      .map(function(x) {
-        data[x.name] = x.value
-      })
-
-    let form_data = new FormData()
-    $.each(data, function(key, value) {
-      form_data.append(key, value)
-    })
-
-    if (
-      $(this)
-        .find('input[name=file]')
-        .val()
-    ) {
-      form_data.append(
-        'file',
-        $(this)
-          .find('input[name=file]')
-          .prop('files')[0]
-      )
-    }
-
-    form_data.append('_method', 'PUT')
-
-    $.ajax({
-      context: this,
-      url:
-        api_url +
-        'data/' +
-        $(this)
-          .find('input[name=id]')
-          .val(),
-      type: 'POST',
-      data: form_data,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      success: function(response) {
-        console.log(response)
-        if (response.success == true) {
-          alert('Updated Successfully!')
-          $('#editModal').modal('close')
-          $(this).trigger('reset')
-          loadTable()
-        } else {
-          console.log(response)
-          alert(response.error)
-        }
-      }
-    }).always(function() {
-      $(this)
-        .find('input')
-        .prop('readonly', false)
-      $(this)
-        .find('button')
-        .prop('disabled', false)
-    })
-  })
 
   $('.btnUpload').click(function() {
     $('input[name=uploadExcel]').trigger('click')
@@ -224,6 +68,9 @@ function loadTable() {
   $.ajax({
     url: main_url + 'api/data',
     dataType: 'json',
+    data: {
+      filter: $('input[name=filter]').val()
+    },
     success: function({ role_id, data: response }) {
       dTable.clear()
       $.each(response, function(key, value) {
@@ -342,4 +189,140 @@ $('.generate-pdf').click(function() {
   $('input[name=data]')
     .closest('form')
     .trigger('submit')
+})
+
+$('form[name=frmAdd]').submit(function(e) {
+  e.preventDefault()
+
+  $(this)
+    .find('input')
+    .prop('readonly', true)
+  $(this)
+    .find('button')
+    .prop('disabled', true)
+
+  let authors = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=authors]')).chipsData, 'tag')
+  let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
+  let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
+
+  let form_data = {
+    authors: authors.join(','),
+    keywords: keywords.join(','),
+    category: category.join(',')
+  }
+
+  $(this)
+    .serializeArray()
+    .map(function(x) {
+      form_data[x.name] = x.value
+    })
+
+  $.ajax({
+    context: this,
+    url: api_url + 'data',
+    type: 'POST',
+    data: form_data,
+    dataType: 'json',
+    success: function(response) {
+      console.log(response)
+      if (response.success == true) {
+        alert('Added Successfully!')
+        $(this).trigger('reset')
+        loadChips('#addModal')
+        $('#addModal').modal('close')
+        loadTable()
+      } else {
+        console.log(response)
+        alert(response.error)
+      }
+    }
+  }).always(function() {
+    $(this)
+      .find('input')
+      .prop('readonly', false)
+    $(this)
+      .find('button')
+      .prop('disabled', false)
+  })
+})
+
+$('form[name=frmEdit]').submit(function(e) {
+  e.preventDefault()
+
+  $(this)
+    .find('input')
+    .prop('readonly', true)
+  $(this)
+    .find('button')
+    .prop('disabled', true)
+
+  let authors = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=authors]')).chipsData, 'tag')
+  let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
+  let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
+
+  let data = {
+    authors: authors.join(','),
+    keywords: keywords.join(','),
+    category: category.join(',')
+  }
+
+  $(this)
+    .serializeArray()
+    .map(function(x) {
+      data[x.name] = x.value
+    })
+
+  let form_data = new FormData()
+  $.each(data, function(key, value) {
+    form_data.append(key, value)
+  })
+
+  if (
+    $(this)
+      .find('input[name=file]')
+      .val()
+  ) {
+    form_data.append(
+      'file',
+      $(this)
+        .find('input[name=file]')
+        .prop('files')[0]
+    )
+  }
+
+  form_data.append('_method', 'PUT')
+
+  $.ajax({
+    context: this,
+    url:
+      api_url +
+      'data/' +
+      $(this)
+        .find('input[name=id]')
+        .val(),
+    type: 'POST',
+    data: form_data,
+    contentType: false,
+    processData: false,
+    dataType: 'json',
+    success: function(response) {
+      console.log(response)
+      if (response.success == true) {
+        alert('Updated Successfully!')
+        $('#editModal').modal('close')
+        $(this).trigger('reset')
+        loadTable()
+      } else {
+        console.log(response)
+        alert(response.error)
+      }
+    }
+  }).always(function() {
+    $(this)
+      .find('input')
+      .prop('readonly', false)
+    $(this)
+      .find('button')
+      .prop('disabled', false)
+  })
 })

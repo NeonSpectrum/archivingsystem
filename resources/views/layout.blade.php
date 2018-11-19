@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <title>Archiving System</title>
 </head>
-<body class="{{ Auth::user()->role ?? '' }}">
+<body class="{{ Auth::user()->role->name ?? '' }}">
   @yield("body")
 
   <script src="{{ asset('public/js/packages.js') }}?v={{ filemtime(public_path('js/packages.js')) }}"></script>

@@ -12,8 +12,12 @@
     <div id="admin" class="col s12">
       <div class="card material-table">
         <div class="table-header">
-          <span class="table-title">My Researches</span>
+          <span class="table-title">All Researches</span>
           <div class="actions">
+            @if(Auth::user()->role->name == "admin")
+              <a title="Download as PDF" class="generate-pdf modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_download</i></a>
+              <a title="Upload from Excel" href="#" class="btnUpload modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_upload</i></a>
+            @endif
             <a title="Add" href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
             <a title="Search" href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
           </div>

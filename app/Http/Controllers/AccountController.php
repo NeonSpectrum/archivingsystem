@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Logs;
 use App\Roles;
 use App\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller {
@@ -41,17 +43,28 @@ class AccountController extends Controller {
     $user->last_name  = $request->last_name;
     $user->role_id    = Roles::where('name', $request->college)->first()->id;
 
-    if ($user->save()) {
-      return response()->json(['success' => true]);
-    } else {
-      return response()->json(['success' => false, 'error' => 'Already Exists!']);
+    $role = \Auth::user()->role;
+
+    try {
+      if ($user->save()) {
+        Logs::create(['action' => $role->description . ' added an with username: ' . $user->username]);
+        return response()->json(['success' => true]);
+      } else {
+        return response()->json(['success' => false, 'error' => 'There was an error creating an account!']);
+      }
+    } catch (QueryException $e) {
+      $errorCode = $e->errorInfo[1];
+      if ($errorCode == 1062) {
+        return response()->json(['success' => false, 'error' => 'Already Exists!']);
+      } else {
+        return response()->json(['success' => false, 'error' => $e->getMessage()]);
+      }
     }
   }
   /**
    * @param Request $request
    */
   protected function edit($id, Request $request) {
-    $role = \Auth::user()->role_id;
 
     $user = User::find($id);
 
@@ -61,8 +74,11 @@ class AccountController extends Controller {
     $user->last_name  = $request->last_name;
     $user->role_id    = Roles::where('name', $request->college)->first()->id;
 
-    if ($role == 1 || $role != $user_role) {
+    $role = \Auth::user()->role;
+
+    if ($role->role_id == 1 || $role->role_id != $user->role_id) {
       if ($user->save()) {
+        Logs::create(['action' => $role->description . ' edited an account with username: ' . $user->username]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => $arr]);
@@ -77,10 +93,11 @@ class AccountController extends Controller {
   protected function delete($id, Request $request) {
     $user = User::find($id);
 
-    $role = \Auth::user()->role_id;
+    $role = \Auth::user()->role;
 
-    if ($role == 1 || $role != $user->role_id) {
+    if ($role->role_id == 1 || $role->role_id != $user->role_id) {
       if ($user->delete()) {
+        Logs::create(['action' => $role->description . ' deleted an account with username: ' . $user->username]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => 'Nothing changed!']);
@@ -88,7 +105,22 @@ class AccountController extends Controller {
     } else {
       return response()->json(['success' => false, 'error' => 'Forbidden']);
     }
-
   }
 
+  /**
+   * @param Request $request
+   */
+  protected function changePassword(Request $request) {
+    $user = User::find(\Auth::user()->id);
+
+    if (\Hash::check($request->old_password, $user->password)) {
+      $user->password = $request->new_password;
+      if ($user->save()) {
+        Logs::create(['action' => $user->username . ' changed password.']);
+        return response()->json(['success' => true]);
+      }
+    } else {
+      return response()->json(['success' => false, 'error' => 'Invalid Old Password']);
+    }
+  }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Data;
 use App\Imports\DataImport;
+use App\Logs;
 use App\Roles;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -15,7 +16,14 @@ class DataController extends Controller {
    * @param Request $request
    */
   protected function show(Request $request) {
-    return view('dashboard');
+    return \Auth::user()->role->name == 'admin' ? redirect()->route('dashboard.all') : view('dashboard', ['filter' => 'college']);
+  }
+
+  /**
+   * @param Request $request
+   */
+  protected function showAll(Request $request) {
+    return view('dashboard-all', ['filter' => 'all']);
   }
 
   /**
@@ -27,7 +35,11 @@ class DataController extends Controller {
       $rows          = Data::findOrFail($id);
       $rows->college = Roles::where('id', $rows->role_id)->first()->name;
     } else {
-      $rows = Data::all();
+      if ($request->filter == 'all') {
+        $rows = Data::all();
+      } else {
+        $rows = Data::where('role_id', \Auth::user()->role_id);
+      }
       foreach ($rows as $row) {
         $row->college = Roles::where('id', $row->role_id)->first()->name;
       }
@@ -43,7 +55,9 @@ class DataController extends Controller {
 
     $data = new Data;
 
-    $data->role_id           = Roles::where('name', $request->college)->first()->id;
+    $role = Roles::where('name', $request->college)->first();
+
+    $data->role_id           = $role->id;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
     $data->keywords          = $request->keywords;
@@ -62,6 +76,7 @@ class DataController extends Controller {
     }
 
     if ($data->save()) {
+      Logs::create(['action' => $role->description . ' added a research with ID: ' . $data->id]);
       return response()->json(['success' => true]);
     } else {
       return response()->json(['success' => false, 'error' => 'Nothing changed!']);
@@ -100,6 +115,7 @@ class DataController extends Controller {
 
     if ($role == 1) {
       if ($data->save()) {
+        Logs::create(['action' => $role->description . ' edited a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => $arr]);
@@ -118,6 +134,7 @@ class DataController extends Controller {
 
     if ($role == 1) {
       if ($data->delete()) {
+        Logs::create(['action' => $role->description . ' deleted a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => 'Nothing changed!']);

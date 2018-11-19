@@ -13,7 +13,7 @@ class CheckRole {
    * @return mixed
    */
   public function handle($request, Closure $next, $role) {
-    if ($role && \Auth::user()->role != $role) {
+    if ($role && \Auth::user()->role->name != $role) {
       return redirect()->route('dashboard');
     }
 

@@ -42,10 +42,6 @@ class User extends Authenticatable {
   }
 
   public function getRoleAttribute() {
-    return Roles::find(\Auth::user()->role_id)->name;
-  }
-
-  public function getLogoAttribute() {
-    return Roles::find(\Auth::user()->role_id)->logo;
+    return Roles::find(\Auth::user()->role_id);
   }
 }

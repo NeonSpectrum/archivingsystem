@@ -1,1 +1,124 @@
-function loadTable(){$.ajax({url:api_url+"user/",dataType:"json",success:function(e){dTable.clear(),$.each(e,function(e,t){t=_.mapObject(t,function(e){return _.escape(e)}),dTable.row.add([t.id,t.username,t.first_name,t.last_name,t.college,'\n            <button onclick="editData('+t.id+')" class="waves-effect waves-light btn btn-flat btnEdit">\n              <i class="material-icons">edit</i>\n            </button>\n            <button onclick="deleteData('+t.id+')" class="waves-effect waves-light btn btn-flat btnDelete">\n              <i class="material-icons">delete</i>\n            </button>\n          '])}),dTable.draw()}})}function editData(e){var t=$("#editAccountModal");t.find(".loader-container").show(),t.modal("open"),$.ajax({url:api_url+"user/"+e,dataType:"json",success:function(e){$("select[name=college]").val(e.role_id).formSelect(),t.find("input[name=id]").val(e.id),t.find("input[name=first_name]").val(e.first_name),t.find("input[name=last_name]").val(e.last_name),t.find(".loader-container").fadeOut()}})}function deleteData(e){confirm("Are you sure do you want to delete?")&&($(this).prop("disabled",!1),$.ajax({url:api_url+"user/"+e,type:"POST",data:{_method:"DELETE"},dataType:"json",success:function(e){e.success?(alert("Deleted Successfully!"),loadTable()):alert(e.error)}}))}$(document).ready(function(){window.dTable=$("#datatable").DataTable({oLanguage:{sStripClasses:"",sSearch:"",sSearchPlaceholder:"Enter Keywords Here",sInfo:"_START_ -_END_ of _TOTAL_",sLengthMenu:'<span>Rows per page:</span><select class="browser-default"><option value="10">10</option><option value="20">20</option><option value="30">30</option><option value="40">40</option><option value="50">50</option><option value="-1">All</option></select></div>'},bAutoWidth:!1,search:{smart:!1}}),loadTable()}),$("form[name=frmAddAccount]").submit(function(e){e.preventDefault(),$(this).find("input").prop("readonly",!0),$(this).find("button").prop("disabled",!0),$.ajax({context:this,url:api_url+"user/",type:"POST",data:$(this).serialize(),dataType:"json",success:function(e){console.log(e),1==e.success?(alert("Added Successfully!"),$(this).trigger("reset"),$("#addAccountModal").modal("close"),loadTable()):(console.log(e),alert(e.error))}}).always(function(){$(this).find("input").prop("readonly",!1),$(this).find("button").prop("disabled",!1)})}),$("form[name=frmEditAccount]").submit(function(e){e.preventDefault(),$(this).find("input").prop("readonly",!0),$(this).find("button").prop("disabled",!0),$.ajax({context:this,url:api_url+"user/"+$(this).find("input[name=id]").val(),type:"POST",data:$(this).serialize(),dataType:"json",success:function(e){console.log(e),1==e.success?(alert("Updated Successfully!"),$("#editAccountModal").modal("close"),$(this).trigger("reset"),loadTable()):(console.log(e),alert(e.error))}}).always(function(){$(this).find("input").prop("readonly",!1),$(this).find("button").prop("disabled",!1)})});
+$(document).ready(function () {
+  loadDatatable();
+  loadTable();
+});
+
+function loadTable() {
+  $.ajax({
+    url: api_url + 'user/',
+    dataType: 'json',
+    success: function success(response) {
+      dTable.clear();
+      $.each(response, function (key, value) {
+        value = _.mapObject(value, function (val) {
+          return _.escape(val);
+        });
+
+        dTable.row.add([value.id, value.username, value.first_name, value.last_name, value.college, '\n            <button onclick="editData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnEdit">\n              <i class="material-icons">edit</i>\n            </button>\n            <button onclick="deleteData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnDelete">\n              <i class="material-icons">delete</i>\n            </button>\n          ']);
+      });
+      dTable.draw();
+    }
+  });
+}
+
+function editData(id) {
+  var modal = $('#editAccountModal');
+
+  modal.find('.loader-container').show();
+  modal.modal('open');
+
+  $.ajax({
+    url: api_url + 'user/' + id,
+    dataType: 'json',
+    success: function success(response) {
+      $('select[name=college]').val(response.role_name).formSelect();
+
+      modal.find('input[name=id]').val(response.id);
+      modal.find('input[name=first_name]').val(response.first_name);
+      modal.find('input[name=last_name]').val(response.last_name);
+
+      modal.find('.loader-container').fadeOut();
+    }
+  });
+}
+
+function deleteData(id) {
+  if (!confirm('Are you sure do you want to delete?')) return;
+
+  $(this).prop('disabled', false);
+
+  $.ajax({
+    url: api_url + 'user/' + id,
+    type: 'POST',
+    data: { _method: 'DELETE' },
+    dataType: 'json',
+    success: function success(response) {
+      if (response.success) {
+        alert('Deleted Successfully!');
+        loadTable();
+      } else {
+        alert(response.error);
+      }
+    }
+  });
+}
+
+$('form[name=frmAddAccount]').submit(function (e) {
+  e.preventDefault();
+
+  $(this).find('input').prop('readonly', true);
+  $(this).find('button').prop('disabled', true);
+
+  $.ajax({
+    context: this,
+    url: api_url + 'user/',
+    type: 'POST',
+    data: $(this).serialize(),
+    dataType: 'json',
+    success: function success(response) {
+      console.log(response);
+      if (response.success == true) {
+        alert('Added Successfully!');
+        $(this).trigger('reset');
+        $('#addAccountModal').modal('close');
+        loadTable();
+      } else {
+        console.log(response);
+        alert(response.error);
+      }
+    }
+  }).always(function () {
+    $(this).find('input').prop('readonly', false);
+    $(this).find('button').prop('disabled', false);
+  });
+});
+
+$('form[name=frmEditAccount]').submit(function (e) {
+  e.preventDefault();
+
+  $(this).find('input').prop('readonly', true);
+  $(this).find('button').prop('disabled', true);
+
+  $.ajax({
+    context: this,
+    url: api_url + 'user/' + $(this).find('input[name=id]').val(),
+    type: 'POST',
+    data: $(this).serialize(),
+    dataType: 'json',
+    success: function success(response) {
+      console.log(response);
+      if (response.success == true) {
+        alert('Updated Successfully!');
+        $('#editAccountModal').modal('close');
+        $(this).trigger('reset');
+        loadTable();
+      } else {
+        console.log(response);
+        alert(response.error);
+      }
+    }
+  }).always(function () {
+    $(this).find('input').prop('readonly', false);
+    $(this).find('button').prop('disabled', false);
+  });
+});

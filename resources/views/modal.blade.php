@@ -3,7 +3,7 @@
     <div class="modal-content">
       <h4>Add</h4>
       <div class="row">
-        @if(Auth::user()->role == "admin")
+        @if(Auth::user()->role->name == "admin")
           <div class="input-field col s12">
             <p class="caption">College</p>
             <select name="college">
@@ -69,7 +69,7 @@
     </div>
   </form>
 </div>
- <div id="editModal" class="modal modal-fixed-footer">
+<div id="editModal" class="modal modal-fixed-footer">
   <form name="frmEdit">
     <input type="hidden" name="id" disabled>
     <div class="modal-content">
@@ -143,6 +143,31 @@
           <div class="file-path-wrapper">
             <input class="file-path validate" type="text" placeholder="Select a PDF file">
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="modal-close waves-effect waves-green btn-flat">Close</button>
+      <button type="submit" class="waves-effect waves-green btn-flat">Save</button>
+    </div>
+  </form>
+</div>
+<div id="changePasswordModal" class="modal modal-fixed-footer">
+  <form name="frmChangePassword">
+    <div class="modal-content">
+      <h4>Change Password</h4>
+      <div class="row">
+        <div class="input-field col s12">
+          <p class="caption">Old Password</p>
+          <input name="old_password" type="password" class="validate" placeholder="Enter old password">
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">New Password</p>
+          <input name="new_password" type="password" class="validate" placeholder="Enter new password">
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Verify New Password</p>
+          <input name="v_new_password" type="password" class="validate" placeholder="Enter new password again">
         </div>
       </div>
     </div>

@@ -291,3 +291,34 @@ td.dataTables_empty {
   border-bottom: 1px solid #00e676 !important;
   box-shadow: 0 1px 0 0 #00e676 !important;
 }
+
+nav {
+  background-color: rgba(255, 255, 255, 0.97);
+}
+
+nav ul a {
+  color: #757575;
+}
+
+.dropdown-content li > a,
+.dropdown-content li > span {
+  color: #757575;
+}
+
+@media only screen and (min-width: 601px) {
+  nav,
+  nav .nav-wrapper i,
+  nav a.sidenav-trigger,
+  nav a.sidenav-trigger i {
+    height: 70px;
+    line-height: 70px;
+  }
+
+  nav,
+  nav .nav-wrapper i,
+  nav a.sidenav-trigger,
+  nav a.sidenav-trigger i {
+    height: 70px;
+    line-height: 70px;
+  }
+}

@@ -19,7 +19,7 @@
               <a title="Upload from Excel" href="#" class="btnUpload modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_upload</i></a>
             @endif
             <a title="Add" href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
-            <a title="Search" href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
+            <a title="Search" href="javascript:void(0)" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
           </div>
           <input type="file" name="uploadExcel" style="display:none">
           <form action="{{ url('pdf') }}" method="POST" target="_blank">

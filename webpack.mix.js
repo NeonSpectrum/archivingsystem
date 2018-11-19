@@ -27,6 +27,6 @@ mix.combine(
   ],
   'public/js/packages.js'
 )
-mix.combine(['resources/js/dt-custom.js', 'resources/js/script.js'], 'public/js/app.js')
+mix.babel(['resources/js/dt-custom.js', 'resources/js/script.js'], 'public/js/app.js')
 mix.babel(['resources/js/data.js'], 'public/js/data.js')
 mix.babel(['resources/js/account.js'], 'public/js/account.js')

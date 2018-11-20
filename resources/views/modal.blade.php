@@ -14,7 +14,7 @@
               </select>
             </div>
           @else
-            <input type="hidden" name="college" value="{{Auth::user()->role}}">
+            <input type="hidden" name="college" value="{{Auth::user()->role->id}}">
           @endif
           <div class="input-field col s12">
             <p class="caption">Title</p>

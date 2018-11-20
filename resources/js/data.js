@@ -84,6 +84,7 @@ function loadTable() {
         })
 
         buttonsEnabled = false
+        deleteEnabled = true
 
         if (filter == 'all' && config.isSuperAdmin) {
           buttonsEnabled = true
@@ -91,6 +92,10 @@ function loadTable() {
           buttonsEnabled = true
         } else if (filter == 'my') {
           buttonsEnabled = true
+        }
+
+        if (!config.isAdmin && !config.isSuperAdmin) {
+          deleteEnabled = false
         }
 
         dTable.row.add([
@@ -122,10 +127,13 @@ function loadTable() {
               ? `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
               <i class="material-icons">edit</i>
-            </button>
+            </button>` +
+                (deleteEnabled
+                  ? `
             <button onclick="deleteData(${value.id})" class="waves-effect waves-light btn btn-flat btnDelete">
               <i class="material-icons">delete</i>
             </button>`
+                  : '')
               : '')
         ])
       })

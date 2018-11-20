@@ -8,7 +8,9 @@
       @if(!Auth::user()->isAdmin)
         <li><a href="{{ url('/') }}">My Researches</a></li>
       @endif
-      <li><a href="{{ url('college') }}">College Researches</a></li>
+      @if(!Auth::user()->isSuperAdmin)
+        <li><a href="{{ url('college') }}">College Researches</a></li>
+      @endif
       <li><a href="{{ url('all') }}">All Researches</a></li>
       @if(Auth::user()->isAdmin)
         <li><a href="{{ url('accounts') }}">Accounts</a></li>

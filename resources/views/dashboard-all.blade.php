@@ -14,11 +14,11 @@
         <div class="table-header">
           <span class="table-title">All Researches</span>
           <div class="actions">
-            @if(Auth::user()->role->name == "admin")
+            @if(Auth::user()->isAdmin)
               <a title="Download as PDF" class="generate-pdf modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_download</i></a>
               <a title="Upload from Excel" href="#" class="btnUpload modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">file_upload</i></a>
+              <a title="Add" href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
             @endif
-            <a title="Add" href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
             <a title="Search" href="javascript:void(0)" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
           </div>
           <input type="file" name="uploadExcel" style="display:none">

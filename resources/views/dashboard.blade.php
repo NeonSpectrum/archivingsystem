@@ -14,7 +14,9 @@
         <div class="table-header">
           <span class="table-title">My Researches</span>
           <div class="actions">
-            <a title="Add" href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
+            @if(Auth::user()->isAdmin)
+              <a title="Add" href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
+            @endif
             <a title="Search" href="javascript:void(0)" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
           </div>
           <input type="file" name="uploadExcel" style="display:none">

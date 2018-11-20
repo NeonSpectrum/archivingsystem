@@ -89,7 +89,7 @@ class AccountController extends Controller {
 
     $role = \Auth::user()->role;
 
-    if ($role->role_id == 1 || $role->role_id != $user->adminRoleId) {
+    if (\Auth::user()->isSuperAdmin || $role->role_id != $user->adminRoleId) {
       if ($user->save()) {
         Logs::create(['action' => $role->description . ' edited an account with username: ' . $user->username]);
         return response()->json(['success' => true]);
@@ -108,7 +108,7 @@ class AccountController extends Controller {
 
     $role = \Auth::user()->role;
 
-    if ($role->role_id == 1 || $role->role_id != $user->adminRoleId) {
+    if (\Auth::user()->isSuperAdmin || $role->role_id != $user->adminRoleId) {
       if ($user->delete()) {
         Logs::create(['action' => $role->description . ' deleted an account with username: ' . $user->username]);
         return response()->json(['success' => true]);

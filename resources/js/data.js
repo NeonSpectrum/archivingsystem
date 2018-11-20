@@ -71,12 +71,22 @@ function loadTable() {
     url: main_url + 'api/data',
     dataType: 'json',
     data: { filter },
-    success: function({ isAdmin, role_id, data: response }) {
+    success: function({ isSuperAdmin, isAdmin, role_id, data: response }) {
       dTable.clear()
       $.each(response, function(id, value) {
         value = _.mapObject(value, function(val) {
           return _.escape(val)
         })
+
+        buttonsEnabled = false
+
+        if (filter == 'all' && isSuperAdmin) {
+          buttonsEnabled = true
+        } else if ($filter == 'college' && isAdmin) {
+          buttonsEnabled = true
+        } else if ($filter == 'my') {
+          buttonsEnabled = true
+        }
 
         dTable.row.add([
           filter == 'all' ? value.college.toUpperCase() : id + 1,
@@ -103,7 +113,7 @@ function loadTable() {
                     <i class="material-icons">pageview</i>
                   </button>`
               : '') +
-            (isAdmin || role_id == response.role_id
+            (buttonsEnabled
               ? `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
               <i class="material-icons">edit</i>

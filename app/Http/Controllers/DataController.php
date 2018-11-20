@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Data;
+use App\Exports\DataExport;
 use App\Imports\DataImport;
 use App\Logs;
 use App\Roles;
@@ -209,9 +210,9 @@ class DataController extends Controller {
       return response()->json(['success' => false, 'error' => 'Forbidden']);
     }
   }
-/**
- * @param Request $request
- */
+  /**
+   * @param Request $request
+   */
   protected function delete($id, Request $request) {
     $data = Data::find($id);
 
@@ -230,9 +231,9 @@ class DataController extends Controller {
 
   }
 
-/**
- * @param Request $request
- */
+  /**
+   * @param Request $request
+   */
   protected function upload(Request $request) {
     try {
       Excel::import(new DataImport, $request->file);
@@ -242,17 +243,17 @@ class DataController extends Controller {
     }
   }
 
-/**
- * @return mixed
- */
+  /**
+   * @return mixed
+   */
   protected function pdf(Request $request) {
 
-    if ($request->data) {
-      $request->data = json_decode($request->data);
+    if ($request->pdf_data) {
+      $request->pdf_data = json_decode($request->pdf_data);
 
       $data = [];
 
-      foreach ($request->data as $id => $value) {
+      foreach ($request->pdf_data as $id => $value) {
         if (!isset($value[1])) {
           break;
         }
@@ -275,5 +276,37 @@ class DataController extends Controller {
     $pdf = \PDF::loadView('pdf', ['data' => $data])->setPaper('a4', 'landscape');
 
     return $pdf->stream();
+  }
+  /**
+   * @param Request $request
+   * @return mixed
+   */
+  protected function excel(Request $request) {
+    if ($request->excel_data) {
+      $request->excel_data = json_decode($request->excel_data);
+
+      $data = [];
+
+      foreach ($request->excel_data as $id => $value) {
+        if (!isset($value[1])) {
+          break;
+        }
+
+        $data[$id]                    = new \stdClass();
+        $data[$id]->title             = $value[1];
+        $data[$id]->authors           = $value[2];
+        $data[$id]->keywords          = $value[3];
+        $data[$id]->category          = $value[4];
+        $data[$id]->publisher         = $value[5];
+        $data[$id]->proceeding_date   = $value[6];
+        $data[$id]->presentation_date = $value[7];
+        $data[$id]->publication_date  = $value[8];
+        $data[$id]->note              = $value[9];
+      }
+    } else {
+      $data = \DB::table('data')->get();
+    }
+
+    return \Excel::download(new DataExport($data), date('F_d_Y_h_i_s_A') . ' Archiving System Report.xlsx');
   }
 }

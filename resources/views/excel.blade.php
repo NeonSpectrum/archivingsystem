@@ -1,24 +1,7 @@
-<title>Archiving System Data</title>
-<style>
-  th {
-    text-align: center;
-  }
-  th, td {
-    padding: 5px;
-  }
-</style>
-
-<center>
-  <img src="{{ asset('public/img/logo/ue.png') }}" alt="" height="65px" style="padding:5px 5px 0">
-  @if(!Auth::user()->isSuperAdmin)
-    <img src="{{ asset('public/img/logo/' . Auth::user()->role->logo) }}" alt="" height="65px" style="padding:5px 5px 0">
-  @endif
-</center>
-<br>
-<table border="1" cellspacing="0" width="100%">
+<table>
   <thead>
     <tr>
-      <th style="text-align:center">ID</th>
+      <th>ID</th>
       <th>Title</th>
       <th>Authors</th>
       <th>Keywords</th>
@@ -33,8 +16,8 @@
   <tbody>
     @foreach($data as $id => $row)
       <tr>
-        <td style="text-align:center">{{ $id + 1 }}</td>
-        <td>{!! $row->title !!}</td>
+        <td>{{ $id + 1 }}</td>
+        <td>{{ $row->title }}</td>
         <td>{!! $row->authors !!}</td>
         <td>{{ $row->keywords }}</td>
         <td>{{ $row->category }}</td>

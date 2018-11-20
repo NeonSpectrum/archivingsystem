@@ -213,10 +213,19 @@ function deleteData(id) {
 }
 
 $('.generate-pdf').click(function() {
-  if ($('input[name=search]').val()) {
-    $('input[name=data]').val(JSON.stringify(Object.values(dTable.rows({ filter: 'applied' }).data())))
+  if ($('input[type=search]').val()) {
+    $('input[name=pdf_data]').val(JSON.stringify(Object.values(dTable.rows({ filter: 'applied' }).data())))
   }
-  $('input[name=data]')
+  $('input[name=pdf_data]')
+    .closest('form')
+    .trigger('submit')
+})
+
+$('.generate-excel').click(function() {
+  if ($('input[type=search]').val()) {
+    $('input[name=excel_data]').val(JSON.stringify(Object.values(dTable.rows({ filter: 'applied' }).data())))
+  }
+  $('input[name=excel_data]')
     .closest('form')
     .trigger('submit')
 })

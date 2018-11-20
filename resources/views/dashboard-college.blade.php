@@ -15,6 +15,8 @@
           <span class="table-title">College Researches</span>
           <div class="actions">
             @if(Auth::user()->isAdmin)
+              <a title="Download as PDF" class="generate-pdf modal-trigger waves-effect btn-flat nopadding"><i class="material-icons left">insert_drive_file</i>PDF</a>
+              <a title="Download as Excel" class="generate-excel btnUpload modal-trigger waves-effect btn-flat nopadding"><i class="material-icons left">assessment</i>Excel</a>
               <a title="Add" href="#addModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
             @endif
             <a title="Search" href="javascript:void(0)" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
@@ -22,7 +24,11 @@
           <input type="file" name="uploadExcel" style="display:none">
           <form action="{{ url('pdf') }}" method="POST" target="_blank">
             @csrf
-            <input type="hidden" name="data">
+            <input type="hidden" name="pdf_data">
+          </form>
+          <form action="{{ url('excel') }}" method="POST" target="_blank">
+            @csrf
+            <input type="hidden" name="excel_data">
           </form>
         </div>
         <table id="datatable">

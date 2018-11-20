@@ -68,16 +68,19 @@ class DataController extends Controller {
    */
   protected function add(Request $request) {
     $pdf_file         = $request->pdf_file;
-    $pdf_mime         = $pdf_file->getMimeType();
     $certificate_file = $request->certificate_file;
-    $certificate_mime = $certificate_file->getMimeType();
 
-    if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') !== 0) {
-      $error[] = 'Upload PDF contains an invalid format.';
+    if ($pdf_file) {
+      $pdf_mime = $pdf_file->getMimeType();
+      if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') !== 0) {
+        $error[] = 'Upload PDF contains an invalid format.';
+      }
     }
-
-    if (substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') !== 0) {
-      $error[] = 'Upload Certificate contains an invalid format.';
+    if ($certificate_file) {
+      $certificate_mime = $certificate_file->getMimeType();
+      if (substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') !== 0) {
+        $error[] = 'Upload Certificate contains an invalid format.';
+      }
     }
 
     if (count($error) > 0) {
@@ -133,16 +136,19 @@ class DataController extends Controller {
    */
   protected function edit($id, Request $request) {
     $pdf_file         = $request->pdf_file;
-    $pdf_mime         = $pdf_file->getMimeType();
     $certificate_file = $request->certificate_file;
-    $certificate_mime = $certificate_file->getMimeType();
 
-    if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') !== 0) {
-      $error[] = 'Upload PDF contains an invalid format.';
+    if ($pdf_file) {
+      $pdf_mime = $pdf_file->getMimeType();
+      if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') !== 0) {
+        $error[] = 'Upload PDF contains an invalid format.';
+      }
     }
-
-    if (substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') !== 0) {
-      $error[] = 'Upload Certificate contains an invalid format.';
+    if ($certificate_file) {
+      $certificate_mime = $certificate_file->getMimeType();
+      if (substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') !== 0) {
+        $error[] = 'Upload Certificate contains an invalid format.';
+      }
     }
 
     if (count($error) > 0) {

@@ -64,14 +64,15 @@ function loadChips(element = 'body') {
     })
 }
 
-function loadTable() {
+async function loadTable() {
   let filter = $('input[name=filter]').val()
+  let config = await getConfig()
 
   $.ajax({
     url: main_url + 'api/data',
     dataType: 'json',
     data: { filter },
-    success: function({ isSuperAdmin, isAdmin, role_id, data: response }) {
+    success: function(response) {
       dTable.clear()
       $.each(response, function(id, value) {
         value = _.mapObject(value, function(val) {
@@ -80,9 +81,9 @@ function loadTable() {
 
         buttonsEnabled = false
 
-        if (filter == 'all' && isSuperAdmin) {
+        if (filter == 'all' && config.isSuperAdmin) {
           buttonsEnabled = true
-        } else if (filter == 'college' && isAdmin) {
+        } else if (filter == 'college' && config.isAdmin) {
           buttonsEnabled = true
         } else if (filter == 'my') {
           buttonsEnabled = true

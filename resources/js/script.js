@@ -1,10 +1,6 @@
 const main_url = $('base').attr('href')
 const api_url = $('base').attr('href') + 'api/'
 
-$.getJSON(api_url + 'user/config', null, function(response) {
-  const config = response
-})
-
 $(document).ready(function() {
   $.ajaxSetup({
     headers: {
@@ -127,3 +123,7 @@ $('form[name=frmChangePassword]').submit(function(e) {
         .prop('disabled', false)
     })
 })
+
+async function getConfig() {
+  return await $.getJSON(api_url + 'user/config')
+}

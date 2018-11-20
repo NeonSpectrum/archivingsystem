@@ -64,9 +64,12 @@ function loadChips(element = 'body') {
     })
 }
 
-async function loadTable() {
+function loadTable() {
   let filter = $('input[name=filter]').val()
-  let config = await getConfig()
+
+  getConfig(function(data) {
+    var config = data
+  })
 
   $.ajax({
     url: main_url + 'api/data',

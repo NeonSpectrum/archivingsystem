@@ -124,6 +124,8 @@ $('form[name=frmChangePassword]').submit(function(e) {
     })
 })
 
-async function getConfig() {
-  return await $.getJSON(api_url + 'user/config')
+function getConfig(cb) {
+  $.getJSON(api_url + 'user/config', null, function(response) {
+    cb(response)
+  })
 }

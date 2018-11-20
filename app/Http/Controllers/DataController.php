@@ -61,7 +61,7 @@ class DataController extends Controller {
       }
     }
 
-    return response()->json(['isSuperAdmin' => \Auth::user()->isSuperAdmin, 'isAdmin' => \Auth::user()->isAdmin, 'role_id' => \Auth::user()->role_id, 'data' => $rows]);
+    return response()->json($rows);
   }
   /**
    * @param Request $request

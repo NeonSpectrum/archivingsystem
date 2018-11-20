@@ -6,7 +6,7 @@
   th, td {
     padding: 5px;
   }
-  h1 {
+  h2 {
     margin: 0;
   }
 </style>
@@ -16,9 +16,9 @@
   @if(!Auth::user()->isSuperAdmin)
     <img src="{{ asset('public/img/logo/' . Auth::user()->role->logo) }}" alt="" height="65px" style="padding:5px 5px 0">
   @endif
-  <h1>University of the East</h1>
+  <h2>University of the East</h2>
   @if(!Auth::user()->isSuperAdmin)
-    <h3>{{ Auth::user()->role->description }}</h3>
+    <small>{{ Auth::user()->memberRole->description }}</small>
   @endif
 </center>
 <br>

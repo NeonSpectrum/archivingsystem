@@ -11,12 +11,17 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class DataController extends Controller {
-
   /**
    * @param Request $request
    */
   protected function show(Request $request) {
-    return \Auth::user()->isAdmin ? redirect()->route('dashboard.all') : view('dashboard', ['filter' => 'my']);
+    if (\Auth::user()->isSuperAdmin) {
+      return redirect()->route('dashboard.all');
+    } else if (\Auth::user()->isAdmin) {
+      return redirect()->route('dashboard.college');
+    } else {
+      return view('dashboard', ['filter' => 'my']);
+    }
   }
 
   /**

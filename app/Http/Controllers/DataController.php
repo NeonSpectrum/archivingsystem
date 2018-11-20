@@ -45,11 +45,11 @@ class DataController extends Controller {
       if ($request->filter == 'all') {
         $rows = Data::all();
       } else if ($request->filter == 'college') {
-        $rows = Data::where('role_id', \Auth::user()->role_id);
+        $rows = Data::where('role_id', \Auth::user()->role_id)->get();
       } else if ($request->filter == 'my') {
         $rows = Data::where([
           ['authors', 'like', '%' . \Auth::user()->name . '%']
-        ]);
+        ])->get();
       }
       foreach ($rows as $row) {
         $row->college = Roles::where('id', $row->role_id)->first()->name;

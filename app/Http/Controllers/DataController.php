@@ -197,9 +197,10 @@ class DataController extends Controller {
       $data->certificate_file_name = $filename;
     }
 
-    $role = \Auth::user()->role;
+    $user = \Auth::user();
+    $role = $user->role;
 
-    if ($data->isResearchOwner) {
+    if ($user->isSuperAdmin || $user->isAdmin || $data->isResearchOwner) {
       if ($data->save()) {
         Logs::create(['action' => $role->description . ' edited a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);
@@ -216,9 +217,10 @@ class DataController extends Controller {
   protected function delete($id, Request $request) {
     $data = Data::find($id);
 
-    $role = \Auth::user()->role_id;
+    $user = \Auth::user();
+    $role = $user->role;
 
-    if ($data->isResearchOwner) {
+    if ($user->isSuperAdmin || $user->isAdmin || $data->isResearchOwner) {
       if ($data->delete()) {
         Logs::create(['action' => $role->description . ' deleted a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);

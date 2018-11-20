@@ -1,6 +1,10 @@
 const main_url = $('base').attr('href')
 const api_url = $('base').attr('href') + 'api/'
 
+$.getJSON(api_url + 'user/config', null, function(response) {
+  const config = response
+})
+
 $(document).ready(function() {
   $.ajaxSetup({
     headers: {

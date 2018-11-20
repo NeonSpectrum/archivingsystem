@@ -21,11 +21,12 @@ Route::group(['prefix' => 'data'], function () {
   Route::post('upload', 'DataController@upload');
 });
 Route::group(['prefix' => 'user'], function () {
+  Route::post('changepassword', 'AccountController@changePassword');
+  Route::get('config', 'AccountController@config');
   Route::group(['middleware' => 'role:admin'], function () {
     Route::get('{id?}', 'AccountController@get');
     Route::post('/', 'AccountController@add');
     Route::put('{id}', 'AccountController@edit');
     Route::delete('{id}', 'AccountController@delete');
   });
-  Route::post('changepassword', 'AccountController@changePassword');
 });

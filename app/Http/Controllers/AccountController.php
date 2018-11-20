@@ -136,4 +136,14 @@ class AccountController extends Controller {
       return response()->json(['success' => false, 'error' => 'Invalid Old Password']);
     }
   }
+
+  protected function config() {
+    $user = \Auth::user();
+
+    return [
+      'role_id'      => $user->role_id,
+      'isSuperAdmin' => $user->isSuperAdmin,
+      'isAdmin'      => $user->isAdmin
+    ];
+  }
 }

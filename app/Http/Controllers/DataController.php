@@ -98,7 +98,7 @@ class DataController extends Controller {
     }
 
     if (!\Auth::user()->isAdmin) {
-      $request->authors = join(',', array_merge([Auth::user()->name], explode(',', $request->authors)));
+      $request->authors = join(',', array_merge([\Auth::user()->name], explode(',', $request->authors)));
     }
 
     $data->role_id           = $role->id;

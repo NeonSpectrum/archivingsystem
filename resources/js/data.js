@@ -103,7 +103,7 @@ function loadTable() {
                     <i class="material-icons">pageview</i>
                   </button>`
               : '') +
-            (role_id == response.role_id
+            (isAdmin || role_id == response.role_id
               ? `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
               <i class="material-icons">edit</i>

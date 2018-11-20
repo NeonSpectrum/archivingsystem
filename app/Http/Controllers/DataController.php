@@ -91,7 +91,11 @@ class DataController extends Controller {
 
     $data = new Data;
 
-    $role = Roles::where('name', $request->college)->first();
+    if ($request->college) {
+      $role = Roles::where('name', $request->college)->first();
+    } else {
+      $role = \Auth::user()->memberRoleId;
+    }
 
     if (!\Auth::user()->isAdmin) {
       $request->authors = join(',', array_merge([Auth::user()->name], explode(',', $request->authors)));
@@ -159,11 +163,17 @@ class DataController extends Controller {
       return response()->json(['success' => false, 'error' => join(' ', $error)]);
     }
 
+    if ($request->college) {
+      $role = Roles::where('name', $request->college)->first();
+    } else {
+      $role = \Auth::user()->memberRoleId;
+    }
+
     $data = Data::find($id);
 
     $data_role = $data->role_id;
 
-    $data->role_id           = Roles::where('name', $request->college)->first()->id;
+    $data->role_id           = $role;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
     $data->keywords          = $request->keywords;

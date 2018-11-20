@@ -42,7 +42,15 @@ class User extends Authenticatable {
   }
 
   public function getNameAttribute() {
-    return "{$this->first_name} {$this->middle_initial} {$this->last_name}";
+    $name[] = $this->first_name;
+
+    if ($this->middle_initial) {
+      $name[] = $this->middle_initial;
+    }
+
+    $name[] = $this->last_name;
+
+    return join(' ', $name);
   }
 
   public function getRoleAttribute() {

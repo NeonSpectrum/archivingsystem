@@ -30,7 +30,7 @@
         <table id="datatable">
           <thead>
             <tr>
-              <th width="5%">ID</th>
+              <th width="5%">College</th>
               <th>Title</th>
               <th>Authors</th>
               <th>Keywords</th>

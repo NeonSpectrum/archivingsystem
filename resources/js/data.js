@@ -65,12 +65,12 @@ function loadChips(element = 'body') {
 }
 
 function loadTable() {
+  let filter = $('input[name=filter]').val()
+
   $.ajax({
     url: main_url + 'api/data',
     dataType: 'json',
-    data: {
-      filter: $('input[name=filter]').val()
-    },
+    data: { filter },
     success: function({ isAdmin, role_id, data: response }) {
       dTable.clear()
       $.each(response, function(id, value) {
@@ -79,7 +79,7 @@ function loadTable() {
         })
 
         dTable.row.add([
-          id + 1,
+          filter == 'all' ? value.college : id + 1,
           value.title,
           (value.authors || '').replace(/,/g, '<br>'),
           (value.keywords || '').replace(/,/g, ', '),

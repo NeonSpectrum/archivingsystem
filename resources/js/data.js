@@ -71,7 +71,7 @@ function loadTable() {
     data: {
       filter: $('input[name=filter]').val()
     },
-    success: function({ isAdmin, data: response }) {
+    success: function({ isAdmin, role_id, data: response }) {
       dTable.clear()
       $.each(response, function(id, value) {
         value = _.mapObject(value, function(val) {
@@ -103,7 +103,7 @@ function loadTable() {
                     <i class="material-icons">pageview</i>
                   </button>`
               : '') +
-            (isAdmin
+            (role_id == response.role_id
               ? `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
               <i class="material-icons">edit</i>

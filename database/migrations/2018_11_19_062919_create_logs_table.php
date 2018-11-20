@@ -15,6 +15,7 @@ class CreateLogsTable extends Migration {
       $table->increments('id');
       $table->string('username');
       $table->string('action');
+      $table->string('ip_address');
       $table->timestamps();
     });
   }

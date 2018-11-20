@@ -212,6 +212,10 @@ $('form[name=frmAdd]').submit(function(e) {
   let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
   let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
 
+  if (authors.length == 0) {
+    return alert('Please enter an author.')
+  }
+
   let form_data = {
     authors: authors.join(','),
     keywords: keywords.join(','),

@@ -112,11 +112,15 @@ class DataController extends Controller {
       $data->certificate_file_name = $filename;
     }
 
-    if ($data->save()) {
-      Logs::create(['action' => $role->description . ' added a research with ID: ' . $data->id]);
-      return response()->json(['success' => true]);
+    if (\Auth::user()->isAdmin) {
+      if ($data->save()) {
+        Logs::create(['action' => $role->description . ' added a research with ID: ' . $data->id]);
+        return response()->json(['success' => true]);
+      } else {
+        return response()->json(['success' => false, 'error' => 'Nothing changed!']);
+      }
     } else {
-      return response()->json(['success' => false, 'error' => 'Nothing changed!']);
+      return response()->json(['success' => false, 'error' => 'Forbidden']);
     }
   }
   /**
@@ -169,9 +173,9 @@ class DataController extends Controller {
       $data->certificate_file_name = $filename;
     }
 
-    $role = \Auth::user()->role_id;
+    $role = \Auth::user()->role;
 
-    if ($role == 1) {
+    if (\Auth::user()->isAdmin) {
       if ($data->save()) {
         Logs::create(['action' => $role->description . ' edited a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);
@@ -190,7 +194,7 @@ class DataController extends Controller {
 
     $role = \Auth::user()->role_id;
 
-    if ($role == 1) {
+    if (\Auth::user()->isAdmin) {
       if ($data->delete()) {
         Logs::create(['action' => $role->description . ' deleted a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);

@@ -151,7 +151,7 @@ function editData(id) {
   $.ajax({
     url: main_url + 'api/data/' + id,
     dataType: 'json',
-    success: function({ data: response }) {
+    success: function(response) {
       loadChips(modal)
 
       $('select[name=college]')

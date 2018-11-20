@@ -70,6 +70,8 @@ class DataController extends Controller {
     $pdf_file         = $request->pdf_file;
     $certificate_file = $request->certificate_file;
 
+    $error = [];
+
     if ($pdf_file) {
       $pdf_mime = $pdf_file->getMimeType();
       if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') !== 0) {
@@ -137,6 +139,8 @@ class DataController extends Controller {
   protected function edit($id, Request $request) {
     $pdf_file         = $request->pdf_file;
     $certificate_file = $request->certificate_file;
+
+    $error = [];
 
     if ($pdf_file) {
       $pdf_mime = $pdf_file->getMimeType();

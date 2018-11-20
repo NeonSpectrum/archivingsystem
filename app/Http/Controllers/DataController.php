@@ -272,7 +272,11 @@ class DataController extends Controller {
         $data[$id]->note              = $value[9];
       }
     } else {
-      $data = \DB::table('data')->where('role_id', \Auth::user()->memberRole->id)->get();
+      if (\Auth::user()->isSuperAdmin) {
+        $data = Data::all();
+      } else {
+        $data = Data::where('role_id', \Auth::user()->memberRole->id)->get();
+      }
     }
 
     $pdf = \PDF::loadView('pdf', ['data' => $data])->setPaper('a4', 'landscape');
@@ -306,7 +310,11 @@ class DataController extends Controller {
         $data[$id]->note              = $value[9];
       }
     } else {
-      $data = \DB::table('data')->where('role_id', \Auth::user()->memberRole->id)->get();
+      if (\Auth::user()->isSuperAdmin) {
+        $data = Data::all();
+      } else {
+        $data = Data::where('role_id', \Auth::user()->memberRole->id)->get();
+      }
     }
 
     return \Excel::download(new DataExport($data), date('F_d_Y_h_i_s_A') . ' Archiving System Report.xlsx');

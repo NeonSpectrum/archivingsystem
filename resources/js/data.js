@@ -79,7 +79,7 @@ function loadTable() {
         })
 
         dTable.row.add([
-          filter == 'all' ? value.college : id + 1,
+          filter == 'all' ? value.college.toUpperCase() : id + 1,
           value.title,
           (value.authors || '').replace(/,/g, '<br>'),
           (value.keywords || '').replace(/,/g, ', '),

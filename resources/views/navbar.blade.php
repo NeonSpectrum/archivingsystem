@@ -17,6 +17,8 @@
       @if(Auth::user()->isAdmin)
         <li><a href="{{ url('accounts') }}">Accounts</a></li>
         <li><a href="{{ url('reports') }}">Reports</a></li>
+      @endif
+      @if(!Auth::user()->isSuperAdmin)
         <li><a href="{{ url('logs') }}">Logs</a></li>
       @endif
       <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Hi, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<i class="material-icons right">arrow_drop_down</i></a></li>

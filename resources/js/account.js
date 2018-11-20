@@ -9,16 +9,15 @@ function loadTable() {
     dataType: 'json',
     success: function(response) {
       dTable.clear()
-      $.each(response, function(key, value) {
+      $.each(response, function(id, value) {
         value = _.mapObject(value, function(val) {
           return _.escape(val)
         })
 
         dTable.row.add([
-          value.id,
+          id + 1,
           value.username,
-          value.first_name,
-          value.last_name,
+          value.first_name + ' ' + value.middle_initial + ' ' + value.last_name,
           value.college,
           `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">

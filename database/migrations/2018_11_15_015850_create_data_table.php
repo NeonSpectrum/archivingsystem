@@ -24,7 +24,8 @@ class CreateDataTable extends Migration {
       $table->string('presentation_date')->nullable();
       $table->string('publication_date')->nullable();
       $table->string('note')->nullable();
-      $table->string('file_name')->nullable();
+      $table->string('pdf_file_name')->nullable();
+      $table->string('certificate_file_name')->nullable();
       $table->timestamps();
       $table->softDeletes();
     });

@@ -5,12 +5,14 @@
       <img src="{{ asset('public/img/logo/' . Auth::user()->role->logo) }}" alt="" height="65px" style="padding:5px 5px 0">
     </div>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      @if(Auth::user()->role->name != "admin")
+      @if(!Auth::user()->isAdmin)
         <li><a href="{{ url('/') }}">My Researches</a></li>
       @endif
+      <li><a href="{{ url('college') }}">College Researches</a></li>
       <li><a href="{{ url('all') }}">All Researches</a></li>
-      @if(Auth::user()->role->name == "admin")
+      @if(Auth::user()->isAdmin)
         <li><a href="{{ url('accounts') }}">Accounts</a></li>
+        <li><a href="{{ url('reports') }}">Reports</a></li>
         <li><a href="{{ url('logs') }}">Logs</a></li>
       @endif
       <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Hi, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}<i class="material-icons right">arrow_drop_down</i></a></li>

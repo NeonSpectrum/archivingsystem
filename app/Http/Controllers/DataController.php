@@ -16,7 +16,14 @@ class DataController extends Controller {
    * @param Request $request
    */
   protected function show(Request $request) {
-    return \Auth::user()->role->name == 'admin' ? redirect()->route('dashboard.all') : view('dashboard', ['filter' => 'college']);
+    return \Auth::user()->isAdmin ? redirect()->route('dashboard.all') : view('dashboard', ['filter' => 'my']);
+  }
+
+  /**
+   * @param Request $request
+   */
+  protected function showCollege(Request $request) {
+    return view('dashboard-college', ['filter' => 'college']);
   }
 
   /**
@@ -37,8 +44,12 @@ class DataController extends Controller {
     } else {
       if ($request->filter == 'all') {
         $rows = Data::all();
-      } else {
+      } else if ($request->filter == 'college') {
         $rows = Data::where('role_id', \Auth::user()->role_id);
+      } else if ($request->filter == 'my') {
+        $rows = Data::where([
+          ['authors', 'like', '%' . \Auth::user()->name . '%']
+        ]);
       }
       foreach ($rows as $row) {
         $row->college = Roles::where('id', $row->role_id)->first()->name;
@@ -51,11 +62,30 @@ class DataController extends Controller {
    * @param Request $request
    */
   protected function add(Request $request) {
-    $file = $request->file;
+    $pdf_file         = $request->pdf_file;
+    $pdf_mime         = $pdf_file->getMimeType();
+    $certificate_file = $request->certificate_file;
+    $certificate_mime = $certificate_file->getMimeType();
+
+    if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') !== 0) {
+      $error[] = 'Upload PDF contains an invalid format.';
+    }
+
+    if (substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') !== 0) {
+      $error[] = 'Upload Certificate contains an invalid format.';
+    }
+
+    if (count($error) > 0) {
+      return response()->json(['success' => false, 'error' => join(' ', $error)]);
+    }
 
     $data = new Data;
 
     $role = Roles::where('name', $request->college)->first();
+
+    if (!\Auth::user()->isAdmin) {
+      $request->authors = join(',', array_merge([Auth::user()->name], explode(',', $request->authors)));
+    }
 
     $data->role_id           = $role->id;
     $data->title             = $request->title;
@@ -68,11 +98,18 @@ class DataController extends Controller {
     $data->publication_date  = $request->publication_date;
     $data->note              = $request->note;
 
-    if ($file) {
-      $filename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName()) . '-' . time() . '.' . $file->getClientOriginalExtension();
-      $file->move(public_path('uploads'), $filename);
+    if ($pdf_file) {
+      $filename = str_replace('.' . $pdf_file->getClientOriginalExtension(), '', $pdf_file->getClientOriginalName()) . '-' . time() . '.' . $pdf_file->getClientOriginalExtension();
+      $pdf_file->move(public_path('uploads'), $filename);
 
-      $data->file_name = $filename;
+      $data->pdf_file_name = $filename;
+    }
+
+    if ($certificate_file) {
+      $filename = str_replace('.' . $certificate_file->getClientOriginalExtension(), '', $certificate_file->getClientOriginalName()) . '-' . time() . '.' . $certificate_file->getClientOriginalExtension();
+      $certificate_file->move(public_path('uploads'), $filename);
+
+      $data->certificate_file_name = $filename;
     }
 
     if ($data->save()) {
@@ -86,7 +123,22 @@ class DataController extends Controller {
    * @param Request $request
    */
   protected function edit($id, Request $request) {
-    $file = $request->file;
+    $pdf_file         = $request->pdf_file;
+    $pdf_mime         = $pdf_file->getMimeType();
+    $certificate_file = $request->certificate_file;
+    $certificate_mime = $certificate_file->getMimeType();
+
+    if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') !== 0) {
+      $error[] = 'Upload PDF contains an invalid format.';
+    }
+
+    if (substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') !== 0) {
+      $error[] = 'Upload Certificate contains an invalid format.';
+    }
+
+    if (count($error) > 0) {
+      return response()->json(['success' => false, 'error' => join(' ', $error)]);
+    }
 
     $data = Data::find($id);
 
@@ -103,12 +155,18 @@ class DataController extends Controller {
     $data->publication_date  = $request->publication_date;
     $data->note              = $request->note;
 
-    if ($file) {
-      $filename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName()) . '-' . time() . '.' . $file->getClientOriginalExtension();
+    if ($pdf_file) {
+      $filename = str_replace('.' . $pdf_file->getClientOriginalExtension(), '', $pdf_file->getClientOriginalName()) . '-' . time() . '.' . $pdf_file->getClientOriginalExtension();
+      $pdf_file->move(public_path('uploads'), $filename);
 
-      $file->move(public_path('uploads'), $filename);
+      $data->pdf_file_name = $filename;
+    }
 
-      $data->file_name = $filename;
+    if ($certificate_file) {
+      $filename = str_replace('.' . $certificate_file->getClientOriginalExtension(), '', $certificate_file->getClientOriginalName()) . '-' . time() . '.' . $certificate_file->getClientOriginalExtension();
+      $certificate_file->move(public_path('uploads'), $filename);
+
+      $data->certificate_file_name = $filename;
     }
 
     $role = \Auth::user()->role_id;

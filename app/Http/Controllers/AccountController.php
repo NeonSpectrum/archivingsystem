@@ -21,7 +21,11 @@ class AccountController extends Controller {
       $row->role_name = Roles::where('id', $row->role_id)->first()->name;
       $row->college   = Roles::where('id', $row->role_id)->first()->description;
     } else {
-      $row = User::all();
+      if (\Auth::user()->isSuperAdmin) {
+        $row = User::all();
+      } else {
+        $row = User::where('role_id', \Auth::user()->memberRoleId)->get();
+      }
 
       foreach ($row as $data) {
         $data->role_name = Roles::where('id', $data->role_id)->first()->name;
@@ -37,12 +41,17 @@ class AccountController extends Controller {
   protected function add(Request $request) {
     $user = new User;
 
-    $user->username   = $request->username;
-    $user->password   = $request->password;
-    $user->first_name = $request->first_name;
-    $user->last_name  = $request->last_name;
-    $user->role_id    = Roles::where('name', $request->college)->first()->id;
+    $user->username       = $request->username;
+    $user->password       = $request->password;
+    $user->first_name     = $request->first_name;
+    $user->middle_initial = $request->middle_initial;
+    $user->last_name      = $request->last_name;
 
+    if (\Auth::user()->isSuperAdmin) {
+      $user->role_id = Roles::where('name', $request->college)->first()->id;
+    } else {
+      $user->role_id = \Auth::user()->memberRoleId;
+    }
     $role = \Auth::user()->role;
 
     try {
@@ -70,13 +79,17 @@ class AccountController extends Controller {
 
     $user_role = $user->role_id;
 
-    $user->first_name = $request->first_name;
-    $user->last_name  = $request->last_name;
-    $user->role_id    = Roles::where('name', $request->college)->first()->id;
+    $user->first_name     = $request->first_name;
+    $user->middle_initial = $request->middle_initial;
+    $user->last_name      = $request->last_name;
+
+    if (\Auth::user()->isSuperAdmin) {
+      $user->role_id = Roles::where('name', $request->college)->first()->id;
+    }
 
     $role = \Auth::user()->role;
 
-    if ($role->role_id == 1 || $role->role_id != $user->role_id) {
+    if ($role->role_id == 1 || $role->role_id != $user->adminRoleId) {
       if ($user->save()) {
         Logs::create(['action' => $role->description . ' edited an account with username: ' . $user->username]);
         return response()->json(['success' => true]);
@@ -95,7 +108,7 @@ class AccountController extends Controller {
 
     $role = \Auth::user()->role;
 
-    if ($role->role_id == 1 || $role->role_id != $user->role_id) {
+    if ($role->role_id == 1 || $role->role_id != $user->adminRoleId) {
       if ($user->delete()) {
         Logs::create(['action' => $role->description . ' deleted an account with username: ' . $user->username]);
         return response()->json(['success' => true]);

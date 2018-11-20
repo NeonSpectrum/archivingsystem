@@ -16,17 +16,23 @@
           <input name="first_name" type="text" class="validate" placeholder="Enter first name" required>
         </div>
         <div class="input-field col s12">
+          <p class="caption">Middle Initial</p>
+          <input name="middle_initial" type="text" class="validate" placeholder="Enter middle initial">
+        </div>
+        <div class="input-field col s12">
           <p class="caption">Last Name</p>
           <input name="last_name" type="text" class="validate" placeholder="Enter last name" required>
         </div>
-        <div class="input-field col s12">
-          <p class="caption">College</p>
-          <select name="college">
-            @foreach(\App\Roles::all() as $role)
-              <option value="{{ $role->name }}" data-icon="{{ asset('public/img/logo/' . $role->logo) }}">{{ $role->description }}</option>
-            @endforeach
-          </select>
-        </div>
+        @if(Auth::user()->isSuperAdmin)
+          <div class="input-field col s12">
+            <p class="caption">College</p>
+            <select name="college">
+              @foreach(\App\Roles::all() as $role)
+                <option value="{{ $role->name }}" data-icon="{{ asset('public/img/logo/' . $role->logo) }}">{{ $role->description }}</option>
+              @endforeach
+            </select>
+          </div>
+        @endif
       </div>
     </div>
     <div class="modal-footer">
@@ -62,17 +68,23 @@
           <input name="first_name" type="text" class="validate" placeholder="Enter first name" required>
         </div>
         <div class="input-field col s12">
+          <p class="caption">Middle Initial</p>
+          <input name="middle_initial" type="text" class="validate" placeholder="Enter middle initial">
+        </div>
+        <div class="input-field col s12">
           <p class="caption">Last Name</p>
           <input name="last_name" type="text" class="validate" placeholder="Enter last name" required>
         </div>
-        <div class="input-field col s12">
-          <p class="caption">College</p>
-          <select name="college">
-            @foreach(\App\Roles::all() as $role)
-              <option value="{{ $role->name }}" data-icon="{{ asset('public/img/logo/' . $role->logo) }}">{{ $role->description }}</option>
-            @endforeach
-          </select>
-        </div>
+        @if(Auth::user()->isSuperAdmin)
+          <div class="input-field col s12">
+            <p class="caption">College</p>
+            <select name="college">
+              @foreach(\App\Roles::all() as $role)
+                <option value="{{ $role->name }}" data-icon="{{ asset('public/img/logo/' . $role->logo) }}">{{ $role->description }}</option>
+              @endforeach
+            </select>
+          </div>
+        @endif
       </div>
     </div>
     <div class="modal-footer">

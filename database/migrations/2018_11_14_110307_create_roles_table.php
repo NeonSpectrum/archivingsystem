@@ -21,7 +21,13 @@ class CreateRolesTable extends Migration {
     });
 
     $data = [
-      ['name' => 'admin', 'description' => 'Admin', 'logo' => 'ccss.png'],
+      ['name' => 'super-admin', 'description' => 'Admin', 'logo' => 'ccss.png'],
+      ['name' => 'cas-admin', 'description' => 'College of Arts and Sciences - Admin', 'logo' => 'cas.png'],
+      ['name' => 'cba-admin', 'description' => 'College of Business Administration - Admin', 'logo' => 'cba.png'],
+      ['name' => 'ccss-admin', 'description' => 'College of Computer Studies and Systems - Admin', 'logo' => 'ccss.png'],
+      ['name' => 'cengg-admin', 'description' => 'College of Engineering - Admin', 'logo' => 'eng.png'],
+      ['name' => 'dentistry-admin', 'description' => 'College of Dentistry - Admin', 'logo' => 'dent.png'],
+      ['name' => 'educ-admin', 'description' => 'College of Education - Admin', 'logo' => 'educ.png'],
       ['name' => 'cas', 'description' => 'College of Arts and Sciences', 'logo' => 'cas.png'],
       ['name' => 'cba', 'description' => 'College of Business Administration', 'logo' => 'cba.png'],
       ['name' => 'ccss', 'description' => 'College of Computer Studies and Systems', 'logo' => 'ccss.png'],

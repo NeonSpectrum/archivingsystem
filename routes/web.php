@@ -18,6 +18,7 @@ Route::get('logout', 'LoginController@logout');
 
 Route::middleware('auth')->group(function () {
   Route::get('/', 'DataController@show')->name('dashboard');
+  Route::get('/college', 'DataController@showCollege')->name('dashboard.college');
   Route::get('/all', 'DataController@showAll')->name('dashboard.all');
   Route::match(['get', 'post'], 'pdf', 'DataController@pdf')->name('pdf');
   Route::get('accounts', 'AccountController@show')->name('account')->middleware('role:admin');

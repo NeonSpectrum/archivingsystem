@@ -9,12 +9,12 @@ function loadTable() {
     dataType: 'json',
     success: function success(response) {
       dTable.clear();
-      $.each(response, function (key, value) {
+      $.each(response, function (id, value) {
         value = _.mapObject(value, function (val) {
           return _.escape(val);
         });
 
-        dTable.row.add([value.id, value.username, value.first_name, value.last_name, value.college, '\n            <button onclick="editData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnEdit">\n              <i class="material-icons">edit</i>\n            </button>\n            <button onclick="deleteData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnDelete">\n              <i class="material-icons">delete</i>\n            </button>\n          ']);
+        dTable.row.add([id + 1, value.username, value.first_name + ' ' + value.middle_initial + ' ' + value.last_name, value.college, '\n            <button onclick="editData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnEdit">\n              <i class="material-icons">edit</i>\n            </button>\n            <button onclick="deleteData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnDelete">\n              <i class="material-icons">delete</i>\n            </button>\n          ']);
       });
       dTable.draw();
     }

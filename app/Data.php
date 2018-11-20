@@ -27,6 +27,7 @@ class Data extends Model {
     'presentation_date',
     'publication_date',
     'note',
-    'file_name'
+      'pdf_file_name';
+    'certificate_file_name'
   ];
 }

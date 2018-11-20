@@ -70,12 +70,12 @@ function loadTable() {
           response = _ref.data;
 
       dTable.clear();
-      $.each(response, function (key, value) {
+      $.each(response, function (id, value) {
         value = _.mapObject(value, function (val) {
           return _.escape(val);
         });
 
-        dTable.row.add([value.id, value.title, (value.authors || '').replace(/,/g, '<br>'), (value.keywords || '').replace(/,/g, ', '), (value.category || '').replace(/,/g, ', '), value.publisher, value.proceeding_date, value.presentation_date, value.publication_date, value.note, (value.file_name ? '<button onclick="window.open(\'' + (main_url + 'public/uploads/' + value.file_name) + '\')" class="waves-effect waves-light btn btn-flat">\n                    <i class="material-icons">pageview</i>\n                  </button>' : '') + (role_id == 1 ? '\n            <button onclick="editData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnEdit">\n              <i class="material-icons">edit</i>\n            </button>\n            <button onclick="deleteData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnDelete">\n              <i class="material-icons">delete</i>\n            </button>' : '')]);
+        dTable.row.add([id + 1, value.title, (value.authors || '').replace(/,/g, '<br>'), (value.keywords || '').replace(/,/g, ', '), (value.category || '').replace(/,/g, ', '), value.publisher, value.proceeding_date, value.presentation_date, value.publication_date, value.note, (value.file_name ? '<button onclick="window.open(\'' + (main_url + 'public/uploads/' + value.file_name) + '\')" class="waves-effect waves-light btn btn-flat">\n                    <i class="material-icons">pageview</i>\n                  </button>' : '') + (role_id == 1 ? '\n            <button onclick="editData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnEdit">\n              <i class="material-icons">edit</i>\n            </button>\n            <button onclick="deleteData(' + value.id + ')" class="waves-effect waves-light btn btn-flat btnDelete">\n              <i class="material-icons">delete</i>\n            </button>' : '')]);
       });
       dTable.draw();
     }

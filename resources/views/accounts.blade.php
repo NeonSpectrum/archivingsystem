@@ -22,8 +22,7 @@
             <tr>
               <th width="5%">ID</th>
               <th>Username</th>
-              <th>First Name</th>
-              <th>Last Name</th>
+              <th>Name</th>
               <th>College</th>
               <th width="5%">Action</th>
             </tr>

@@ -73,13 +73,13 @@ function loadTable() {
     },
     success: function({ role_id, data: response }) {
       dTable.clear()
-      $.each(response, function(key, value) {
+      $.each(response, function(id, value) {
         value = _.mapObject(value, function(val) {
           return _.escape(val)
         })
 
         dTable.row.add([
-          value.id,
+          id + 1,
           value.title,
           (value.authors || '').replace(/,/g, '<br>'),
           (value.keywords || '').replace(/,/g, ', '),

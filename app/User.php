@@ -22,7 +22,7 @@ class User extends Authenticatable {
    * @var array
    */
   protected $fillable = [
-    'username', 'password', 'role_id', 'first_name', 'last_name'
+    'username', 'password', 'role_id', 'first_name', 'middle_initial', 'last_name'
   ];
 
   /**
@@ -41,7 +41,29 @@ class User extends Authenticatable {
     $this->attributes['password'] = bcrypt($password);
   }
 
+  public function getNameAttribute() {
+    return "{$this->first_name} {$this->middle_initial} {$this->last_name}";
+  }
+
   public function getRoleAttribute() {
-    return Roles::find(\Auth::user()->role_id);
+    return Roles::find($this->role_id);
+  }
+
+  public function getIsSuperAdminAttribute() {
+    return stripos(Roles::find($this->role_id)->name, 'super-admin') !== false;
+  }
+
+  public function getIsAdminAttribute() {
+    return stripos(Roles::find($this->role_id)->name, 'admin') !== false;
+  }
+
+  public function getAdminRoleIdAttribute() {
+    $college = $this->role->name . '-admin';
+    return Roles::where('name', $college)->first()->id;
+  }
+
+  public function getMemberRoleIdAttribute() {
+    $college = str_replace('-admin', '', $this->role->name);
+    return Roles::where('name', $college)->first()->id;
   }
 }

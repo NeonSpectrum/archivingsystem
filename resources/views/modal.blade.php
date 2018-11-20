@@ -20,7 +20,11 @@
           <input name="title" type="text" class="validate" placeholder="Enter the title" required>
         </div>
         <div class="input-field col s12">
-          <p class="caption">Authors</p>
+          <p class="caption">Authors
+            @if(!Auth::user()->isAdmin)
+              <i>(Your name is already added)</i>
+            @endif
+          </p>
           <div class="chips chips-placeholder" data-name="authors"></div>
         </div>
         <div class="input-field col s12">
@@ -55,10 +59,20 @@
           <p class="caption">Upload PDF</p>
           <div class="btn">
             <span>Upload</span>
-            <input type="file" name="file">
+            <input type="file" name="pdf_file">
           </div>
           <div class="file-path-wrapper">
             <input class="file-path validate" type="text" placeholder="Select a PDF file">
+          </div>
+        </div>
+        <div class="file-field input-field col s12">
+          <p class="caption">Upload Certificate</p>
+          <div class="btn">
+            <span>Upload</span>
+            <input type="file" name="certificate_file">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Select a Certificate file">
           </div>
         </div>
       </div>
@@ -138,7 +152,17 @@
           <p class="caption">Upload PDF</p>
           <div class="btn">
             <span>Upload</span>
-            <input type="file" name="file">
+            <input type="file" name="pdf_file">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Select a PDF file">
+          </div>
+        </div>
+        <div class="file-field input-field col s12">
+          <p class="caption">Upload Certificate</p>
+          <div class="btn">
+            <span>Upload</span>
+            <input type="file" name="certificate_file">
           </div>
           <div class="file-path-wrapper">
             <input class="file-path validate" type="text" placeholder="Select a PDF file">

@@ -1,5 +1,5 @@
 body {
-  background: url(../img/background.jpg);
+  background-image: url(../img/background.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position-y: 40%;
@@ -7,27 +7,27 @@ body {
 }
 
 body.ccss {
-  background: url(../img/CCSS.jpg);
+  background-image: url(../img/CCSS.jpg);
 }
 
 body.cas {
-  background: url(../img/CAS.jpg);
+  background-image: url(../img/CAS.jpg);
 }
 
 body.cba {
-  background: url(../img/CBA.jpg);
+  background-image: url(../img/CBA.jpg);
 }
 
 body.cengg {
-  background: url(../img/CENGG.jpg);
+  background-image: url(../img/CENGG.jpg);
 }
 
 body.dentistry {
-  background: url(../img/Dentistry.jpg);
+  background-image: url(../img/Dentistry.jpg);
 }
 
 body.educ {
-  background: url(../img/Educ.jpg);
+  background-image: url(../img/Educ.jpg);
 }
 
 div.material-table {

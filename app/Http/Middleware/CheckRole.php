@@ -13,7 +13,9 @@ class CheckRole {
    * @return mixed
    */
   public function handle($request, Closure $next, $role) {
-    if ($role && \Auth::user()->role->name != $role) {
+    if ($role == 'super-admin' && !\Auth::user()->isSuperAdmin) {
+      return redirect()->route('dashboard');
+    } else if ($role == 'admin' && !\Auth::user()->isAdmin) {
       return redirect()->route('dashboard');
     }
 

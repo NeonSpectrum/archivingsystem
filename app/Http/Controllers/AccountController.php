@@ -24,7 +24,7 @@ class AccountController extends Controller {
       if (\Auth::user()->isSuperAdmin) {
         $row = User::all();
       } else {
-        $row = User::where('role_id', \Auth::user()->memberRoleId)->get();
+        $row = User::where('role_id', \Auth::user()->memberRole->id)->get();
       }
 
       foreach ($row as $data) {
@@ -50,7 +50,7 @@ class AccountController extends Controller {
     if (\Auth::user()->isSuperAdmin) {
       $user->role_id = Roles::where('name', $request->college)->first()->id;
     } else {
-      $user->role_id = \Auth::user()->memberRoleId;
+      $user->role_id = \Auth::user()->memberRole->id;
     }
     $role = \Auth::user()->role;
 
@@ -89,7 +89,7 @@ class AccountController extends Controller {
 
     $role = \Auth::user()->role;
 
-    if (\Auth::user()->isSuperAdmin || $role->role_id != $user->adminRoleId) {
+    if (\Auth::user()->isSuperAdmin || $role->role_id != $user->adminRole->id) {
       if ($user->save()) {
         Logs::create(['action' => $role->description . ' edited an account with username: ' . $user->username]);
         return response()->json(['success' => true]);
@@ -108,7 +108,7 @@ class AccountController extends Controller {
 
     $role = \Auth::user()->role;
 
-    if (\Auth::user()->isSuperAdmin || $role->role_id != $user->adminRoleId) {
+    if (\Auth::user()->isSuperAdmin || $role->role_id != $user->adminRole->id) {
       if ($user->delete()) {
         Logs::create(['action' => $role->description . ' deleted an account with username: ' . $user->username]);
         return response()->json(['success' => true]);

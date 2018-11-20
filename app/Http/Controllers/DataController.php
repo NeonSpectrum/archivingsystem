@@ -92,16 +92,16 @@ class DataController extends Controller {
     $data = new Data;
 
     if ($request->college) {
-      $roleID = Roles::where('name', $request->college)->first()->id;
+      $role = Roles::where('name', $request->college)->first();
     } else {
-      $roleID = \Auth::user()->memberRoleId;
+      $role = \Auth::user()->memberRole;
     }
 
     if (!\Auth::user()->isAdmin) {
       $request->authors = join(',', array_merge([Auth::user()->name], explode(',', $request->authors)));
     }
 
-    $data->role_id           = $roleID;
+    $data->role_id           = $role->id;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
     $data->keywords          = $request->keywords;
@@ -125,6 +125,8 @@ class DataController extends Controller {
 
       $data->certificate_file_name = $filename;
     }
+
+    $role = \Auth::user()->role;
 
     if (\Auth::user()->isAdmin) {
       if ($data->save()) {
@@ -164,16 +166,16 @@ class DataController extends Controller {
     }
 
     if ($request->college) {
-      $roleID = Roles::where('name', $request->college)->first()->id;
+      $role = Roles::where('name', $request->college)->first();
     } else {
-      $roleID = \Auth::user()->memberRoleId;
+      $role = \Auth::user()->memberRole;
     }
 
     $data = Data::find($id);
 
     $data_role = $data->role_id;
 
-    $data->role_id           = $roleID;
+    $data->role_id           = $role->id;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
     $data->keywords          = $request->keywords;

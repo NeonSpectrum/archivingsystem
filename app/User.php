@@ -65,13 +65,13 @@ class User extends Authenticatable {
     return stripos(Roles::find($this->role_id)->name, 'admin') !== false;
   }
 
-  public function getAdminRoleIdAttribute() {
+  public function getAdminRoleAttribute() {
     $college = $this->role->name . '-admin';
-    return Roles::where('name', $college)->first()->id;
+    return Roles::where('name', $college)->first();
   }
 
-  public function getMemberRoleIdAttribute() {
+  public function getMemberRoleAttribute() {
     $college = str_replace('-admin', '', $this->role->name);
-    return Roles::where('name', $college)->first()->id;
+    return Roles::where('name', $college)->first();
   }
 }

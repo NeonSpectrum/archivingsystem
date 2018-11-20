@@ -211,13 +211,6 @@ $('.generate-pdf').click(function() {
 $('form[name=frmAdd]').submit(function(e) {
   e.preventDefault()
 
-  $(this)
-    .find('input')
-    .prop('readonly', true)
-  $(this)
-    .find('button')
-    .prop('disabled', true)
-
   let authors = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=authors]')).chipsData, 'tag')
   let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
   let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
@@ -225,6 +218,13 @@ $('form[name=frmAdd]').submit(function(e) {
   if (authors.length == 0) {
     return alert('Please enter an author.')
   }
+
+  $(this)
+    .find('input')
+    .prop('readonly', true)
+  $(this)
+    .find('button')
+    .prop('disabled', true)
 
   let form_data = {
     authors: authors.join(','),

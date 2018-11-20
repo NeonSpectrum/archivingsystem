@@ -6,12 +6,19 @@
   th, td {
     padding: 5px;
   }
+  h1 {
+    margin: 0;
+  }
 </style>
 
 <center>
   <img src="{{ asset('public/img/logo/ue.png') }}" alt="" height="65px" style="padding:5px 5px 0">
   @if(!Auth::user()->isSuperAdmin)
     <img src="{{ asset('public/img/logo/' . Auth::user()->role->logo) }}" alt="" height="65px" style="padding:5px 5px 0">
+  @endif
+  <h1>University of the East</h1>
+  @if(!Auth::user()->isSuperAdmin)
+    <h3>{{ Auth::user()->role->description }}</h3>
   @endif
 </center>
 <br>
@@ -47,3 +54,9 @@
     @endforeach
   </tbody>
 </table>
+<script type="text/php">
+  if (isset($pdf)) {
+    $font = $fontMetrics->getFont("Arial", "bold");
+    $pdf->page_text(750, 545, "Page {PAGE_NUM} of {PAGE_COUNT}", $font, 9, array(0, 0, 0));
+  }
+</script>

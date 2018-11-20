@@ -249,7 +249,6 @@ class DataController extends Controller {
    * @return mixed
    */
   protected function pdf(Request $request) {
-
     if ($request->pdf_data) {
       $request->pdf_data = json_decode($request->pdf_data);
 

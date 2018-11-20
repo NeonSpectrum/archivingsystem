@@ -16,7 +16,6 @@
       <li><a href="{{ url('all') }}">All Researches</a></li>
       @if(Auth::user()->isAdmin)
         <li><a href="{{ url('accounts') }}">Accounts</a></li>
-        <li><a href="{{ url('reports') }}">Reports</a></li>
       @endif
       @if(Auth::user()->isSuperAdmin)
         <li><a href="{{ url('logs') }}">Logs</a></li>

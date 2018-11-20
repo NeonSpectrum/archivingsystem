@@ -36,7 +36,7 @@
           </tbody>
         </table>
       </div>
+      <img src="{{ asset('public/img/logo/rnd.png') }}" style="float:right" alt="" height="40px">
     </div>
   </div>
-  <img src="{{ asset('public/img/logo/rnd.png') }}" style="position:absolute;right:10px;bottom:10px" alt="" height="40px">
 @endsection

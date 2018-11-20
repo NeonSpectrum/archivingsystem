@@ -128,15 +128,11 @@ class DataController extends Controller {
 
     $role = \Auth::user()->role;
 
-    if (\Auth::user()->isAdmin) {
-      if ($data->save()) {
-        Logs::create(['action' => $role->description . ' added a research with ID: ' . $data->id]);
-        return response()->json(['success' => true]);
-      } else {
-        return response()->json(['success' => false, 'error' => 'Nothing changed!']);
-      }
+    if ($data->save()) {
+      Logs::create(['action' => $role->description . ' added a research with ID: ' . $data->id]);
+      return response()->json(['success' => true]);
     } else {
-      return response()->json(['success' => false, 'error' => 'Forbidden']);
+      return response()->json(['success' => false, 'error' => 'Nothing changed!']);
     }
   }
   /**
@@ -202,7 +198,7 @@ class DataController extends Controller {
 
     $role = \Auth::user()->role;
 
-    if (\Auth::user()->isAdmin) {
+    if ($data->isResearchOwner) {
       if ($data->save()) {
         Logs::create(['action' => $role->description . ' edited a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);
@@ -221,7 +217,7 @@ class DataController extends Controller {
 
     $role = \Auth::user()->role_id;
 
-    if (\Auth::user()->isAdmin) {
+    if ($data->isResearchOwner) {
       if ($data->delete()) {
         Logs::create(['action' => $role->description . ' deleted a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);

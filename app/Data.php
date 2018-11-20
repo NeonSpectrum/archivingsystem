@@ -30,4 +30,13 @@ class Data extends Model {
     'pdf_file_name',
     'certificate_file_name'
   ];
+
+  /**
+   * @param $name
+   */
+  public function getIsResearchOwnerAttribute() {
+    return count($this->where([
+      ['authors', 'like', '%' . \Auth::user()->name . '%']
+    ])->get()) > 0;
+  }
 }

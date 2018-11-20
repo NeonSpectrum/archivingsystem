@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  getConfig()
+
   loadDatatable({
     columnDefs: [
       {
@@ -7,6 +9,7 @@ $(document).ready(function() {
       }
     ]
   })
+
   loadChips()
   loadTable()
 
@@ -67,9 +70,7 @@ function loadChips(element = 'body') {
 function loadTable() {
   let filter = $('input[name=filter]').val()
 
-  getConfig(function(data) {
-    var config = data
-  })
+  getConfig()
 
   $.ajax({
     url: main_url + 'api/data',
@@ -219,7 +220,7 @@ $('form[name=frmAdd]').submit(function(e) {
   let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
   let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
 
-  if (authors.length == 0) {
+  if (!config.isAdmin && authors.length == 0) {
     return alert('Please enter an author.')
   }
 

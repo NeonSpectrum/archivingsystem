@@ -4,7 +4,7 @@
       <div class="modal-content">
         <h4>Add</h4>
         <div class="row">
-          @if(Auth::user()->role->name == "admin")
+          @if(Auth::user()->isSuperAdmin)
             <div class="input-field col s12">
               <p class="caption">College</p>
               <select name="college">
@@ -13,8 +13,6 @@
                 @endforeach
               </select>
             </div>
-          @else
-            <input type="hidden" name="college" value="{{Auth::user()->role->id}}">
           @endif
           <div class="input-field col s12">
             <p class="caption">Title</p>

@@ -92,16 +92,16 @@ class DataController extends Controller {
     $data = new Data;
 
     if ($request->college) {
-      $role = Roles::where('name', $request->college)->first();
+      $roleID = Roles::where('name', $request->college)->first()->id;
     } else {
-      $role = \Auth::user()->memberRoleId;
+      $roleID = \Auth::user()->memberRoleId;
     }
 
     if (!\Auth::user()->isAdmin) {
       $request->authors = join(',', array_merge([Auth::user()->name], explode(',', $request->authors)));
     }
 
-    $data->role_id           = $role->id;
+    $data->role_id           = $roleID;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
     $data->keywords          = $request->keywords;
@@ -164,16 +164,16 @@ class DataController extends Controller {
     }
 
     if ($request->college) {
-      $role = Roles::where('name', $request->college)->first();
+      $roleID = Roles::where('name', $request->college)->first()->id;
     } else {
-      $role = \Auth::user()->memberRoleId;
+      $roleID = \Auth::user()->memberRoleId;
     }
 
     $data = Data::find($id);
 
     $data_role = $data->role_id;
 
-    $data->role_id           = $role;
+    $data->role_id           = $roleID;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
     $data->keywords          = $request->keywords;

@@ -82,9 +82,9 @@ function loadTable() {
 
         if (filter == 'all' && isSuperAdmin) {
           buttonsEnabled = true
-        } else if ($filter == 'college' && isAdmin) {
+        } else if (filter == 'college' && isAdmin) {
           buttonsEnabled = true
-        } else if ($filter == 'my') {
+        } else if (filter == 'my') {
           buttonsEnabled = true
         }
 

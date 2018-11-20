@@ -71,7 +71,7 @@ function loadTable() {
     data: {
       filter: $('input[name=filter]').val()
     },
-    success: function({ role_id, data: response }) {
+    success: function({ isAdmin, data: response }) {
       dTable.clear()
       $.each(response, function(id, value) {
         value = _.mapObject(value, function(val) {
@@ -89,14 +89,21 @@ function loadTable() {
           value.presentation_date,
           value.publication_date,
           value.note,
-          (value.file_name
-            ? `<button onclick="window.open('${main_url +
+          (value.pdf_file_name
+            ? `<button title="View PDF" onclick="window.open('${main_url +
                 'public/uploads/' +
-                value.file_name}')" class="waves-effect waves-light btn btn-flat">
+                value.pdf_file_name}')" class="waves-effect waves-light btn btn-flat">
                     <i class="material-icons">pageview</i>
                   </button>`
             : '') +
-            (role_id == 1
+            (value.certificate_file_name
+              ? `<button title="View Certificate" onclick="window.open('${main_url +
+                  'public/uploads/' +
+                  value.certificate_file_name}')" class="waves-effect waves-light btn btn-flat">
+                    <i class="material-icons">pageview</i>
+                  </button>`
+              : '') +
+            (isAdmin
               ? `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
               <i class="material-icons">edit</i>

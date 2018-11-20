@@ -56,7 +56,7 @@ class DataController extends Controller {
       }
     }
 
-    return response()->json(['role_id' => \Auth::user()->role_id, 'data' => $rows]);
+    return response()->json(['isAdmin' => \Auth::user()->isAdmin, 'data' => $rows]);
   }
   /**
    * @param Request $request

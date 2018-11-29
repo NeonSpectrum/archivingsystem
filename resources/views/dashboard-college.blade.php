@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('extra-scripts')
-<script src="{{ asset('public/js/data.js') }}?v={{ filemtime(public_path('js/data.js')) }}"></script>
+<script src="{{ asset('js/data.js') }}?v={{ filemtime(public_path('js/data.js')) }}"></script>
 @endsection
 
 @section('body')
@@ -51,7 +51,7 @@
           </tbody>
         </table>
       </div>
-      <img src="{{ asset('public/img/logo/rnd.png') }}" style="float:right" alt="" height="40px">
+      <img src="{{ asset('img/logo/rnd.png') }}" style="float:right" alt="" height="40px">
     </div>
   </div>
 @endsection

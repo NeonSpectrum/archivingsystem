@@ -28,7 +28,7 @@
             <p class="caption">College</p>
             <select name="college">
               @foreach(\App\Roles::all() as $role)
-                <option value="{{ $role->name }}" data-icon="{{ asset('public/img/logo/' . $role->logo) }}">{{ $role->description }}</option>
+                <option value="{{ $role->name }}" data-icon="{{ asset('img/logo/' . $role->logo) }}">{{ $role->description }}</option>
               @endforeach
             </select>
           </div>
@@ -80,7 +80,7 @@
             <p class="caption">College</p>
             <select name="college">
               @foreach(\App\Roles::all() as $role)
-                <option value="{{ $role->name }}" data-icon="{{ asset('public/img/logo/' . $role->logo) }}">{{ $role->description }}</option>
+                <option value="{{ $role->name }}" data-icon="{{ asset('img/logo/' . $role->logo) }}">{{ $role->description }}</option>
               @endforeach
             </select>
           </div>

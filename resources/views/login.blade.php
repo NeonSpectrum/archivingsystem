@@ -24,6 +24,6 @@
     </div>
   </div>
 </div>
-<img src="{{ asset('public/img/logo/ue.png') }}" style="position:absolute;top:10px;left:10px" alt="" height="80px">
-<img src="{{ asset('public/img/logo/rnd_white.png') }}" style="position:absolute;right:10px;bottom:10px" alt="" height="80px">
+<img src="{{ asset('img/logo/ue.png') }}" style="position:absolute;top:10px;left:10px" alt="" height="80px">
+<img src="{{ asset('img/logo/rnd_white.png') }}" style="position:absolute;right:10px;bottom:10px" alt="" height="80px">
 @endsection

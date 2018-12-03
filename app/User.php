@@ -62,6 +62,13 @@ class User extends Authenticatable {
     return $this->role->name == 'super-admin';
   }
 
+  /**
+   * @return mixed
+   */
+  public function getIsGuestAttribute() {
+    return $this->role->name == 'guest';
+  }
+
   public function getNameAttribute() {
     $name[] = $this->first_name;
 

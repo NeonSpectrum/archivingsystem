@@ -90,7 +90,7 @@ function loadTable() {
           buttonsEnabled = true
         } else if (filter == 'college' && config.isAdmin) {
           buttonsEnabled = true
-        } else if (filter == 'my') {
+        } else if (filter == 'my' && !config.isGuest) {
           buttonsEnabled = true
         }
 

@@ -165,7 +165,8 @@ class AccountController extends Controller {
       'role_id'      => $user->role_id,
       'college_id'   => $user->college_id,
       'isSuperAdmin' => $user->isSuperAdmin,
-      'isAdmin'      => $user->isAdmin
+      'isAdmin'      => $user->isAdmin,
+      'isGuest'      => $user->isGuest
     ];
   }
 }

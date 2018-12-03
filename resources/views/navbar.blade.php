@@ -7,7 +7,7 @@
       @endif
     </div>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      @if(!Auth::user()->isAdmin)
+      @if(!Auth::user()->isAdmin && !Auth::user()->isGuest)
         <li><a href="{{ url('/') }}">My Researches</a></li>
       @endif
       @if(!Auth::user()->isSuperAdmin)

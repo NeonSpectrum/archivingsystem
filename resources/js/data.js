@@ -111,7 +111,7 @@ function loadTable() {
           value.note,
           (value.pdf_file_name
             ? `<button title="View PDF" onclick="window.open('${main_url +
-                'public/uploads/' +
+                'uploads/' +
                 value.pdf_file_name}')" class="waves-effect waves-light btn btn-flat">
                     <i class="material-icons">pageview</i>
                   </button>`

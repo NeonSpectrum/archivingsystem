@@ -14,7 +14,7 @@
           <span class="table-title">Accounts</span>
           <div class="actions">
             <a title="Add" href="#addAccountModal" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">add</i></a>
-            <a title="Search" href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
+            <a title="Search" href="javascript:void(0)" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
           </div>
         </div>
         <table id="datatable">

@@ -83,6 +83,7 @@
 </div>
 <div id="editModal" class="modal modal-fixed-footer">
   <form name="frmEdit">
+    @method("PUT")
     <input type="hidden" name="id" disabled>
     <div class="modal-content">
       <h4>Edit</h4>

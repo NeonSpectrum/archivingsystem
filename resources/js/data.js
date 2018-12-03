@@ -118,7 +118,7 @@ function loadTable() {
             : '') +
             (value.certificate_file_name
               ? `<button title="View Certificate" onclick="window.open('${main_url +
-                  'public/uploads/' +
+                  'uploads/' +
                   value.certificate_file_name}')" class="waves-effect waves-light btn btn-flat">
                     <i class="material-icons">pageview</i>
                   </button>`
@@ -248,17 +248,11 @@ $('form[name=frmAdd]').submit(function(e) {
     .find('button')
     .prop('disabled', true)
 
-  let form_data = {
-    authors: authors.join(','),
-    keywords: keywords.join(','),
-    category: category.join(',')
-  }
+  let form_data = new FormData($(this)[0])
 
-  $(this)
-    .serializeArray()
-    .map(function(x) {
-      form_data[x.name] = x.value
-    })
+  form_data.append('authors', authors.join(','))
+  form_data.append('keywords', keywords.join(','))
+  form_data.append('category', category.join(','))
 
   $.ajax({
     context: this,
@@ -303,37 +297,11 @@ $('form[name=frmEdit]').submit(function(e) {
   let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
   let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
 
-  let data = {
-    authors: authors.join(','),
-    keywords: keywords.join(','),
-    category: category.join(',')
-  }
+  let form_data = new FormData($(this)[0])
 
-  $(this)
-    .serializeArray()
-    .map(function(x) {
-      data[x.name] = x.value
-    })
-
-  let form_data = new FormData()
-  $.each(data, function(key, value) {
-    form_data.append(key, value)
-  })
-
-  if (
-    $(this)
-      .find('input[name=file]')
-      .val()
-  ) {
-    form_data.append(
-      'file',
-      $(this)
-        .find('input[name=file]')
-        .prop('files')[0]
-    )
-  }
-
-  form_data.append('_method', 'PUT')
+  form_data.append('authors', authors.join(','))
+  form_data.append('keywords', keywords.join(','))
+  form_data.append('category', category.join(','))
 
   $.ajax({
     context: this,

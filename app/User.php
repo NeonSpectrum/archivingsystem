@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Roles;
+use App\Role;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,7 +22,7 @@ class User extends Authenticatable {
    * @var array
    */
   protected $fillable = [
-    'username', 'password', 'role_id', 'first_name', 'middle_initial', 'last_name'
+    'username', 'password', 'role_id', 'college_id', 'first_name', 'middle_initial', 'last_name'
   ];
 
   /**
@@ -35,10 +35,31 @@ class User extends Authenticatable {
   ];
 
   /**
-   * @param $password
+   * @return mixed
    */
-  public function setPasswordAttribute($password) {
-    $this->attributes['password'] = bcrypt($password);
+  public function college() {
+    return $this->belongsTo("App\College");
+  }
+
+  /**
+   * @return mixed
+   */
+  public function role() {
+    return $this->belongsTo("App\Role");
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getIsAdminAttribute() {
+    return $this->role->name == 'college-admin' || $this->role->name == 'super-admin';
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getIsSuperAdminAttribute() {
+    return $this->role->name == 'super-admin';
   }
 
   public function getNameAttribute() {
@@ -52,26 +73,10 @@ class User extends Authenticatable {
 
     return join(' ', $name);
   }
-
-  public function getRoleAttribute() {
-    return Roles::find($this->role_id);
-  }
-
-  public function getIsSuperAdminAttribute() {
-    return stripos(Roles::find($this->role_id)->name, 'super-admin') !== false;
-  }
-
-  public function getIsAdminAttribute() {
-    return stripos(Roles::find($this->role_id)->name, 'admin') !== false;
-  }
-
-  public function getAdminRoleAttribute() {
-    $college = $this->role->name . '-admin';
-    return Roles::where('name', $college)->first();
-  }
-
-  public function getMemberRoleAttribute() {
-    $college = str_replace('-admin', '', $this->role->name);
-    return Roles::where('name', $college)->first();
+  /**
+   * @param $password
+   */
+  public function setPasswordAttribute($password) {
+    $this->attributes['password'] = bcrypt($password);
   }
 }

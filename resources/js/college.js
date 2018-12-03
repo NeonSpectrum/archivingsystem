@@ -4,30 +4,26 @@ $(document).ready(function() {
 })
 
 function loadTable() {
-  getConfig()
-
   $.ajax({
-    url: api_url + 'user/',
+    url: api_url + 'college/',
     dataType: 'json',
     success: function(response) {
       dTable.clear()
       $.each(response, function(id, value) {
         value = _.mapObject(value, function(val) {
-          if (typeof val == 'object') {
-            return _.mapObject(val, function(v) {
-              return _.escape(v)
-            })
-          } else {
-            return _.escape(val)
-          }
+          return _.escape(val)
         })
 
         dTable.row.add([
           id + 1,
-          value.username,
           value.name,
-          value.role.description,
-          value.college.description || '',
+          value.description,
+          `
+            <img class="materialboxed" src="img/logo/${value.logo}" height="100px">
+          `,
+          `
+            <img class="materialboxed" src="img/${value.background}" height="100px">
+          `,
           `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
               <i class="material-icons">edit</i>
@@ -39,33 +35,24 @@ function loadTable() {
         ])
       })
       dTable.draw()
+      $('.materialboxed').materialbox()
     }
   })
 }
 
 function editData(id) {
-  let modal = $('#editAccountModal')
+  let modal = $('#editCollegeModal')
 
   modal.find('.loader-container').show()
   modal.modal('open')
 
   $.ajax({
-    url: api_url + 'user/' + id,
+    url: api_url + 'college/' + id,
     dataType: 'json',
     success: function(response) {
-      if (response.college) {
-        $('select[name=college]')
-          .val(response.college.id)
-          .formSelect()
-      }
-      $('select[name=type]')
-        .val(response.role.id)
-        .change()
-        .formSelect()
-
       modal.find('input[name=id]').val(response.id)
-      modal.find('input[name=first_name]').val(response.first_name)
-      modal.find('input[name=last_name]').val(response.last_name)
+      modal.find('input[name=name]').val(response.name)
+      modal.find('input[name=description]').val(response.description)
 
       modal.find('.loader-container').fadeOut()
     }
@@ -78,7 +65,7 @@ function deleteData(id) {
   $(this).prop('disabled', false)
 
   $.ajax({
-    url: api_url + 'user/' + id,
+    url: api_url + 'college/' + id,
     type: 'POST',
     data: { _method: 'DELETE' },
     dataType: 'json',
@@ -93,7 +80,7 @@ function deleteData(id) {
   })
 }
 
-$('form[name=frmAddAccount]').submit(function(e) {
+$('form[name=frmAddCollege]').submit(function(e) {
   e.preventDefault()
 
   $(this)
@@ -105,16 +92,18 @@ $('form[name=frmAddAccount]').submit(function(e) {
 
   $.ajax({
     context: this,
-    url: api_url + 'user/',
+    url: api_url + 'college/',
     type: 'POST',
-    data: $(this).serialize(),
+    data: new FormData($(this)[0]),
     dataType: 'json',
+    contentType: false,
+    processData: false,
     success: function(response) {
       console.log(response)
       if (response.success == true) {
         alert('Added Successfully!')
         $(this).trigger('reset')
-        $('#addAccountModal').modal('close')
+        $('#addCollegeModal').modal('close')
         loadTable()
       } else {
         console.log(response)
@@ -131,7 +120,7 @@ $('form[name=frmAddAccount]').submit(function(e) {
   })
 })
 
-$('form[name=frmEditAccount]').submit(function(e) {
+$('form[name=frmEditCollege]').submit(function(e) {
   e.preventDefault()
 
   $(this)
@@ -145,18 +134,20 @@ $('form[name=frmEditAccount]').submit(function(e) {
     context: this,
     url:
       api_url +
-      'user/' +
+      'college/' +
       $(this)
         .find('input[name=id]')
         .val(),
     type: 'POST',
-    data: $(this).serialize(),
+    data: new FormData($(this)[0]),
     dataType: 'json',
+    contentType: false,
+    processData: false,
     success: function(response) {
       console.log(response)
       if (response.success == true) {
         alert('Updated Successfully!')
-        $('#editAccountModal').modal('close')
+        $('#editCollegeModal').modal('close')
         $(this).trigger('reset')
         loadTable()
       } else {
@@ -172,19 +163,4 @@ $('form[name=frmEditAccount]').submit(function(e) {
       .find('button')
       .prop('disabled', false)
   })
-})
-
-$('select[name=type]').change(function() {
-  console.log($(this).val())
-  let college = $(this)
-    .closest('form')
-    .find('select[name=college]')
-
-  if ($(this).val() == '1') {
-    college.attr('disabled', true)
-    college.closest('.input-field').hide()
-  } else {
-    college.attr('disabled', false).formSelect()
-    college.closest('.input-field').show()
-  }
 })

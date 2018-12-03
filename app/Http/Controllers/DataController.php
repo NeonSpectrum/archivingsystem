@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Data;
 use App\Exports\DataExport;
 use App\Imports\DataImport;
-use App\Logs;
-use App\Roles;
+use App\Log;
+use App\User;
+use Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -16,9 +17,9 @@ class DataController extends Controller {
    * @param Request $request
    */
   protected function show(Request $request) {
-    if (\Auth::user()->isSuperAdmin) {
+    if (Auth::user()->isSuperAdmin) {
       return redirect()->route('dashboard.all');
-    } else if (\Auth::user()->isAdmin) {
+    } else if (Auth::user()->isAdmin) {
       return redirect()->route('dashboard.college');
     } else {
       return view('dashboard', ['filter' => 'my']);
@@ -46,19 +47,19 @@ class DataController extends Controller {
 
     if ($id) {
       $rows          = Data::findOrFail($id);
-      $rows->college = Roles::where('id', $rows->role_id)->first()->name;
+      $rows->college = Data::find($rows->id)->college->name;
     } else {
       if ($request->filter == 'all') {
         $rows = Data::all();
       } else if ($request->filter == 'college') {
-        $rows = Data::where('role_id', \Auth::user()->memberRole->id)->get();
+        $rows = Data::where('college_id', Auth::user()->college_id);
       } else if ($request->filter == 'my') {
         $rows = Data::where([
-          ['authors', 'like', '%' . \Auth::user()->name . '%']
+          ['authors', 'like', '%' . Auth::user()->name . '%']
         ])->get();
       }
       foreach ($rows as $row) {
-        $row->college = Roles::where('id', $row->role_id)->first()->name;
+        $row->college = Data::find($row->id)->college->name;
       }
     }
 
@@ -92,17 +93,11 @@ class DataController extends Controller {
 
     $data = new Data;
 
-    if ($request->college) {
-      $role = Roles::where('name', $request->college)->first();
-    } else {
-      $role = \Auth::user()->memberRole;
+    if (!Auth::user()->isAdmin) {
+      $request->authors = join(',', array_merge([Auth::user()->name], explode(',', $request->authors)));
     }
 
-    if (!\Auth::user()->isAdmin) {
-      $request->authors = join(',', array_merge([\Auth::user()->name], explode(',', $request->authors)));
-    }
-
-    $data->role_id           = $role->id;
+    $data->college_id        = $request->college ?? Auth::user()->college_id;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
     $data->keywords          = $request->keywords;
@@ -127,10 +122,8 @@ class DataController extends Controller {
       $data->certificate_file_name = $filename;
     }
 
-    $role = \Auth::user()->role;
-
     if ($data->save()) {
-      Logs::create(['action' => $role->description . ' added a research with ID: ' . $data->id]);
+      Log::create(['action' => Auth::user()->username . ' added a research with ID: ' . $data->id]);
       return response()->json(['success' => true]);
     } else {
       return response()->json(['success' => false, 'error' => 'Nothing changed!']);
@@ -162,17 +155,9 @@ class DataController extends Controller {
       return response()->json(['success' => false, 'error' => join(' ', $error)]);
     }
 
-    if ($request->college) {
-      $role = Roles::where('name', $request->college)->first();
-    } else {
-      $role = \Auth::user()->memberRole;
-    }
-
     $data = Data::find($id);
 
-    $data_role = $data->role_id;
-
-    $data->role_id           = $role->id;
+    $data->college_id        = $request->college ?? Auth::user()->college_id;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
     $data->keywords          = $request->keywords;
@@ -197,12 +182,9 @@ class DataController extends Controller {
       $data->certificate_file_name = $filename;
     }
 
-    $user = \Auth::user();
-    $role = $user->role;
-
-    if ($user->isSuperAdmin || $user->isAdmin || $data->isResearchOwner) {
+    if (Auth::user()->isSuperAdmin || Auth::user()->isAdmin || $data->isResearchOwner) {
       if ($data->save()) {
-        Logs::create(['action' => $role->description . ' edited a research with ID: ' . $data->id]);
+        Log::create(['action' => Auth::user()->username . ' edited a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => $arr]);
@@ -217,12 +199,9 @@ class DataController extends Controller {
   protected function delete($id, Request $request) {
     $data = Data::find($id);
 
-    $user = \Auth::user();
-    $role = $user->role;
-
-    if ($user->isSuperAdmin || $user->isAdmin || $data->isResearchOwner) {
+    if (Auth::user()->isSuperAdmin || Auth::user()->isAdmin || $data->isResearchOwner) {
       if ($data->delete()) {
-        Logs::create(['action' => $role->description . ' deleted a research with ID: ' . $data->id]);
+        Log::create(['action' => Auth::user()->username . ' deleted a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => 'Nothing changed!']);
@@ -271,10 +250,10 @@ class DataController extends Controller {
         $data[$id]->note              = $value[9];
       }
     } else {
-      if (\Auth::user()->isSuperAdmin) {
+      if (Auth::user()->isSuperAdmin) {
         $data = Data::all();
       } else {
-        $data = Data::where('role_id', \Auth::user()->memberRole->id)->get();
+        $data = Data::where('college_id', Auth::user()->college_id)->get();
       }
     }
 
@@ -309,10 +288,10 @@ class DataController extends Controller {
         $data[$id]->note              = $value[9];
       }
     } else {
-      if (\Auth::user()->isSuperAdmin) {
+      if (Auth::user()->isSuperAdmin) {
         $data = Data::all();
       } else {
-        $data = Data::where('role_id', \Auth::user()->memberRole->id)->get();
+        $data = Data::where('college_id', Auth::user()->college_id)->get();
       }
     }
 

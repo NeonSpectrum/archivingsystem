@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Logs;
+use App\Log;
 use Illuminate\Http\Request;
 
 class LogsController extends Controller {
   protected function show() {
-    return view('logs', ['data' => Logs::all()]);
+    return view('logs', ['data' => Log::all()]);
   }
 }

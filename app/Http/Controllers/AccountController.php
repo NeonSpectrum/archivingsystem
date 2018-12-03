@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Logs;
+use App\Log;
 use App\Roles;
 use App\User;
+use Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -13,23 +14,26 @@ class AccountController extends Controller {
     return view('accounts');
   }
   /**
+   * @param $id
    * @param Request $request
    */
   protected function get($id = null, Request $request) {
     if ($id) {
-      $row            = User::findOrFail($id);
-      $row->role_name = Roles::where('id', $row->role_id)->first()->name;
-      $row->college   = Roles::where('id', $row->role_id)->first()->description;
+      $row          = User::findOrFail($id);
+      $row->name    = User::find($row->id)->name;
+      $row->college = User::find($row->id)->college;
+      $row->role    = User::find($row->id)->role;
     } else {
-      if (\Auth::user()->isSuperAdmin) {
+      if (Auth::user()->isSuperAdmin) {
         $row = User::all();
       } else {
-        $row = User::where('role_id', \Auth::user()->memberRole->id)->get();
+        $row = User::where('college_id', Auth::user()->college_id)->get();
       }
 
       foreach ($row as $data) {
-        $data->role_name = Roles::where('id', $data->role_id)->first()->name;
-        $data->college   = Roles::where('id', $data->role_id)->first()->description;
+        $data->name    = User::find($data->id)->name;
+        $data->college = User::find($data->id)->college;
+        $data->role    = User::find($data->id)->role;
       }
     }
 
@@ -47,16 +51,21 @@ class AccountController extends Controller {
     $user->middle_initial = $request->middle_initial;
     $user->last_name      = $request->last_name;
 
-    if (\Auth::user()->isSuperAdmin) {
-      $user->role_id = Roles::where('name', $request->college)->first()->id;
+    if (Auth::user()->isSuperAdmin) {
+      $user->role_id    = $request->type;
+      $user->college_id = $request->college;
     } else {
-      $user->role_id = \Auth::user()->memberRole->id;
+      if ($request->type == 1) {
+        return response()->json(['success' => false, 'error' => 'Forbidden']);
+      }
+      $user->role_id    = $request->type;
+      $user->college_id = Auth::user()->college_id;
     }
-    $role = \Auth::user()->role;
 
     try {
       if ($user->save()) {
-        Logs::create(['action' => $role->description . ' added an with username: ' . $user->username]);
+        $college = Auth::user()->isSuperAdmin ? 'Super Admin' : Auth::user()->college->description;
+        Log::create(['action' => $college . ' added an with username: ' . $user->username]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => 'There was an error creating an account!']);
@@ -77,21 +86,29 @@ class AccountController extends Controller {
 
     $user = User::find($id);
 
-    $user_role = $user->role_id;
-
     $user->first_name     = $request->first_name;
     $user->middle_initial = $request->middle_initial;
     $user->last_name      = $request->last_name;
 
-    if (\Auth::user()->isSuperAdmin) {
-      $user->role_id = Roles::where('name', $request->college)->first()->id;
+    if (Auth::user()->isSuperAdmin) {
+      $user->role_id    = $request->type;
+      $user->college_id = $request->college;
+    } else {
+      if ($request->type == 1) {
+        return response()->json(['success' => false, 'error' => 'Forbidden']);
+      }
+      $user->role_id    = $request->type;
+      $user->college_id = Auth::user()->college_id;
     }
 
-    $role = \Auth::user()->role;
-
-    if (\Auth::user()->isSuperAdmin || $role->role_id != $user->adminRole->id) {
+    if (Auth::user()->isSuperAdmin
+      || (Auth::user()->isAdmin
+        && Auth::user()->college_id == $user->college_id
+      )
+    ) {
       if ($user->save()) {
-        Logs::create(['action' => $role->description . ' edited an account with username: ' . $user->username]);
+        $college = Auth::user()->isSuperAdmin ? 'Super Admin' : Auth::user()->college->description;
+        Log::create(['action' => $college . ' edited an account with username: ' . $user->username]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => $arr]);
@@ -106,11 +123,14 @@ class AccountController extends Controller {
   protected function delete($id, Request $request) {
     $user = User::find($id);
 
-    $role = \Auth::user()->role;
-
-    if (\Auth::user()->isSuperAdmin || $role->role_id != $user->adminRole->id) {
+    if (Auth::user()->isSuperAdmin
+      || (Auth::user()->isAdmin
+        && Auth::user()->college_id == $user->college_id
+      )
+    ) {
       if ($user->delete()) {
-        Logs::create(['action' => $role->description . ' deleted an account with username: ' . $user->username]);
+        $college = Auth::user()->isSuperAdmin ? 'Super Admin' : Auth::user()->college->description;
+        Log::create(['action' => $college . ' deleted an account with username: ' . $user->username]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => 'Nothing changed!']);
@@ -124,12 +144,12 @@ class AccountController extends Controller {
    * @param Request $request
    */
   protected function changePassword(Request $request) {
-    $user = User::find(\Auth::user()->id);
+    $user = Auth::user();
 
     if (\Hash::check($request->old_password, $user->password)) {
       $user->password = $request->new_password;
       if ($user->save()) {
-        Logs::create(['action' => $user->username . ' changed password.']);
+        Log::create(['action' => $user->username . ' changed password.']);
         return response()->json(['success' => true]);
       }
     } else {
@@ -138,10 +158,12 @@ class AccountController extends Controller {
   }
 
   protected function config() {
-    $user = \Auth::user();
+    $user = Auth::user();
 
     return [
+      'user_id'      => $user->id,
       'role_id'      => $user->role_id,
+      'college_id'   => $user->college_id,
       'isSuperAdmin' => $user->isSuperAdmin,
       'isAdmin'      => $user->isAdmin
     ];

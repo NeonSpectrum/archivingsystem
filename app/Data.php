@@ -39,4 +39,11 @@ class Data extends Model {
       ['authors', 'like', '%' . \Auth::user()->name . '%']
     ])->get()) > 0;
   }
+
+  /**
+   * @return mixed
+   */
+  public function college() {
+    return $this->belongsTo('App\College');
+  }
 }

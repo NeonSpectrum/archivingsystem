@@ -13,8 +13,8 @@ class CreateDataTable extends Migration {
   public function up() {
     Schema::create('data', function (Blueprint $table) {
       $table->increments('id');
-      $table->unsignedInteger('role_id');
-      $table->foreign('role_id')->references('id')->on('roles');
+      $table->unsignedInteger('college_id');
+      $table->foreign('college_id')->references('id')->on('colleges');
       $table->text('title');
       $table->text('authors')->nullable();
       $table->text('keywords')->nullable();

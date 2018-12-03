@@ -30,3 +30,4 @@ mix.combine(
 mix.babel(['resources/js/dt-custom.js', 'resources/js/script.js'], 'public/js/app.js')
 mix.babel(['resources/js/data.js'], 'public/js/data.js')
 mix.babel(['resources/js/account.js'], 'public/js/account.js')
+mix.babel(['resources/js/college.js'], 'public/js/college.js')

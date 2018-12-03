@@ -7,8 +7,8 @@
           <div class="input-field col s12">
             <p class="caption">College</p>
             <select name="college">
-              @foreach(\App\Roles::all()->slice(1) as $role)
-                <option value="{{ $role->name }}" data-icon="{{ asset('img/logo/' . $role->logo) }}">{{ $role->description }}</option>
+              @foreach(\App\College::all() as $college)
+                <option value="{{ $college->id }}" data-icon="{{ asset('img/logo/' . $college->logo) }}">{{ $college->description }}</option>
               @endforeach
             </select>
           </div>
@@ -106,8 +106,8 @@
           <div class="input-field col s12">
             <p class="caption">College</p>
             <select name="college">
-              @foreach(\App\Roles::all()->slice(1) as $role)
-                <option value="{{ $role->name }}" data-icon="{{ asset('img/logo/' . $role->logo) }}">{{ $role->description }}</option>
+              @foreach(\App\College::all() as $college)
+                <option value="{{ $college->id }}" data-icon="{{ asset('img/logo/' . $college->logo) }}">{{ $college->description }}</option>
               @endforeach
             </select>
           </div>

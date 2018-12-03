@@ -23,10 +23,16 @@ Route::group(['prefix' => 'data'], function () {
 Route::group(['prefix' => 'user'], function () {
   Route::post('changepassword', 'AccountController@changePassword');
   Route::get('config', 'AccountController@config');
-  Route::group(['middleware' => 'role:admin'], function () {
+  Route::group(['middleware' => 'role:college-admin'], function () {
     Route::get('{id?}', 'AccountController@get');
     Route::post('/', 'AccountController@add');
     Route::put('{id}', 'AccountController@edit');
     Route::delete('{id}', 'AccountController@delete');
   });
+});
+Route::group(['prefix' => 'college', 'middleware' => 'role:super-admin'], function () {
+  Route::get('{id?}', 'CollegeController@get');
+  Route::post('/', 'CollegeController@add');
+  Route::put('{id}', 'CollegeController@edit');
+  Route::delete('{id}', 'CollegeController@delete');
 });

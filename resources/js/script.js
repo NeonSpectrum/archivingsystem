@@ -79,6 +79,7 @@ function loadDatatable(obj = {}) {
     search: {
       smart: false
     },
+    processing: true,
     ...obj
   })
 }

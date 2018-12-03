@@ -6,30 +6,6 @@ body {
   background-attachment: fixed;
 }
 
-body.ccss {
-  background-image: url(../img/CCSS.jpg);
-}
-
-body.cas {
-  background-image: url(../img/CAS.jpg);
-}
-
-body.cba {
-  background-image: url(../img/CBA.jpg);
-}
-
-body.cengg {
-  background-image: url(../img/CENGG.jpg);
-}
-
-body.dentistry {
-  background-image: url(../img/Dentistry.jpg);
-}
-
-body.educ {
-  background-image: url(../img/Educ.jpg);
-}
-
 div.material-table {
   padding: 0;
   background-color: rgba(255, 255, 255, 0.97);

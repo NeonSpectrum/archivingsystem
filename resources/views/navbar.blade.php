@@ -3,7 +3,7 @@
     <div class="brand-logo">
       <img src="{{ asset('img/logo/ue.png') }}" alt="" height="65px" style="padding:5px 5px 0">
       @if(!Auth::user()->isSuperAdmin)
-        <img src="{{ asset('img/logo/' . Auth::user()->role->logo) }}" alt="" height="65px" style="padding:5px 5px 0">
+        <img src="{{ asset('img/logo/' . Auth::user()->college->logo) }}" alt="" height="65px" style="padding:5px 5px 0">
       @endif
     </div>
     <ul id="nav-mobile" class="right hide-on-med-and-down">

@@ -11,7 +11,6 @@
 </head>
 <body style="{{ Auth::check() && !Auth::user()->isSuperAdmin ? "background-image: url(".asset('img/' . Auth::user()->college->background).")" : "" }}">
   @yield("body")
-
   <script src="{{ asset('js/packages.js') }}?v={{ filemtime(public_path('js/packages.js')) }}"></script>
   <script src="{{ asset('js/app.js') }}?v={{ filemtime(public_path('js/app.js')) }}"></script>
   @yield("extra-scripts")

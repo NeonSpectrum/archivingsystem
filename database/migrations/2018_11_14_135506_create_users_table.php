@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration {
       $table->increments('id');
       $table->unsignedInteger('role_id');
       $table->foreign('role_id')->references('id')->on('roles');
-      $table->unsignedInteger('college_id');
+      $table->unsignedInteger('college_id')->nullable();
       $table->foreign('college_id')->references('id')->on('colleges');
       $table->string('username', 100)->unique();
       $table->string('password');
@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration {
     });
 
     $data = [
-      ['username' => 'rnd', 'password' => 'ueccssrnd', 'role_id' => 1, 'college_id' => 3, 'first_name' => 'rnd', 'middle_initial' => '', 'last_name' => 'rnd'],
+      ['username' => 'rnd', 'password' => 'ueccssrnd', 'role_id' => 1, 'college_id' => null, 'first_name' => 'rnd', 'middle_initial' => '', 'last_name' => 'rnd'],
       ['username' => 'cas-admin', 'password' => '1234', 'role_id' => 2, 'college_id' => 1, 'first_name' => 'cas', 'middle_initial' => '', 'last_name' => 'admin'],
       ['username' => 'cba-admin', 'password' => '1234', 'role_id' => 2, 'college_id' => 2, 'first_name' => 'cba', 'middle_initial' => '', 'last_name' => 'admin'],
       ['username' => 'ccss-admin', 'password' => '1234', 'role_id' => 2, 'college_id' => 3, 'first_name' => 'ccss', 'middle_initial' => '', 'last_name' => 'admin'],
@@ -41,7 +41,13 @@ class CreateUsersTable extends Migration {
       ['username' => 'ccss', 'password' => '1234', 'role_id' => 3, 'college_id' => 3, 'first_name' => 'ccss', 'middle_initial' => '', 'last_name' => ''],
       ['username' => 'cengg', 'password' => '1234', 'role_id' => 3, 'college_id' => 4, 'first_name' => 'cengg', 'middle_initial' => '', 'last_name' => ''],
       ['username' => 'dentistry', 'password' => '1234', 'role_id' => 3, 'college_id' => 5, 'first_name' => 'dentistry', 'middle_initial' => '', 'last_name' => ''],
-      ['username' => 'educ', 'password' => '1234', 'role_id' => 3, 'college_id' => 6, 'first_name' => 'educ', 'middle_initial' => '', 'last_name' => '']
+      ['username' => 'educ', 'password' => '1234', 'role_id' => 3, 'college_id' => 6, 'first_name' => 'educ', 'middle_initial' => '', 'last_name' => ''],
+      ['username' => 'cas-guest', 'password' => '1234', 'role_id' => 4, 'college_id' => 1, 'first_name' => 'cas', 'middle_initial' => '', 'last_name' => 'guest'],
+      ['username' => 'cba-guest', 'password' => '1234', 'role_id' => 4, 'college_id' => 2, 'first_name' => 'cba', 'middle_initial' => '', 'last_name' => 'guest'],
+      ['username' => 'ccss-guest', 'password' => '1234', 'role_id' => 4, 'college_id' => 3, 'first_name' => 'ccss', 'middle_initial' => '', 'last_name' => 'guest'],
+      ['username' => 'cengg-guest', 'password' => '1234', 'role_id' => 4, 'college_id' => 4, 'first_name' => 'cengg', 'middle_initial' => '', 'last_name' => 'guest'],
+      ['username' => 'dentistry-guest', 'password' => '1234', 'role_id' => 4, 'college_id' => 5, 'first_name' => 'dentistry', 'middle_initial' => '', 'last_name' => 'guest'],
+      ['username' => 'educ-guest', 'password' => '1234', 'role_id' => 4, 'college_id' => 6, 'first_name' => 'educ', 'middle_initial' => '', 'last_name' => 'guest']
     ];
 
     foreach ($data as $datum) {

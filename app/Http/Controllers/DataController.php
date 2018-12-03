@@ -19,7 +19,7 @@ class DataController extends Controller {
   protected function show(Request $request) {
     if (Auth::user()->isSuperAdmin) {
       return redirect()->route('dashboard.all');
-    } else if (Auth::user()->isAdmin) {
+    } else if (Auth::user()->isAdmin || Auth::user()->isGuest) {
       return redirect()->route('dashboard.college');
     } else {
       return view('dashboard', ['filter' => 'my']);
@@ -52,7 +52,7 @@ class DataController extends Controller {
       if ($request->filter == 'all') {
         $rows = Data::all();
       } else if ($request->filter == 'college') {
-        $rows = Data::where('college_id', Auth::user()->college_id);
+        $rows = Data::where('college_id', Auth::user()->college_id)->get();
       } else if ($request->filter == 'my') {
         $rows = Data::where([
           ['authors', 'like', '%' . Auth::user()->name . '%']

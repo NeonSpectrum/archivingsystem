@@ -55,7 +55,7 @@ class DataController extends Controller {
         $rows = Data::where('college_id', Auth::user()->college_id)->get();
       } else if ($request->filter == 'my') {
         $rows = Data::where([
-          ['authors', 'like', '%' . Auth::user()->name . '%']
+          ['authors', 'like', '%' . Auth::user()->searchName . '%']
         ])->get();
       }
       foreach ($rows as $row) {

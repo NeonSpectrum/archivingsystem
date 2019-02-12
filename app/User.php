@@ -80,6 +80,10 @@ class User extends Authenticatable {
 
     return join(' ', $name);
   }
+
+  public function getSearchNameAttribute() {
+    return trim($this->last_name . ', ' . $this->first_name . ' ' . $this->middle_initial);
+  }
   /**
    * @param $password
    */

@@ -69,6 +69,8 @@ class DataController extends Controller {
    * @param Request $request
    */
   protected function add(Request $request) {
+    set_time_limit(0);
+
     $pdf_file         = $request->pdf_file;
     $certificate_file = $request->certificate_file;
 
@@ -133,6 +135,8 @@ class DataController extends Controller {
    * @param Request $request
    */
   protected function edit($id, Request $request) {
+    set_time_limit(0);
+
     $pdf_file         = $request->pdf_file;
     $certificate_file = $request->certificate_file;
 

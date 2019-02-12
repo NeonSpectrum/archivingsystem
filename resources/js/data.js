@@ -101,9 +101,9 @@ function loadTable() {
         dTable.row.add([
           filter == 'all' ? value.college.toUpperCase() : id + 1,
           value.title,
-          (value.authors || '').replace(/,/g, '<br>'),
-          (value.keywords || '').replace(/,/g, ', '),
-          (value.category || '').replace(/,/g, ', '),
+          (value.authors || '').replace(/;/g, '<br>'),
+          (value.keywords || '').replace(/;/g, ', '),
+          (value.category || '').replace(/;/g, ', '),
           value.publisher,
           value.proceeding_date,
           value.presentation_date,
@@ -162,9 +162,9 @@ function editData(id) {
       let keywordsChip = M.Chips.getInstance(modal.find('.chips[data-name=keywords]'))
       let categoryChip = M.Chips.getInstance(modal.find('.chips[data-name=category]'))
 
-      let authors = (response.authors || '').split(',')
-      let keywords = (response.keywords || '').split(',')
-      let category = (response.category || '').split(',')
+      let authors = (response.authors || '').split(';')
+      let keywords = (response.keywords || '').split(';')
+      let category = (response.category || '').split(';')
 
       $.each(authors, function(key, value) {
         authorsChip.addChip({ tag: value })
@@ -250,9 +250,9 @@ $('form[name=frmAdd]').submit(function(e) {
 
   let form_data = new FormData($(this)[0])
 
-  form_data.append('authors', authors.join(','))
-  form_data.append('keywords', keywords.join(','))
-  form_data.append('category', category.join(','))
+  form_data.append('authors', authors.join(';'))
+  form_data.append('keywords', keywords.join(';'))
+  form_data.append('category', category.join(';'))
 
   $.ajax({
     context: this,
@@ -301,9 +301,9 @@ $('form[name=frmEdit]').submit(function(e) {
 
   let form_data = new FormData($(this)[0])
 
-  form_data.append('authors', authors.join(','))
-  form_data.append('keywords', keywords.join(','))
-  form_data.append('category', category.join(','))
+  form_data.append('authors', authors.join(';'))
+  form_data.append('keywords', keywords.join(';'))
+  form_data.append('category', category.join(';'))
 
   $.ajax({
     context: this,

@@ -260,6 +260,8 @@ $('form[name=frmAdd]').submit(function(e) {
     type: 'POST',
     data: form_data,
     dataType: 'json',
+    processData: false,
+    contentType: false,
     success: function(response) {
       console.log(response)
       if (response.success == true) {

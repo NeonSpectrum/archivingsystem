@@ -51,7 +51,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Note</p>
-          <input name="note" type="text" class="validate" placeholder="Enter note" required>
+          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required>
         </div>
         <div class="file-field input-field col s12">
           <p class="caption">Upload PDF</p>
@@ -147,7 +147,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Note</p>
-          <input name="note" type="text" class="validate" placeholder="Enter note" required>
+          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required>
         </div>
         <div class="file-field input-field col s12">
           <p class="caption">Upload PDF</p>

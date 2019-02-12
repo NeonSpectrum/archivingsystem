@@ -76,13 +76,13 @@ class DataController extends Controller {
 
     if ($pdf_file) {
       $pdf_mime = $pdf_file->getMimeType();
-      if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') === FALSE) {
+      if (substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') === false) {
         $error[] = 'Upload PDF contains an invalid format.';
       }
     }
     if ($certificate_file) {
       $certificate_mime = $certificate_file->getMimeType();
-      if (substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') === FALSE) {
+      if (substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') === false) {
         $error[] = 'Upload Certificate contains an invalid format.';
       }
     }
@@ -140,15 +140,14 @@ class DataController extends Controller {
 
     if ($pdf_file) {
       $pdf_mime = $pdf_file->getMimeType();
-      if (false) {
-//substr($pdf_mime, 0, 5) != 'image' || strpos($pdf_mime, 'application/pdf') !== 0) {
+      $error[]  = 'mime: ' . $pdf_mime;
+      if (substr($pdf_mime, 0, 5) != 'image' && strpos($pdf_mime, 'application/pdf') === false) {
         $error[] = 'Upload PDF contains an invalid format.';
       }
     }
     if ($certificate_file) {
       $certificate_mime = $certificate_file->getMimeType();
-      if (false) {
-//substr($certificate_mime, 0, 5) != 'image' || strpos($certificate_mime, 'application/pdf') !== 0) {
+      if (substr($certificate_mime, 0, 5) != 'image' && strpos($certificate_mime, 'application/pdf') === false) {
         $error[] = 'Upload Certificate contains an invalid format.';
       }
     }

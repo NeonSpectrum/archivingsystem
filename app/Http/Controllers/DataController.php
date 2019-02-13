@@ -96,7 +96,7 @@ class DataController extends Controller {
     $data = new Data;
 
     if (!Auth::user()->isAdmin) {
-      $request->authors = join(',', array_merge([Auth::user()->name], explode(',', $request->authors)));
+      $request->authors = join(';', array_merge([Auth::user()->searchName], explode(';', $request->authors)));
     }
 
     $data->college_id        = $request->college ?? Auth::user()->college_id;

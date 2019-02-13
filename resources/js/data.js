@@ -237,7 +237,7 @@ $('form[name=frmAdd]').submit(function(e) {
   let keywords = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=keywords]')).chipsData, 'tag')
   let category = _.pluck(M.Chips.getInstance($(this).find('.chips[data-name=category]')).chipsData, 'tag')
 
-  if (!config.isAdmin && authors.length == 0) {
+  if (!config.isAdmin && !config.isResearcher && authors.length == 0) {
     return alert('Please enter an author.')
   }
 

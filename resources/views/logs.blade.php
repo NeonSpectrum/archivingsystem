@@ -1,7 +1,9 @@
 @extends('layout')
 
 @section('extra-scripts')
-<script>loadDatatable()</script>
+<script>
+loadDatatable()
+</script>
 @endsection
 
 @section('body')
@@ -29,7 +31,7 @@
               <tr>
                 <td>{{ $id + 1 }}</td>
                 <td>{{ $row->username }}</td>
-                <td>{{ $row->action }}</td>
+                <td>{!! $row->actionWithLink !!}</td>
                 <td>{{ date("F d, Y h:i:s A", strtotime($row->created_at)) }}</td>
               </tr>
             @endforeach

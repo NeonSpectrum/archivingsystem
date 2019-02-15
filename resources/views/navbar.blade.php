@@ -6,7 +6,7 @@
         <img src="{{ asset('img/logo/' . Auth::user()->college->logo) }}" alt="" height="65px" style="padding:5px 5px 0">
       @endif
     </div>
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
+    <ul id="nav-mobile" class="right">
       @if(!Auth::user()->isAdmin && !Auth::user()->isGuest)
         <li><a href="{{ url('/') }}">My Researches</a></li>
       @endif
@@ -25,8 +25,3 @@
     </ul>
   </div>
 </nav>
-<ul id="dropdown1" class="dropdown-content">
-  <li><a href="#changePasswordModal" class="modal-trigger">Change Password</a></li>
-  <li class="divider"></li>
-  <li><a href="{{ url('logout') }}" onclick="return confirm('Are you sure do you want to logout?')">Logout</a></li>
-</ul>

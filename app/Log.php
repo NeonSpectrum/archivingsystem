@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Data;
 use Illuminate\Database\Eloquent\Model;
 
 class Log extends Model {
@@ -27,5 +28,22 @@ class Log extends Model {
 
     $this->username = \Auth::user()->username;
     parent::__construct($attributes);
+  }
+
+  /**
+   * @param $action
+   * @return mixed
+   */
+  public function getActionWithLinkAttribute() {
+    if (str_contains($this->action, 'with ID: ')) {
+      $arr  = explode(' ', $this->action);
+      $id   = $arr[count($arr) - 1];
+      $data = Data::find($id);
+
+      if ($data) {
+        return str_replace($id, "<a href='" . url('all?s=' . $data->title) . "'>" . $id . '</a>', $this->action);
+      }
+    }
+    return $this->action;
   }
 }

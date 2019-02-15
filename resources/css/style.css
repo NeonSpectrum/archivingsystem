@@ -9,6 +9,7 @@ body {
 div.material-table {
   padding: 0;
   background-color: rgba(255, 255, 255, 0.97);
+  overflow-x: auto;
 }
 
 div.material-table .hiddensearch {
@@ -296,5 +297,11 @@ nav ul a {
   nav a.sidenav-trigger i {
     height: 70px;
     line-height: 70px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  nav .brand-logo {
+    left: 5%;
   }
 }

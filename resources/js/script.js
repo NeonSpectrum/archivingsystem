@@ -22,6 +22,8 @@ $(document).ready(function() {
   })
 
   $('.dropdown-trigger').dropdown()
+
+  $('.sidenav').sidenav()
 })
 
 $('form[name=frmLogin]').submit(function(e) {
@@ -59,6 +61,8 @@ $('form[name=frmLogin]').submit(function(e) {
 })
 
 function loadDatatable(obj = {}) {
+  var query = $('input[name=search]').val()
+
   window.dTable = $('#datatable').DataTable({
     oLanguage: {
       sStripClasses: '',
@@ -79,7 +83,7 @@ function loadDatatable(obj = {}) {
     search: {
       smart: false
     },
-    processing: true,
+    oSearch: { sSearch: query },
     ...obj
   })
 }

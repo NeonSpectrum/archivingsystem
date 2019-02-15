@@ -8,6 +8,9 @@
 @include('modal')
 @include('navbar')
   <input type="hidden" name="filter" value="{{ $filter }}">
+  @if(request()->query("s"))
+    <input type="hidden" name="search" value="{{ request()->query("s") }}">
+  @endif
   <div class="row">
     <div id="admin" class="col s12">
       <div class="card material-table">

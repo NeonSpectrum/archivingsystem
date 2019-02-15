@@ -144,7 +144,6 @@ class DataController extends Controller {
 
     if ($pdf_file) {
       $pdf_mime = $pdf_file->getMimeType();
-      $error[]  = 'mime: ' . $pdf_mime;
       if (substr($pdf_mime, 0, 5) != 'image' && strpos($pdf_mime, 'application/pdf') === false) {
         $error[] = 'Upload PDF contains an invalid format.';
       }

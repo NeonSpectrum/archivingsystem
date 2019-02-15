@@ -86,6 +86,8 @@ function loadDatatable(obj = {}) {
     oSearch: { sSearch: query },
     ...obj
   })
+
+  oTable.order([0, $('#datatable').attr('sortby') || 'asc']).draw()
 }
 
 $('form[name=frmChangePassword]').submit(function(e) {

@@ -17,7 +17,7 @@ loadDatatable()
             <a title="Search" href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
           </div>
         </div>
-        <table id="datatable">
+        <table id="datatable" data-sortby="desc">
           <thead>
             <tr>
               <th width="5%">ID</th>

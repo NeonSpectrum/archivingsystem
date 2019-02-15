@@ -65,7 +65,7 @@ class AccountController extends Controller {
     try {
       if ($user->save()) {
         $college = Auth::user()->isSuperAdmin ? 'Super Admin' : Auth::user()->college->description;
-        Log::create(['action' => $college . ' added an with username: ' . $user->username]);
+        Log::create(['action' => $college . ' added an account with username: ' . $user->username]);
         return response()->json(['success' => true]);
       } else {
         return response()->json(['success' => false, 'error' => 'There was an error creating an account!']);

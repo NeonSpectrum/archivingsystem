@@ -87,7 +87,7 @@ function loadDatatable(obj = {}) {
     ...obj
   })
 
-  dTable.order([0, $('#datatable').attr('sortby') || 'asc']).draw()
+  dTable.order([0, $('#datatable').data('sortby') || 'asc']).draw()
 }
 
 $('form[name=frmChangePassword]').submit(function(e) {

@@ -14,7 +14,7 @@ loadDatatable()
         <div class="table-header">
           <span class="table-title">Logs</span>
           <div class="actions">
-            <a title="Search" href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
+            <a title="Search" href="javascript:void(0)" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
           </div>
         </div>
         <table id="datatable" data-sortby="desc">

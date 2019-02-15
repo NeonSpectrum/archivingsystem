@@ -40,6 +40,8 @@ class Log extends Model {
       $id   = $arr[count($arr) - 1];
       $data = Data::find($id);
 
+      $this->action = e($this->action);
+
       if ($data) {
         return str_replace($id, "<a href='" . url('all?s=' . $data->title) . "'>" . $id . '</a>', $this->action);
       }

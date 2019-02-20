@@ -25,3 +25,8 @@
     </ul>
   </div>
 </nav>
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="#changePasswordModal" class="modal-trigger">Change Password</a></li>
+  <li class="divider"></li>
+  <li><a href="{{ url('logout') }}" onclick="return confirm('Are you sure do you want to logout?')">Logout</a></li>
+</ul>

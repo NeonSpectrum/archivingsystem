@@ -15,7 +15,7 @@ class CreateDataTable extends Migration {
       $table->increments('id');
       $table->unsignedInteger('college_id');
       $table->foreign('college_id')->references('id')->on('colleges');
-      $table->text('title')->unique();
+      $table->string('title')->unique();
       $table->text('authors')->nullable();
       $table->text('keywords')->nullable();
       $table->string('category')->nullable();

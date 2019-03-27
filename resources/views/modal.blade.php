@@ -6,7 +6,7 @@
         @if(Auth::user()->isSuperAdmin)
           <div class="input-field col s12">
             <p class="caption">College</p>
-            <select name="college" disabled>
+            <select name="college">
               @foreach(\App\College::all() as $college)
                 <option value="{{ $college->id }}" data-icon="{{ asset('img/logo/' . $college->logo) }}">{{ $college->description }}</option>
               @endforeach
@@ -55,11 +55,11 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>
-          <input name="conference_name" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+          <input name="conference_name" type="text" class="validate" placeholder="Conference Name" required disabled>
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>
-          <input name="url" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+          <input name="url" type="text" class="validate" placeholder="Website / URL" required disabled>
         </div>
         <div class="input-field col s12">
           <p class="caption">Attachments</p>
@@ -129,11 +129,11 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>
-          <input name="conference_name" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+          <input name="conference_name" type="text" class="validate" placeholder="Conference Name" required>
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>
-          <input name="url" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+          <input name="url" type="text" class="validate" placeholder="Website / URL" required>
         </div>
         <div class="input-field col s12">
           <p class="caption">Attachments</p>
@@ -222,11 +222,11 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>
-          <input name="conference_name" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+          <input name="conference_name" type="text" class="validate" placeholder="Conference Name" required>
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>
-          <input name="url" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+          <input name="url" type="text" class="validate" placeholder="Website / URL" required>
         </div>
         <div class="input-field col s12">
           <p class="caption">Attachments</p>

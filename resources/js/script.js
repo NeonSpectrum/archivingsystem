@@ -21,7 +21,9 @@ $(document).ready(function() {
     format: 'mmmm dd, yyyy'
   })
 
-  $('.dropdown-trigger').dropdown()
+  $('.dropdown-trigger').dropdown({
+    coverTrigger: false
+  })
 
   $('.sidenav').sidenav()
 })

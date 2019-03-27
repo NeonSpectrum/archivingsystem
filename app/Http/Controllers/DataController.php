@@ -262,4 +262,18 @@ class DataController extends Controller {
 
     return \Excel::download(new DataExport($data), date('F_d_Y_h_i_s_A') . ' Archiving System Report.xlsx');
   }
+
+  /**
+   * @param $filename
+   */
+  public function showUpload($title, $id) {
+    $attachment = Attachment::findOrFail($id);
+    $data       = Data::where('title', $title)->firstOrFail();
+
+    if (Auth::user()->isSuperAdmin || Auth::user()->isAdmin || $data->isResearchOwner) {
+      return response()->file(public_path('uploads/' . $attachment->filename));
+    } else {
+      abort(404);
+    }
+  }
 }

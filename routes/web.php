@@ -25,4 +25,5 @@ Route::middleware('auth')->group(function () {
   Route::get('accounts', 'AccountController@show')->name('account')->middleware('role:college-admin');
   Route::get('colleges', 'CollegeController@show')->name('college')->middleware('role:super-admin');
   Route::get('logs', 'LogsController@show')->name('logs')->middleware('role:super-admin');
+  Route::get('uploads/{title}/{id}', 'DataController@showUpload');
 });

@@ -186,7 +186,7 @@ function viewData(id) {
         .val(response.college_id)
         .formSelect()
 
-      old_attachment_list = response.attachments
+      old_attachment_list = response.attachments.map(x => ({ ...x, title: response.title }))
       refreshAttachmentList(false)
 
       modal.find('input.input').prop('disabled', true)
@@ -247,7 +247,7 @@ function editData(id) {
         .val(response.college_id)
         .formSelect()
 
-      old_attachment_list = response.attachments
+      old_attachment_list = response.attachments.map(x => ({ ...x, title: response.title }))
       refreshAttachmentList()
 
       modal.find('.loader-container').fadeOut()
@@ -466,9 +466,13 @@ function refreshAttachmentList(hasAction = true) {
               item.id
             }','${name}')" class="secondary-content"><i class="material-icons">close</i></a>`
           : '') +
-        `
-        <a href="${main_url}uploads/${name}" target="_blank" class="secondary-content"><i class="material-icons">remove_red_eye</i></a>
+        (item.filename
+          ? `
+        <a href="${main_url}uploads/${item.title}/${
+              item.id
+            }" target="_blank" class="secondary-content"><i class="material-icons">remove_red_eye</i></a>
         </li>`
+          : ``)
     )
   })
 }

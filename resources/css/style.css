@@ -305,3 +305,7 @@ nav ul a {
     left: 5%;
   }
 }
+
+a i.material-icons {
+  color: black;
+}

@@ -26,9 +26,7 @@ class Data extends Model {
     'proceeding_date',
     'presentation_date',
     'publication_date',
-    'note',
-    'pdf_file_name',
-    'certificate_file_name'
+    'note'
   ];
 
   /**
@@ -45,5 +43,12 @@ class Data extends Model {
    */
   public function college() {
     return $this->belongsTo('App\College');
+  }
+
+  /**
+   * @return mixed
+   */
+  public function attachments() {
+    return $this->hasMany("App\Attachment");
   }
 }

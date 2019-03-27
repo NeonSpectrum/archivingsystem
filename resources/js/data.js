@@ -1,3 +1,7 @@
+var old_attachment_list = []
+var attachment_list = []
+var attachment_to_delete = []
+
 $(document).ready(function() {
   getConfig()
 
@@ -109,20 +113,10 @@ function loadTable() {
           value.presentation_date,
           value.publication_date,
           value.note,
-          (value.pdf_file_name
-            ? `<button title="View PDF" onclick="window.open('${main_url +
-                'uploads/' +
-                value.pdf_file_name}')" class="waves-effect waves-light btn btn-flat">
-                    <i class="material-icons">pageview</i>
-                  </button>`
-            : '') +
-            (value.certificate_file_name
-              ? `<button title="View Certificate" onclick="window.open('${main_url +
-                  'uploads/' +
-                  value.certificate_file_name}')" class="waves-effect waves-light btn btn-flat">
-                    <i class="material-icons">pageview</i>
-                  </button>`
-              : '') +
+          `
+            <button onclick="viewData(${value.id})" class="waves-effect waves-light btn btn-flat btnView">
+              <i class="material-icons">remove_red_eye</i>
+            </button>` +
             (buttonsEnabled
               ? `
             <button onclick="editData(${value.id})" class="waves-effect waves-light btn btn-flat btnEdit">
@@ -142,11 +136,13 @@ function loadTable() {
   })
 }
 
-function editData(id) {
-  let modal = $('#editModal')
+function viewData(id) {
+  let modal = $('#viewModal')
 
   modal.find('.loader-container').show()
   modal.modal('open')
+
+  attachment_list = []
 
   $.ajax({
     url: main_url + 'api/data/' + id,
@@ -185,6 +181,74 @@ function editData(id) {
       modal.find('input[name=presentation_date]').val(response.presentation_date)
       modal.find('input[name=publication_date]').val(response.publication_date)
       modal.find('input[name=note]').val(response.note)
+      modal
+        .find('select[name=college]')
+        .val(response.college_id)
+        .formSelect()
+
+      old_attachment_list = response.attachments
+      refreshAttachmentList(false)
+
+      modal.find('input.input').prop('disabled', true)
+
+      modal.find('.loader-container').fadeOut()
+    }
+  })
+}
+
+function editData(id) {
+  let modal = $('#editModal')
+
+  modal.find('.loader-container').show()
+  modal.modal('open')
+
+  attachment_to_delete = []
+  attachment_list = []
+
+  $.ajax({
+    url: main_url + 'api/data/' + id,
+    dataType: 'json',
+    success: function(response) {
+      loadChips(modal)
+
+      $('select[name=college]')
+        .val(response.college)
+        .formSelect()
+
+      let authorsChip = M.Chips.getInstance(modal.find('.chips[data-name=authors]'))
+      let keywordsChip = M.Chips.getInstance(modal.find('.chips[data-name=keywords]'))
+      let categoryChip = M.Chips.getInstance(modal.find('.chips[data-name=category]'))
+
+      let authors = (response.authors || '').split(';')
+      let keywords = (response.keywords || '').split(';')
+      let category = (response.category || '').split(';')
+
+      $.each(authors, function(key, value) {
+        authorsChip.addChip({ tag: value })
+      })
+
+      $.each(keywords, function(key, value) {
+        keywordsChip.addChip({ tag: value })
+      })
+
+      $.each(category, function(key, value) {
+        categoryChip.addChip({ tag: value })
+      })
+
+      modal.find('input[name=id]').val(id)
+      modal.find('input[name=title]').val(response.title)
+      modal.find('input[name=publisher]').val(response.publisher)
+      modal.find('input[name=proceeding_date]').val(response.proceeding_date)
+      modal.find('input[name=presentation_date]').val(response.presentation_date)
+      modal.find('input[name=publication_date]').val(response.publication_date)
+      modal.find('input[name=note]').val(response.note)
+      modal
+        .find('select[name=college]')
+        .val(response.college_id)
+        .formSelect()
+
+      old_attachment_list = response.attachments
+      refreshAttachmentList()
 
       modal.find('.loader-container').fadeOut()
     }
@@ -254,6 +318,10 @@ $('form[name=frmAdd]').submit(function(e) {
   form_data.append('keywords', keywords.join(';'))
   form_data.append('category', category.join(';'))
 
+  attachment_list.forEach(attachment => {
+    form_data.append('attachments[]', attachment)
+  })
+
   $.ajax({
     context: this,
     url: api_url + 'data',
@@ -305,6 +373,14 @@ $('form[name=frmEdit]').submit(function(e) {
   form_data.append('keywords', keywords.join(';'))
   form_data.append('category', category.join(';'))
 
+  attachment_list.forEach(attachment => {
+    form_data.append('attachments[]', attachment)
+  })
+
+  attachment_to_delete.forEach(attachment => {
+    form_data.append('attachments_to_delete[]', attachment)
+  })
+
   $.ajax({
     context: this,
     url:
@@ -319,8 +395,8 @@ $('form[name=frmEdit]').submit(function(e) {
     processData: false,
     dataType: 'json',
     success: function(response) {
-      console.log(response)
       if (response.success == true) {
+        old_attachment_list = []
         alert('Updated Successfully!')
         $('#editModal').modal('close')
         $(this).trigger('reset')
@@ -339,3 +415,74 @@ $('form[name=frmEdit]').submit(function(e) {
       .prop('disabled', false)
   })
 })
+
+$('.btnAddFile').click(function() {
+  $(this)
+    .closest('form')
+    .find('input[name=attachment_file]')
+    .click()
+})
+
+$('input[name=attachment_file]').change(function() {
+  let file = $(this)[0].files[0]
+  $(this).val('')
+
+  if (isInvalidFileType($(this))) {
+    return alert('Invalid file type.')
+  }
+  attachment_list.push(file)
+
+  refreshAttachmentList()
+})
+
+function deleteAttachment(id, name) {
+  if (!confirm('Are you sure do you want delete this file?')) return false
+
+  if (id) {
+    attachment_to_delete.push(id)
+    old_attachment_list = old_attachment_list.filter(x => x.filename != name)
+  } else {
+    attachment_list.splice(attachment_list.indexOf(name), 1)
+  }
+
+  refreshAttachmentList()
+}
+
+function refreshAttachmentList(hasAction = true) {
+  $('.collection')
+    .find('li.collection-item')
+    .remove()
+
+  let list = [...old_attachment_list, ...[...attachment_list].reverse()]
+  console.log(list)
+  list.reverse().forEach(item => {
+    let name = item.filename || item.name
+    $('.collection').prepend(
+      `<li class='collection-item'>
+        ${name}
+        ` +
+        (hasAction
+          ? `<a style="margin-left:10px" href="javascript:void(0)" onclick="return deleteAttachment('${
+              item.id
+            }','${name}')" class="secondary-content"><i class="material-icons">close</i></a>`
+          : '') +
+        `
+        <a href="${main_url}uploads/${name}" target="_blank" class="secondary-content"><i class="material-icons">remove_red_eye</i></a>
+        </li>`
+    )
+  })
+}
+
+function isInvalidFileType(input) {
+  let fileType = ['php', 'js', 'exe']
+
+  return (
+    fileType.indexOf(
+      input
+        .val()
+        .split('.')
+        .pop()
+        .toLowerCase()
+    ) > -1
+  )
+}

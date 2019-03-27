@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Attachment;
 use App\Data;
 use App\Exports\DataExport;
 use App\Imports\DataImport;
@@ -46,7 +47,7 @@ class DataController extends Controller {
   protected function get($id = null, Request $request) {
 
     if ($id) {
-      $rows          = Data::findOrFail($id);
+      $rows          = Data::with('attachments')->findOrFail($id);
       $rows->college = Data::find($rows->id)->college->name;
     } else {
       if ($request->filter == 'all') {
@@ -71,28 +72,6 @@ class DataController extends Controller {
   protected function add(Request $request) {
     set_time_limit(0);
 
-    $pdf_file         = $request->pdf_file;
-    $certificate_file = $request->certificate_file;
-
-    $error = [];
-
-    if ($pdf_file) {
-      $pdf_mime = $pdf_file->getMimeType();
-      if (substr($pdf_mime, 0, 5) != 'image' && strpos($pdf_mime, 'application/pdf') === false) {
-        $error[] = 'Upload PDF contains an invalid format.';
-      }
-    }
-    if ($certificate_file) {
-      $certificate_mime = $certificate_file->getMimeType();
-      if (substr($certificate_mime, 0, 5) != 'image' && strpos($certificate_mime, 'application/pdf') === false) {
-        $error[] = 'Upload Certificate contains an invalid format.';
-      }
-    }
-
-    if (count($error) > 0) {
-      return response()->json(['success' => false, 'error' => join(' ', $error)]);
-    }
-
     $data = new Data;
 
     if (!Auth::user()->isAdmin) {
@@ -109,22 +88,21 @@ class DataController extends Controller {
     $data->presentation_date = $request->presentation_date;
     $data->publication_date  = $request->publication_date;
     $data->note              = $request->note;
-
-    if ($pdf_file) {
-      $filename = str_replace('.' . $pdf_file->getClientOriginalExtension(), '', $pdf_file->getClientOriginalName()) . '-' . time() . '.' . $pdf_file->getClientOriginalExtension();
-      $pdf_file->move(public_path('uploads'), $filename);
-
-      $data->pdf_file_name = $filename;
-    }
-
-    if ($certificate_file) {
-      $filename = str_replace('.' . $certificate_file->getClientOriginalExtension(), '', $certificate_file->getClientOriginalName()) . '-' . time() . '.' . $certificate_file->getClientOriginalExtension();
-      $certificate_file->move(public_path('uploads'), $filename);
-
-      $data->certificate_file_name = $filename;
-    }
+    $data->url               = $request->url;
+    $data->conference_name   = $request->conference_name;
 
     if ($data->save()) {
+      if (count($request->attachments) > 0) {
+        foreach ($request->attachments as $file) {
+          $filename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName()) . '-' . time() . '.' . $file->getClientOriginalExtension();
+          $file->move(public_path('uploads'), $filename);
+
+          $attachment = new Attachment;
+          $attachment->data()->associate($data);
+          $attachment->filename = $filename;
+          $attachment->save();
+        }
+      }
       Log::create(['action' => Auth::user()->username . ' added a research with ID: ' . $data->id]);
       return response()->json(['success' => true]);
     } else {
@@ -136,28 +114,6 @@ class DataController extends Controller {
    */
   protected function edit($id, Request $request) {
     set_time_limit(0);
-
-    $pdf_file         = $request->pdf_file;
-    $certificate_file = $request->certificate_file;
-
-    $error = [];
-
-    if ($pdf_file) {
-      $pdf_mime = $pdf_file->getMimeType();
-      if (substr($pdf_mime, 0, 5) != 'image' && strpos($pdf_mime, 'application/pdf') === false) {
-        $error[] = 'Upload PDF contains an invalid format.';
-      }
-    }
-    if ($certificate_file) {
-      $certificate_mime = $certificate_file->getMimeType();
-      if (substr($certificate_mime, 0, 5) != 'image' && strpos($certificate_mime, 'application/pdf') === false) {
-        $error[] = 'Upload Certificate contains an invalid format.';
-      }
-    }
-
-    if (count($error) > 0) {
-      return response()->json(['success' => false, 'error' => join(' ', $error)]);
-    }
 
     $data = Data::find($id);
 
@@ -171,23 +127,28 @@ class DataController extends Controller {
     $data->presentation_date = $request->presentation_date;
     $data->publication_date  = $request->publication_date;
     $data->note              = $request->note;
-
-    if ($pdf_file) {
-      $filename = str_replace('.' . $pdf_file->getClientOriginalExtension(), '', $pdf_file->getClientOriginalName()) . '-' . time() . '.' . $pdf_file->getClientOriginalExtension();
-      $pdf_file->move(public_path('uploads'), $filename);
-
-      $data->pdf_file_name = $filename;
-    }
-
-    if ($certificate_file) {
-      $filename = str_replace('.' . $certificate_file->getClientOriginalExtension(), '', $certificate_file->getClientOriginalName()) . '-' . time() . '.' . $certificate_file->getClientOriginalExtension();
-      $certificate_file->move(public_path('uploads'), $filename);
-
-      $data->certificate_file_name = $filename;
-    }
+    $data->url               = $request->url;
+    $data->conference_name   = $request->conference_name;
 
     if (Auth::user()->isSuperAdmin || Auth::user()->isAdmin || $data->isResearchOwner) {
       if ($data->save()) {
+        if ($request->attachments && count($request->attachments) > 0) {
+          foreach ($request->attachments as $id => $file) {
+            $filename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName()) . '-' . (time() + $id) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads'), $filename);
+
+            $attachment = new Attachment;
+            $attachment->data()->associate($data);
+            $attachment->filename = $filename;
+            $attachment->save();
+          }
+        }
+        if ($request->attachments_to_delete && count($request->attachments_to_delete) > 0) {
+          foreach ($request->attachments_to_delete as $file) {
+            $attachment = Attachment::find($file);
+            $attachment->delete();
+          }
+        }
         Log::create(['action' => Auth::user()->username . ' edited a research with ID: ' . $data->id]);
         return response()->json(['success' => true]);
       } else {

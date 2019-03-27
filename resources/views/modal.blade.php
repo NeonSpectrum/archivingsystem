@@ -1,3 +1,77 @@
+<div id="viewModal" class="modal modal-fixed-footer">
+  <form name="frmAdd">
+    <div class="modal-content">
+      <h4>Add</h4>
+      <div class="row">
+        @if(Auth::user()->isSuperAdmin)
+          <div class="input-field col s12">
+            <p class="caption">College</p>
+            <select name="college" disabled>
+              @foreach(\App\College::all() as $college)
+                <option value="{{ $college->id }}" data-icon="{{ asset('img/logo/' . $college->logo) }}">{{ $college->description }}</option>
+              @endforeach
+            </select>
+          </div>
+        @endif
+        <div class="input-field col s12">
+          <p class="caption">Title</p>
+          <input name="title" type="text" class="validate" placeholder="Enter the title" required disabled>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Authors
+            @if(!Auth::user()->isAdmin)
+              <i>(Your name is already added)</i>
+            @endif
+          </p>
+          <div class="chips chips-placeholder" data-name="authors"></div>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Keywords</p>
+          <div class="chips chips-placeholder" data-name="keywords"></div>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Category</p>
+          <div class="chips chips-placeholder" data-name="category"></div>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Publisher</p>
+          <input name="publisher" type="text" class="validate" placeholder="Enter the publisher" disabled>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Proceeding Date</p>
+          <input name="proceeding_date" type="text" class="validate" placeholder="Enter the proceeding date" disabled>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Presentation Date</p>
+          <input name="presentation_date" type="text" class="validate" placeholder="Enter the presentation date" disabled>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Publication Date</p>
+          <input name="publication_date" type="text" class="validate" placeholder="Enter the publication date" disabled>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Note</p>
+          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Conference Name</p>
+          <input name="conference_name" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">URL</p>
+          <input name="url" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+        </div>
+        <div class="input-field col s12">
+          <p class="caption">Attachments</p>
+          <ul class="collection"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="modal-close waves-effect waves-green btn-flat">Close</button>
+    </div>
+  </form>
+</div>
 <div id="addModal" class="modal modal-fixed-footer">
   <form name="frmAdd">
     <div class="modal-content">
@@ -53,26 +127,23 @@
           <p class="caption">Note</p>
           <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required>
         </div>
-        <div class="file-field input-field col s12">
-          <p class="caption">Upload PDF</p>
-          <div class="btn">
-            <span>Upload</span>
-            <input type="file" name="pdf_file">
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Select a PDF file">
-          </div>
+        <div class="input-field col s12">
+          <p class="caption">Conference Name</p>
+          <input name="conference_name" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
         </div>
-        <div class="file-field input-field col s12">
-          <p class="caption">Upload Certificate</p>
-          <div class="btn">
-            <span>Upload</span>
-            <input type="file" name="certificate_file">
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Select a Certificate file">
-          </div>
+        <div class="input-field col s12">
+          <p class="caption">URL</p>
+          <input name="url" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
         </div>
+        <div class="input-field col s12">
+          <p class="caption">Attachments</p>
+          <ul class="collection">
+            <a href="javascript:void(0)" class="btnAddFile collection-item center-align">
+              + Add
+            </a>
+          </ul>
+        </div>
+        <input type="file" name="attachment_file" style="display:none">
       </div>
     </div>
     <div class="modal-footer">
@@ -149,26 +220,23 @@
           <p class="caption">Note</p>
           <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required>
         </div>
-        <div class="file-field input-field col s12">
-          <p class="caption">Upload PDF</p>
-          <div class="btn">
-            <span>Upload</span>
-            <input type="file" name="pdf_file">
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Select a PDF file">
-          </div>
+        <div class="input-field col s12">
+          <p class="caption">Conference Name</p>
+          <input name="conference_name" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
         </div>
-        <div class="file-field input-field col s12">
-          <p class="caption">Upload Certificate</p>
-          <div class="btn">
-            <span>Upload</span>
-            <input type="file" name="certificate_file">
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Select a PDF file">
-          </div>
+        <div class="input-field col s12">
+          <p class="caption">URL</p>
+          <input name="url" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
         </div>
+        <div class="input-field col s12">
+          <p class="caption">Attachments</p>
+          <ul class="collection">
+            <a href="javascript:void(0)" class="btnAddFile collection-item center-align">
+              + Add
+            </a>
+          </ul>
+        </div>
+        <input type="file" name="attachment_file" style="display:none">
       </div>
     </div>
     <div class="modal-footer">

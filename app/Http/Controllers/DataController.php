@@ -200,7 +200,7 @@ class DataController extends Controller {
   /**
    * @return mixed
    */
-  protected function pdf(Request $request)
+  protected function pdf(Request $request) {
     ini_set('max_execution_time', 0);
     ini_set('memory_limit', '1024M');
     if ($request->pdf_data) {

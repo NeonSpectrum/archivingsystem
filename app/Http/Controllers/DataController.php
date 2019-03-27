@@ -78,6 +78,10 @@ class DataController extends Controller {
       $request->authors = join(';', array_merge([Auth::user()->searchName], explode(';', $request->authors)));
     }
 
+    if (Data::where('title', $request->title)->count() > 0) {
+      return response()->json(['success' => false, 'error' => 'Title already exists.']);
+    }
+
     $data->college_id        = $request->college ?? Auth::user()->college_id;
     $data->title             = $request->title;
     $data->authors           = $request->authors;
@@ -116,6 +120,10 @@ class DataController extends Controller {
     set_time_limit(0);
 
     $data = Data::find($id);
+
+    if (Data::where('title', $request->title)->count() > 0) {
+      return response()->json(['success' => false, 'error' => 'Title already exists.']);
+    }
 
     $data->college_id        = $request->college ?? Auth::user()->college_id;
     $data->title             = $request->title;

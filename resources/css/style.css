@@ -384,3 +384,7 @@ th {
   background-color: #eee;
   text-transform: uppercase;
 }
+
+td .btn {
+  padding: 0 5px;
+}

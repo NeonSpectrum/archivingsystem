@@ -47,7 +47,7 @@
               <th>Presentation Date</th>
               <th>Publication Date</th>
               <th>Note</th>
-              <th width="15%">Action</th>
+              <th width="10%">Actions</th>
             </tr>
           </thead>
           <tbody>

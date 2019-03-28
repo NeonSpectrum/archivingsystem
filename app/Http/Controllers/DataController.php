@@ -121,7 +121,7 @@ class DataController extends Controller {
 
     $data = Data::find($id);
 
-    if (Data::whereNot('id', $id)->where('title', trim($request->title))->count() > 0) {
+    if (Data::where('id', '<>', $id)->where('title', trim($request->title))->count() > 0) {
       return response()->json(['success' => false, 'error' => 'Title already exists.']);
     }
 

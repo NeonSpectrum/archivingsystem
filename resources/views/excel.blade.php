@@ -20,9 +20,9 @@
       <tr>
         <td>{{ $id + 1 }}</td>
         <td>{{ $row->title }}</td>
-        <td>{!! str_replace(";", "<br>", $row->authors) !!}</td>
-        <td>{!! str_replace(";", "<br>", $row->keywords) !!}</td>
-        <td>{!! str_replace(";", "<br>", $row->category) !!}</td>
+        <td>{{ str_replace(";", ", ", $row->authors) }}</td>
+        <td>{{ str_replace(";", ", ", $row->keywords) }}</td>
+        <td>{{ str_replace(";", ", ", $row->category) }}</td>
         <td>{{ $row->publisher }}</td>
         <td>{{ $row->proceeding_date }}</td>
         <td>{{ $row->presentation_date }}</td>

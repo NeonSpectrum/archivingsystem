@@ -36,7 +36,7 @@
             <input type="hidden" name="excel_data">
           </form>
         </div>
-        <table id="datatable">
+        <table id="datatable" data-filter="0,1,2">
           <thead>
             <tr>
               <th width="5%">College</th>

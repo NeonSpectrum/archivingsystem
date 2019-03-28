@@ -1,12 +1,14 @@
-<nav>
+<nav style="height:100px" >
   <div class="nav-wrapper">
-    <div class="brand-logo">
-      <img src="{{ asset('img/logo/ue.png') }}" alt="" height="65px" style="padding:5px 5px 0">
+    <img src="{{ asset("img/lualhati.png") }}" alt="" height="100%">
+    <div style="position:absolute;top:5px;right:5px;height:55px">
+      <span style="font-size:25px;color:black;line-height:60px;vertical-align:top;margin-right:10px">University Research Archiving System</span>
+      <img src="{{ asset('img/logo/ue.png') }}" alt="" height="60px">
       @if(!Auth::user()->isSuperAdmin)
-        <img src="{{ asset('img/logo/' . Auth::user()->college->logo) }}" alt="" height="65px" style="padding:5px 5px 0">
+        <img src="{{ asset('img/logo/' . Auth::user()->college->logo) }}" alt="" height="60px">
       @endif
     </div>
-    <ul id="nav-mobile" class="right">
+    <ul id="nav-mobile" class="right" style="margin-top:60px;height:40px">
       @if(!Auth::user()->isAdmin && !Auth::user()->isGuest)
         <li><a href="{{ url('/') }}">My Researches</a></li>
       @endif

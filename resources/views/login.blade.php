@@ -1,9 +1,10 @@
+@php($login = true)
 @extends('layout')
 
 @section('body')
 <div class="container">
   <div class="row">
-    <div class="col s12 m6 offset-m1" style="position:absolute;left:40px;width:475px;bottom:114px;">
+    <div class="col s12 m6 offset-m3" style="margin-top: 18%;opacity: 0.9;">
       <div class="card">
         <form name="frmLogin">
           <div class="card-content" style="overflow:auto">

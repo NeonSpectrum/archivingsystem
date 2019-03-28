@@ -8,7 +8,7 @@ $(document).ready(function() {
   loadDatatable({
     columnDefs: [
       {
-        targets: [3, 6, 7, 8],
+        targets: [3, 4, 5, 6, 7, 8],
         visible: false
       }
     ]

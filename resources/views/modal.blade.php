@@ -59,7 +59,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>
-          <input name="url" type="text" class="validate" placeholder="Website / URL" required disabled>
+          <input name="url" type="text" class="validate" placeholder="Website / URL" disabled>
         </div>
         <div class="input-field col s12">
           <p class="caption">Attachments</p>
@@ -133,7 +133,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>
-          <input name="url" type="text" class="validate" placeholder="Website / URL" required>
+          <input name="url" type="text" class="validate" placeholder="Website / URL">
         </div>
         <div class="input-field col s12">
           <p class="caption">Attachments</p>
@@ -226,7 +226,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>
-          <input name="url" type="text" class="validate" placeholder="Website / URL" required>
+          <input name="url" type="text" class="validate" placeholder="Website / URL">
         </div>
         <div class="input-field col s12">
           <p class="caption">Attachments</p>

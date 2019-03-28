@@ -33,13 +33,13 @@
               <th>Title</th>
               <th>Authors</th>
               <th>Keywords</th>
-              <th>Category</th>
+              <th width="15%">Category</th>
               <th>Publisher</th>
               <th>Proceeding Date</th>
               <th>Presentation Date</th>
               <th>Publication Date</th>
               <th>Note</th>
-              <th width="5%">Action</th>
+              <th width="15%">Action</th>
             </tr>
           </thead>
           <tbody>

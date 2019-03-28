@@ -379,3 +379,8 @@ nav:before {
   opacity: 0.2;
   height: 100px;
 }
+
+th {
+  background-color: #eee;
+  text-transform: uppercase;
+}

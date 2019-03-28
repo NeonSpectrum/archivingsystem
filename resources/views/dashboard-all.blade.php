@@ -18,7 +18,7 @@
           <span class="table-title">All Researches</span>
           <div class="actions">
             @if(Auth::user()->isSuperAdmin)
-              <a title="Download as PDF" class="generate-pdf modal-trigger waves-effect btn-flat nopadding"><i class="material-icons left">insert_drive_file</i>PDF</a>
+              {{-- <a title="Download as PDF" class="generate-pdf modal-trigger waves-effect btn-flat nopadding"><i class="material-icons left">insert_drive_file</i>PDF</a> --}}
               <a title="Download as Excel" class="generate-excel modal-trigger waves-effect btn-flat nopadding"><i class="material-icons left">assessment</i>Excel</a>
             @endif
             @if(Auth::user()->isAdmin)
@@ -43,13 +43,13 @@
               <th>Title</th>
               <th>Authors</th>
               <th>Keywords</th>
-              <th>Category</th>
+              <th width="15%">Category</th>
               <th>Publisher</th>
               <th>Proceeding Date</th>
               <th>Presentation Date</th>
               <th>Publication Date</th>
               <th>Note</th>
-              <th width="5%">Action</th>
+              <th width="15%">Action</th>
             </tr>
           </thead>
           <tbody>

@@ -51,7 +51,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Note</p>
-          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required disabled>
+          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" disabled>
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>
@@ -125,7 +125,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Note</p>
-          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required>
+          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed">
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>
@@ -218,7 +218,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Note</p>
-          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed" required>
+          <input name="note" type="text" class="validate" placeholder="International Database/s where Journal is Indexed">
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>

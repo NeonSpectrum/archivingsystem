@@ -31,7 +31,7 @@
             <tr>
               <th width="5%">ID</th>
               <th>Title</th>
-              <th>Authors</th>
+              <th width="20%">Authors</th>
               <th>Keywords</th>
               <th width="15%">Category</th>
               <th>Publisher</th>

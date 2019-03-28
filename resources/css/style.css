@@ -383,6 +383,7 @@ nav:before {
 th {
   background-color: #eee;
   text-transform: uppercase;
+  text-align: center;
 }
 
 td .btn {

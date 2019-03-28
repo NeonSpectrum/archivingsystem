@@ -55,7 +55,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>
-          <input name="conference_name" type="text" class="validate" placeholder="Conference Name" required disabled>
+          <input name="conference_name" type="text" class="validate" placeholder="Conference Name" disabled>
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>
@@ -129,7 +129,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>
-          <input name="conference_name" type="text" class="validate" placeholder="Conference Name" required>
+          <input name="conference_name" type="text" class="validate" placeholder="Conference Name">
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>
@@ -222,7 +222,7 @@
         </div>
         <div class="input-field col s12">
           <p class="caption">Conference Name</p>
-          <input name="conference_name" type="text" class="validate" placeholder="Conference Name" required>
+          <input name="conference_name" type="text" class="validate" placeholder="Conference Name">
         </div>
         <div class="input-field col s12">
           <p class="caption">URL</p>

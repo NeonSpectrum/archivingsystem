@@ -11,6 +11,8 @@
       <th>Presentation Date</th>
       <th>Publication Date</th>
       <th>Note</th>
+      <th>Conference Name</th>
+      <th>Website / URL</th>
     </tr>
   </thead>
   <tbody>
@@ -26,6 +28,8 @@
         <td>{{ $row->presentation_date }}</td>
         <td>{{ $row->publication_date }}</td>
         <td>{{ $row->note }}</td>
+        <td>{{ $row->conference_name }}</td>
+        <td>{{ $row->url }}</td>
       </tr>
     @endforeach
   </tbody>

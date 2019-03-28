@@ -39,6 +39,8 @@
               <th>Presentation Date</th>
               <th>Publication Date</th>
               <th>Note</th>
+              <th>Conference Name</th>
+              <th>URL</th>
               <th width="10%">Actions</th>
             </tr>
           </thead>

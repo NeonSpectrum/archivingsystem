@@ -261,6 +261,8 @@ class DataController extends Controller {
         $data[$id]->presentation_date = $value[7];
         $data[$id]->publication_date  = $value[8];
         $data[$id]->note              = $value[9];
+        $data[$id]->conference_name   = $value[10];
+        $data[$id]->url               = $value[11];
       }
     } else {
       if (Auth::user()->isSuperAdmin) {

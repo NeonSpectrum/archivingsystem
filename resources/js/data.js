@@ -113,6 +113,8 @@ function loadTable() {
           value.presentation_date,
           value.publication_date,
           value.note,
+          value.conference_name,
+          value.url,
           `
             <button onclick="viewData(${value.id})" class="waves-effect waves-light btn btn-flat btnView">
               <i class="material-icons">remove_red_eye</i>

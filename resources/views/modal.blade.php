@@ -18,11 +18,7 @@
           <input name="title" type="text" class="validate" placeholder="Enter the title" required disabled>
         </div>
         <div class="input-field col s12">
-          <p class="caption">Authors
-            @if(!Auth::user()->isAdmin)
-              <i>(Your name is already added)</i>
-            @endif
-            <i>(To add data, press enter)</i>
+          <p class="caption">Authors<i>(To add data, press enter)</i>
           </p>
           <div class="chips chips-placeholder" data-name="authors"></div>
         </div>
@@ -97,15 +93,16 @@
             @if(!Auth::user()->isAdmin)
               <i>(Your name is already added)</i>
             @endif
+            <i>(To add data, press enter)</i>
           </p>
           <div class="chips chips-placeholder" data-name="authors"></div>
         </div>
         <div class="input-field col s12">
-          <p class="caption">Keywords</p>
+          <p class="caption">Keywords<i>(To add data, press enter)</i></p>
           <div class="chips chips-placeholder" data-name="keywords"></div>
         </div>
         <div class="input-field col s12">
-          <p class="caption">Category</p>
+          <p class="caption">Category<i>(To add data, press enter)</i></p>
           <div class="chips chips-placeholder" data-name="category"></div>
         </div>
         <div class="input-field col s12">
@@ -190,15 +187,15 @@
           <input name="title" type="text" class="validate" placeholder="Enter the title" required>
         </div>
         <div class="input-field col s12">
-          <p class="caption">Authors</p>
+          <p class="caption">Authors<i>(To add data, press enter)</i></p>
           <div class="chips chips-placeholder" data-name="authors"></div>
         </div>
         <div class="input-field col s12">
-          <p class="caption">Keywords</p>
+          <p class="caption">Keywords<i>(To add data, press enter)</i></p>
           <div class="chips chips-placeholder" data-name="keywords"></div>
         </div>
         <div class="input-field col s12">
-          <p class="caption">Category</p>
+          <p class="caption">Category<i>(To add data, press enter)</i></p>
           <div class="chips chips-placeholder" data-name="category"></div>
         </div>
         <div class="input-field col s12">

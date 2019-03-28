@@ -3,7 +3,7 @@
 @section('body')
 <div class="container">
   <div class="row">
-    <div class="col s12 m6 offset-m3" style="margin-top:30px">
+    <div class="col s12 m6 offset-m1" style="position:absolute;left:40px;width:475px;bottom:114px;">
       <div class="card">
         <form name="frmLogin">
           <div class="card-content" style="overflow:auto">
@@ -17,7 +17,7 @@
               <input id="password" name="password" type="password" class="validate" required>
               <label for="password">Password</label>
             </div>
-            <button type="submit" class="btn green assent-3" style="float:right">Login</button>
+            <button type="submit" class="btn" style="float:right;background-color:#fc2433">Login</button>
           </div>
         </form>
       </div>
